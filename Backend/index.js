@@ -19,6 +19,7 @@ const blogRoutes = require('./routes/blogRoutes');
 const galleryRoutes = require('./routes/galleryRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const seoRoutes = require('./routes/seoRoutes');
+const sitemapRoutes = require('./routes/sitemapRoutes');
 
 app.use('/api/pages', pageRoutes);
 app.use('/api/admin', adminRoutes);
@@ -26,6 +27,7 @@ app.use('/api/blogs', blogRoutes);
 app.use('/api/gallery', galleryRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/seo', seoRoutes);
+app.use('/sitemap.xml', sitemapRoutes);
 
 app.get('/', (req, res) => {
   res.send('S-Vastu Backend is running...');
@@ -36,3 +38,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+module.exports = app;
