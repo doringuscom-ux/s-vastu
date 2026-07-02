@@ -1,13 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Phone, Mail } from 'lucide-react';
 import logo from '../assets/S.Vastu-logo.webp';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showNav, setShowNav] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (typeof window !== 'undefined') {
+        if (window.scrollY > lastScrollY && window.scrollY > 5) {
+          setShowNav(false);
+        } else {
+          setShowNav(true);
+        }
+        setLastScrollY(window.scrollY);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   return (
-    <header className="w-full font-sans shadow-sm fixed top-0 z-50 bg-white border-b border-gray-100">
+    <header className={`w-full font-sans shadow-sm fixed top-0 z-50 bg-white border-b border-gray-100 transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'}`}>
       {/* Top Bar - Info */}
       <div className="bg-[#B8860B] text-white py-2 px-4 sm:px-8 flex-col md:flex-row justify-between items-center hidden md:flex">
         <p className="text-sm font-medium tracking-wide">

@@ -26,14 +26,13 @@ export default function Process() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-gray-50/50 relative overflow-hidden">
+    <section className="py-8 lg:py-10 bg-gradient-to-b from-white to-gray-50/50 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#D4AF37]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        <div className="text-center max-w-3xl mx-auto mb-20 relative">
-          <span className="inline-block py-1.5 px-4 rounded-full bg-[#D4AF37]/10 text-[#B8860B] font-bold text-xs tracking-widest mb-6 border border-[#D4AF37]/20 uppercase">How It Works</span>
+        <div className="text-center max-w-3xl mx-auto mb-8 relative">
           <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">
             Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B8860B] to-[#D4AF37]">Consultation Process</span>
           </h2>
@@ -42,11 +41,11 @@ export default function Process() {
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-20 items-center max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-20 items-stretch max-w-7xl mx-auto">
           
           {/* Image Side */}
           <div className="w-full lg:w-1/2 relative group perspective-1000">
-            <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/50 h-[600px] transform transition-all duration-700 ease-out group-hover:shadow-[#D4AF37]/30 group-hover:shadow-3xl">
+            <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/50 h-[350px] lg:h-full transform transition-all duration-700 ease-out group-hover:shadow-[#D4AF37]/30 group-hover:shadow-3xl">
               <img 
                 src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop" 
                 alt="Consultation Process" 
@@ -70,7 +69,7 @@ export default function Process() {
             {/* Connecting line */}
             <div className="absolute left-[39px] top-10 bottom-10 w-[2px] bg-gradient-to-b from-[#D4AF37]/80 via-[#D4AF37]/40 to-transparent hidden sm:block shadow-[0_0_8px_rgba(212,175,55,0.5)]"></div>
             
-            <div className="space-y-8">
+            <div className="space-y-2">
               {steps.map((step, index) => (
                 <div key={index} className="group relative flex flex-col sm:flex-row gap-6 p-1 sm:p-0">
                   <div className="flex-shrink-0 relative z-10">

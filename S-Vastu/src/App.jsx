@@ -12,6 +12,8 @@ import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AirflowVastuChakra from './components/AirflowVastuChakra';
+import CoreValues from './components/CoreValues';
+import Founders from './components/Founders';
 import AboutPage from './Pages/AboutPage';
 import ServicesPage from './Pages/ServicesPage';
 import GalleryPage from './Pages/GalleryPage';
@@ -39,9 +41,11 @@ function Home() {
       <SeoMeta pageName="home" />
       <Hero />
       <About />
+      <CoreValues />
+      <Process />
+      <Founders />
       <Services />
       <AirflowVastuChakra />
-      <Process />
       <Gallery limit={6} />
       <InstagramFeed />
       <Testimonials />

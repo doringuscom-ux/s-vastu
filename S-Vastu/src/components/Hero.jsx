@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import heroVideo from '../assets/A_cinematic_slow_panning_K_v.mp4';
-import { Globe, Droplets, Flame, Wind, Sparkles } from 'lucide-react';
+import { Globe, Droplets, Flame, Wind, Sparkles, Phone, MessageCircle } from 'lucide-react';
 
 export default function Hero() {
   const elements = [
@@ -78,8 +78,8 @@ export default function Hero() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-between pt-24 sm:pt-28 overflow-hidden gap-8 bg-[#1E242C]">
-      
+    <div className="relative min-h-screen flex flex-col justify-center pt-32 pb-20 sm:pt-40 sm:pb-24 overflow-hidden gap-8 sm:gap-12 bg-[#1E242C]">
+
       {/* Background Media */}
       <div className="absolute inset-0 z-0">
         {!isMobile ? (
@@ -92,9 +92,9 @@ export default function Hero() {
             src={heroVideo}
           />
         ) : (
-          <img 
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=60&w=600&auto=format&fit=crop" 
-            alt="Hero Background" 
+          <img
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=60&w=600&auto=format&fit=crop"
+            alt="Hero Background"
             className="w-full h-full object-cover opacity-60"
           />
         )}
@@ -103,59 +103,52 @@ export default function Hero() {
       </div>
 
       {/* Main Content */}
-      <motion.div 
+      <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative z-10 text-center px-4 max-w-5xl mx-auto flex-grow flex flex-col items-center justify-center py-10 flex-shrink-0"
+        className="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center justify-center py-4 sm:py-6 flex-shrink-0"
       >
-        <motion.p 
+        <motion.p
           variants={itemVariants}
           className="text-[#DCC197] font-medium text-xs sm:text-sm md:text-base mt-4 mb-2 sm:mb-3 drop-shadow-md uppercase tracking-[0.15em] sm:tracking-[0.2em]"
         >
           Trusted Vastu Consultant
         </motion.p>
 
-        <motion.h1 
+        <motion.h1
           variants={itemVariants}
           className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-6 sm:mb-8 leading-tight drop-shadow-2xl"
         >
-          Welcome to <br className="block sm:hidden" /> 
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DCC197] to-[#FCEABB] italic font-semibold">S Vastu Solution</span>
+          Welcome to <br className="block sm:hidden" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DCC197] to-[#FCEABB] italic font-semibold">S-Vastu Solution</span>
         </motion.h1>
 
-        <motion.p 
+        <motion.p
           variants={itemVariants}
-          className="text-white/80 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-8 sm:mb-12 font-light drop-shadow-md tracking-wide leading-relaxed px-2"
+          className="text-white/80 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto font-light drop-shadow-md tracking-wide leading-relaxed px-2"
         >
           Align your space with natural forces to attract peace, prosperity, and positive vibrations.
         </motion.p>
 
-        <motion.button
-          variants={itemVariants}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="bg-[#DCC197] text-[#1E242C] font-semibold text-xs sm:text-sm tracking-[0.25em] uppercase px-8 py-4 sm:px-12 sm:py-5 hover:bg-white hover:-translate-y-1 transition-all duration-300 shadow-[0_10px_30px_rgba(220,193,151,0.3)] rounded-sm"
-        >
-          Discover More
-        </motion.button>
+
       </motion.div>
 
       {/* Bottom 5 Elements Flip Cards */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
-        className="relative z-20 w-full px-4 pb-8 sm:pb-12 mt-auto flex-shrink-0"
+        className="relative z-20 w-full px-4 flex-shrink-0"
       >
         <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-4 sm:gap-6">
           {elements.map((item, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="group h-48 sm:h-56 w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(20%-1.2rem)] max-w-[260px] [perspective:1000px] cursor-pointer"
             >
               <div className="relative w-full h-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                
+
                 {/* Front Side (Glassmorphism) */}
                 <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] flex flex-col items-center justify-center bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-6 shadow-xl">
                   <div className="w-16 h-16 rounded-full border border-dashed border-gray-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500">
@@ -189,8 +182,32 @@ export default function Hero() {
             </div>
           ))}
         </div>
+
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mt-8 sm:mt-12 w-full px-4 sm:px-0">
+          <motion.a
+            href="tel:+919876543210"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 bg-[#DCC197] text-[#1E242C] font-semibold text-xs sm:text-sm tracking-[0.2em] uppercase px-6 py-4 sm:px-8 sm:py-5 hover:bg-white hover:-translate-y-1 transition-all duration-300 shadow-[0_10px_30px_rgba(220,193,151,0.3)] rounded-sm w-full sm:w-[260px] justify-center"
+          >
+            <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
+            Call Now
+          </motion.a>
+          
+          <motion.a
+            href="https://wa.me/919876543210"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 bg-transparent border border-[#DCC197] text-[#DCC197] font-semibold text-xs sm:text-sm tracking-[0.2em] uppercase px-6 py-4 sm:px-8 sm:py-5 hover:bg-[#DCC197] hover:text-[#1E242C] hover:-translate-y-1 transition-all duration-300 shadow-[0_10px_30px_rgba(220,193,151,0.1)] rounded-sm w-full sm:w-[260px] justify-center"
+          >
+            <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+            WhatsApp Now
+          </motion.a>
+        </div>
       </motion.div>
-      
+
     </div>
   );
 }
