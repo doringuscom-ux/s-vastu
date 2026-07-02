@@ -29,7 +29,9 @@ export default function Contact() {
     setSuccess(false);
 
     try {
+      // 1. Send data to your own Backend (MongoDB)
       await axios.post(CONTACT_API, formData);
+      
       setSuccess(true);
       setFormData({
         name: '', email: '', phone: '', state: '', problem: '', date: '', time: ''
