@@ -65,7 +65,7 @@ export default function Hero() {
   }, []);
 
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 }, // Changed from 0 to 1 for LCP
     visible: {
       opacity: 1,
       transition: { staggerChildren: 0.2, delayChildren: 0.1 }
@@ -73,7 +73,7 @@ export default function Hero() {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 1, y: 30 }, // Starting with opacity 1 for SEO/LCP
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
   };
 
