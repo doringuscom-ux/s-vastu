@@ -68,18 +68,17 @@ export default function Hero() {
     <div className="relative min-h-screen flex flex-col justify-between pt-24 sm:pt-28 overflow-hidden gap-8">
       
       {/* Background Video */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 bg-[#1E242C]">
         <video
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-80"
           src={heroVideo}
         />
         {/* Simple dark overlay to make text readable */}
-        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="absolute inset-0 bg-black/50"></div>
       </div>
 
       {/* Main Content */}

@@ -135,8 +135,9 @@ export default function Services({ hideHeader = false, layout = 'grid' }) {
                   {/* Image Card */}
                   <div className="w-full lg:w-1/2 h-64 sm:h-80 lg:h-auto min-h-[320px] rounded-3xl overflow-hidden shadow-sm relative group">
                     <img 
-                      src={service.image} 
+                      src={service.image.includes('unsplash') ? service.image.replace('w=800', 'w=600&q=70') : service.image} 
                       alt={service.title} 
+                      loading="lazy"
                       className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                     />
                     {/* Gentle overlay for premium feel */}
