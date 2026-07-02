@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import heroVideo from '../assets/A_cinematic_slow_panning_K_v.mp4';
 import { Globe, Droplets, Flame, Wind, Sparkles } from 'lucide-react';
@@ -51,6 +52,17 @@ export default function Hero() {
     }
   ];
 
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile(); // Check on mount
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -65,20 +77,28 @@ export default function Hero() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-between pt-24 sm:pt-28 overflow-hidden gap-8">
+    <div className="relative min-h-screen flex flex-col justify-between pt-24 sm:pt-28 overflow-hidden gap-8 bg-[#1E242C]">
       
-      {/* Background Video */}
-      <div className="absolute inset-0 z-0 bg-[#1E242C]">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-80"
-          src={heroVideo}
-        />
+      {/* Background Media */}
+      <div className="absolute inset-0 z-0">
+        {!isMobile ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-80"
+            src={heroVideo}
+          />
+        ) : (
+          <img 
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=60&w=600&auto=format&fit=crop" 
+            alt="Hero Background" 
+            className="w-full h-full object-cover opacity-60"
+          />
+        )}
         {/* Simple dark overlay to make text readable */}
-        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
       {/* Main Content */}
