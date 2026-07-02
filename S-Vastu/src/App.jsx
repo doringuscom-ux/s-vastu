@@ -20,6 +20,7 @@ import ContactPage from './Pages/ContactPage';
 import CityPage from './Pages/CityPage';
 import LocationsPage from './Pages/LocationsPage';
 import SingleBlogPage from './Pages/SingleBlogPage';
+import SingleServicePage from './Pages/SingleServicePage';
 import NotFoundPage from './Pages/NotFoundPage';
 import AdminCityPages from './Pages/Admin/AdminCityPages';
 import AdminLogin from './Pages/Admin/AdminLogin';
@@ -73,6 +74,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="services" element={<ServicesPage />} />
+            <Route path="services/:slug" element={<SingleServicePage />} />
             <Route path="gallery" element={<GalleryPage />} />
             <Route path="blog" element={<BlogPage />} />
             <Route path="blog/:slug" element={<SingleBlogPage />} />
