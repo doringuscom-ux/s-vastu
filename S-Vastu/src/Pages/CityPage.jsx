@@ -12,8 +12,10 @@ import Testimonials from '../components/Testimonials';
 import Contact from '../components/Contact';
 import AirflowVastuChakra from '../components/AirflowVastuChakra';
 
-function CityHero({ city, customText }) {
-  const formattedCity = city ? city.charAt(0).toUpperCase() + city.slice(1).toLowerCase() : 'Your City';
+function CityHero({ city, customText, country }) {
+  const formattedCity = city 
+    ? city.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
+    : 'Your City';
 
   return (
     <section className="relative pt-36 pb-16 md:pt-48 md:pb-24 bg-gradient-to-br from-amber-50 to-orange-100 overflow-hidden">
@@ -23,7 +25,7 @@ function CityHero({ city, customText }) {
             S-Vastu Services in {formattedCity}
           </h4>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Expert Vastu & Astrology in <span className="text-orange-500">{formattedCity}</span>
+            Vastu Consultant in <span className="text-orange-500 whitespace-nowrap">{formattedCity}{country ? `, ${country}` : ''}</span>
           </h1>
           {customText ? (
             <div 
@@ -88,7 +90,9 @@ export default function CityPage() {
     return <div className="min-h-screen pt-32 text-center text-xl font-bold">Loading {cityName}...</div>;
   }
 
-  const formattedCity = cityName ? cityName.charAt(0).toUpperCase() + cityName.slice(1).toLowerCase() : 'Your City';
+  const formattedCity = cityName 
+    ? cityName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
+    : 'Your City';
 
   const metaTitle = pageData?.metaTitle || `Best Vastu Consultant & Astrologer in ${formattedCity} | S-Vastu`;
   const metaDescription = pageData?.metaDescription || `Looking for expert Vastu and Astrology services in ${formattedCity}? S-Vastu offers personalized consultations for home, business, and numerology.`;
@@ -107,7 +111,7 @@ export default function CityPage() {
         <meta name="robots" content={metaRobots} />
       </Helmet>
 
-      <CityHero city={cityName} customText={pageData?.customText} />
+      <CityHero city={cityName} customText={pageData?.customText} country={pageData?.country} />
       
       <About />
       <CoreValues />

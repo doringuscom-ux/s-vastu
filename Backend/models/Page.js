@@ -5,6 +5,10 @@ const pageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  country: {
+    type: String,
+    default: '',
+  },
   slug: {
     type: String,
     required: true,

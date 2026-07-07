@@ -11,10 +11,12 @@ export default function AdminCityPages() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [filterCountry, setFilterCountry] = useState('');
   
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
+    country: '',
     metaTitle: '',
     metaDescription: '',
     metaKeywords: '',
@@ -71,7 +73,10 @@ export default function AdminCityPages() {
   };
 
   const handleEdit = (page) => {
-    setFormData(page);
+    setFormData({
+      ...page,
+      country: page.country || ''
+    });
     setEditingId(page._id);
     setShowForm(true);
   };
@@ -91,7 +96,7 @@ export default function AdminCityPages() {
   };
 
   const resetForm = () => {
-    setFormData({ title: '', slug: '', metaTitle: '', metaDescription: '', metaKeywords: '', customText: '' });
+    setFormData({ title: '', slug: '', country: '', metaTitle: '', metaDescription: '', metaKeywords: '', customText: '' });
   };
 
   return (
@@ -137,6 +142,17 @@ export default function AdminCityPages() {
                   onChange={handleInputChange}
                   required
                   className="w-full border border-gray-300 rounded px-3 py-2 bg-gray-50"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                <input
+                  type="text"
+                  name="country"
+                  value={formData.country || ''}
+                  onChange={handleInputChange}
+                  placeholder="e.g., Malaysia"
+                  className="w-full border border-gray-300 rounded px-3 py-2"
                 />
               </div>
               <div className="md:col-span-2">
@@ -199,24 +215,43 @@ export default function AdminCityPages() {
         <div>Loading pages...</div>
       ) : (
         <div className="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
+          <div className="p-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+            <h3 className="text-lg font-medium text-gray-900">Cities List</h3>
+            <div className="flex items-center gap-2">
+              <label htmlFor="countryFilter" className="text-sm font-medium text-gray-700">Filter by Country:</label>
+              <select
+                id="countryFilter"
+                value={filterCountry}
+                onChange={(e) => setFilterCountry(e.target.value)}
+                className="border border-gray-300 rounded px-3 py-1 text-sm bg-white"
+              >
+                <option value="">All Countries</option>
+                {[...new Set(pages.map(p => p.country).filter(Boolean))].map(country => (
+                  <option key={country} value={country}>{country}</option>
+                ))}
+              </select>
+            </div>
+          </div>
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">City Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">URL Slug</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SEO Title</th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {pages.length === 0 ? (
+              {(filterCountry ? pages.filter(p => p.country === filterCountry) : pages).length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="px-6 py-4 text-center text-gray-500">No city pages found.</td>
+                  <td colSpan="5" className="px-6 py-4 text-center text-gray-500">No city pages found.</td>
                 </tr>
               ) : (
-                pages.map((page) => (
+                (filterCountry ? pages.filter(p => p.country === filterCountry) : pages).map((page) => (
                   <tr key={page._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{page.title}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">{page.country || '-'}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-500">
                       <a href={`/city/${page.slug}`} target="_blank" rel="noreferrer" className="text-orange-500 hover:underline">
                         /city/{page.slug}

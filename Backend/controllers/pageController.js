@@ -27,7 +27,7 @@ const getPageBySlug = async (req, res) => {
 // Create a new page
 const createPage = async (req, res) => {
   try {
-    const { title, slug, metaTitle, metaDescription, metaKeywords, metaCanonical, metaRobots, customText } = req.body;
+    const { title, slug, country, metaTitle, metaDescription, metaKeywords, metaCanonical, metaRobots, customText } = req.body;
 
     const pageExists = await Page.findOne({ slug });
     if (pageExists) {
@@ -35,7 +35,7 @@ const createPage = async (req, res) => {
     }
 
     const page = new Page({
-      title, slug, metaTitle, metaDescription, metaKeywords, metaCanonical, metaRobots, customText
+      title, slug, country, metaTitle, metaDescription, metaKeywords, metaCanonical, metaRobots, customText
     });
 
     const createdPage = await page.save();
@@ -48,12 +48,13 @@ const createPage = async (req, res) => {
 // Update a page
 const updatePage = async (req, res) => {
   try {
-    const { title, slug, metaTitle, metaDescription, metaKeywords, metaCanonical, metaRobots, customText } = req.body;
+    const { title, slug, country, metaTitle, metaDescription, metaKeywords, metaCanonical, metaRobots, customText } = req.body;
     const page = await Page.findById(req.params.id);
 
     if (page) {
       page.title = title || page.title;
       page.slug = slug || page.slug;
+      page.country = country !== undefined ? country : page.country;
       page.metaTitle = metaTitle || page.metaTitle;
       page.metaDescription = metaDescription || page.metaDescription;
       page.metaKeywords = metaKeywords || page.metaKeywords;
