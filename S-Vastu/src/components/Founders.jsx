@@ -70,7 +70,7 @@ export default function Founders() {
                   ER. <span className="text-[#94A3B8]">Naresh Kumar</span>
                 </h3>
                 
-                <div className="space-y-4 text-slate-300 text-base sm:text-lg leading-relaxed font-light">
+                <div className="space-y-4 text-gray-200 text-base sm:text-lg leading-relaxed font-normal">
                   <p>
                     A highly experienced Vastu Shastra expert and qualified Civil Engineer. With a profound understanding of architectural science and traditional Vastu principles, he has transformed countless living and working spaces.
                   </p>
@@ -121,7 +121,7 @@ export default function Founders() {
                   ER. <span className="text-[#94A3B8]">Supriya</span>
                 </h3>
                 
-                <div className="space-y-4 text-slate-300 text-base sm:text-lg leading-relaxed font-light">
+                <div className="space-y-4 text-gray-200 text-base sm:text-lg leading-relaxed font-normal">
                   <p>
                     Holding an M.Tech degree alongside a PG Diploma in Vedic Vastu and a specialized qualification in Nutrology.
                   </p>

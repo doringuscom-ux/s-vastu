@@ -49,14 +49,7 @@ export default function Footer() {
               </li>
             </ul>
 
-            <h4 className="text-lg font-semibold text-white mb-4 uppercase tracking-wide">Address</h4>
-            <ul className="space-y-3 border border-white/20 rounded-md">
 
-              <li className="flex items-start gap-3 p-3">
-                <MapPin className="w-4 h-4 text-gray-300 mt-1 flex-shrink-0" />
-                <span className="text-gray-300 text-sm">Shop No. 55, 1st Floor, Main Market, Panchkula Road, Baltana</span>
-              </li>
-            </ul>
           </div>
 
           {/* Quick Links Col */}

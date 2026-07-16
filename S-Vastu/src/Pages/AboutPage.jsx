@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Compass, Star, Eye, Shield, Target } from 'lucide-react';
+import { Compass, Star, Eye, Shield, Target, Check } from 'lucide-react';
 import Founders from '../components/Founders';
 import consultationImg from '../assets/consultation.png';
 import SeoMeta from '../components/SeoMeta';
@@ -71,32 +71,14 @@ export default function AboutPage() {
               className="space-y-8"
             >
               <div>
-                <h3 className="text-[#D4AF37] font-semibold tracking-widest uppercase mb-2">Our Philosophy</h3>
+                <h3 className="text-[#D4AF37] font-semibold tracking-widest uppercase mb-2">About Svastu</h3>
                 <h2 className="text-4xl font-serif font-bold text-gray-900 mb-6">Transforming Spaces, Elevating Lives</h2>
-                <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                  At S-Vastu Solution, we believe that the environment you surround yourself with profoundly impacts your destiny. Our expert consultations diagnose energetic imbalances and provide simple, non-destructive remedies to invite positive cosmic energy.
-                </p>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-6">
-                <motion.div
-                  whileHover={{ y: -8, scale: 1.03 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-[#FFF9EB] p-6 rounded-2xl border border-[#D4AF37]/20 shadow-lg shadow-[#D4AF37]/10 hover:shadow-2xl hover:shadow-[#D4AF37]/20 hover:border-[#D4AF37]/50 transition-all cursor-pointer"
-                >
-                  <Eye className="w-8 h-8 text-[#B8860B] mb-4" />
-                  <h4 className="text-xl font-bold text-gray-900 mb-2">Our Vision</h4>
-                  <p className="text-gray-700">To create a world where every home and workplace is a sanctuary of peace and success.</p>
-                </motion.div>
-                <motion.div
-                  whileHover={{ y: -8, scale: 1.03 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-[#FFF9EB] p-6 rounded-2xl border border-[#D4AF37]/20 shadow-lg shadow-[#D4AF37]/10 hover:shadow-2xl hover:shadow-[#D4AF37]/20 hover:border-[#D4AF37]/50 transition-all cursor-pointer"
-                >
-                  <Target className="w-8 h-8 text-[#B8860B] mb-4" />
-                  <h4 className="text-xl font-bold text-gray-900 mb-2">Our Mission</h4>
-                  <p className="text-gray-700">Delivering authentic, scientific, and practical Vastu solutions tailored to modern lifestyles.</p>
-                </motion.div>
+                <div className="text-gray-600 text-sm md:text-base leading-relaxed mb-6 space-y-4">
+                  <p>At Svastu, we believe that every space influences the people who live, work, and grow within it.</p>
+                  <p>Our approach combines the timeless principles of Vastu with systematic analysis, practical design thinking, and a deep understanding of how spatial planning impacts everyday life. Instead of relying on fear, superstition, or expensive remedies, we study the relationship between architecture, movement, natural elements, light, ventilation, orientation, and energy flow to identify opportunities for meaningful improvement.</p>
+                  <p>Every recommendation is carefully tailored to the property, its purpose, and the people who use it. Whether it is a home, office, commercial establishment, or industrial project, our goal is to create spaces that support clarity, wellbeing, productivity, financial growth, and peace of mind.</p>
+                  <p>We don’t simply suggest changes—we provide a structured roadmap for transforming spaces into environments that naturally support success.</p>
+                </div>
               </div>
             </motion.div>
 
@@ -119,6 +101,143 @@ export default function AboutPage() {
                 alt="Vastu Consultation"
                 className="relative rounded-3xl shadow-2xl object-cover w-full h-[500px]"
               />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Premium Vision & Mission Section */}
+      <section className="py-16 relative overflow-hidden bg-[#0B152A]">
+        <div className="absolute top-0 -left-1/4 w-1/2 h-full bg-[#D4AF37]/10 blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 -right-1/4 w-1/2 h-full bg-[#D4AF37]/10 blur-[100px] pointer-events-none" />
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#D4AF37 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            
+            {/* Vision */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative"
+            >
+              <div className="absolute -left-6 -top-8 text-8xl text-[#D4AF37]/5 font-serif font-black select-none pointer-events-none">01</div>
+              <h3 className="text-[#D4AF37] tracking-[0.2em] text-sm font-semibold uppercase mb-4 flex items-center gap-4">
+                <span className="w-8 h-px bg-[#D4AF37]"></span> Our Vision
+              </h3>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-white leading-tight mb-6">
+                Redefining Vastu for the Modern World
+              </h2>
+              <div className="text-gray-300 text-lg leading-relaxed space-y-4 font-normal">
+                <p>By combining ancient cosmic wisdom with rigorous analytical thinking, we create spaces that deeply inspire wellbeing, prosperity, and purposeful living.</p>
+                <p>We envision a future where Vastu is recognised not as superstition, but as an intelligent, scientific framework for designing environments that positively influence the human experience.</p>
+              </div>
+            </motion.div>
+
+            {/* Mission */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative bg-white/[0.03] backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-3xl shadow-2xl"
+            >
+              <div className="absolute -right-4 -bottom-4 text-8xl text-white/5 font-serif font-black select-none pointer-events-none">02</div>
+              <h3 className="text-[#D4AF37] tracking-[0.2em] text-sm font-semibold uppercase mb-4 flex items-center gap-4">
+                <span className="w-8 h-px bg-[#D4AF37]"></span> Our Mission
+              </h3>
+              <p className="text-white text-xl md:text-2xl font-serif mb-6 leading-relaxed">
+                Delivering premium consultations through clarity, precision, and uncompromised integrity.
+              </p>
+              
+              <ul className="space-y-4">
+                {[
+                  "Providing practical, evidence-informed recommendations rather than fear-based advice.",
+                  "Respecting architectural design while enhancing spatial energy.",
+                  "Offering customised solutions instead of generic formulas.",
+                  "Educating clients so they understand the reasoning behind every recommendation.",
+                  "Creating healthier, more balanced environments that support long-term growth, happiness, and success."
+                ].map((text, i) => (
+                  <motion.li 
+                    key={i}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.4 + (i * 0.1) }}
+                    className="flex items-start gap-4 text-slate-300 group"
+                  >
+                    <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#D4AF37] shrink-0 group-hover:scale-150 transition-transform duration-300 shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
+                    <span className="text-base md:text-lg leading-relaxed font-normal group-hover:text-white transition-colors">{text}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Our Approach Section */}
+      <section className="py-24 bg-white border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mb-16 text-center"
+          >
+            <h3 className="text-[#D4AF37] font-semibold tracking-widest uppercase mb-2">Our Approach</h3>
+            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-4">Spatial Intelligence Framework™️</h2>
+            <div className="w-20 h-1 bg-[#D4AF37] mx-auto rounded-full mb-6"></div>
+            <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+              Unlike conventional Vastu consultations that often rely on a checklist of dos and don’ts, our methodology follows a structured analytical process.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all"
+            >
+              <div className="text-5xl font-black text-[#D4AF37]/20 mb-4">01</div>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">Space Analysis</h4>
+              <p className="text-gray-600 leading-relaxed">
+                We study the complete layout, orientation, functional zoning, circulation patterns, natural light, ventilation, surrounding influences, and the interaction of the five elements.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all"
+            >
+              <div className="text-5xl font-black text-[#D4AF37]/20 mb-4">02</div>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">Energy Mapping</h4>
+              <p className="text-gray-600 leading-relaxed">
+                Every room serves a purpose. We analyse how the distribution of spaces aligns with the intended activities and identify energetic imbalances that may affect wellbeing, relationships, productivity, or business performance.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all"
+            >
+              <div className="text-5xl font-black text-[#D4AF37]/20 mb-4">03</div>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">Root Cause Identification</h4>
+              <p className="text-gray-600 leading-relaxed">
+                Instead of treating visible symptoms, we identify the underlying spatial factors that may be contributing to challenges in your life or business, addressing issues at their source.
+              </p>
             </motion.div>
           </div>
         </div>

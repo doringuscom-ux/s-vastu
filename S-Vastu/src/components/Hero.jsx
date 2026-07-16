@@ -126,7 +126,7 @@ export default function Hero() {
 
         <motion.p
           variants={itemVariants}
-          className="text-white/80 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto font-light drop-shadow-md tracking-wide leading-relaxed px-2"
+          className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto font-normal drop-shadow-md tracking-wide leading-relaxed px-2"
         >
           Align your space with natural forces to attract peace, prosperity, and positive vibrations.
         </motion.p>

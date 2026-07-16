@@ -53,14 +53,14 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-24 bg-[#0B152A] relative overflow-hidden">
+    <section className="pt-12 pb-0 bg-[#0B152A] relative overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#D4AF37] opacity-[0.03] blur-[100px] rounded-full"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#B8860B] opacity-[0.03] blur-[100px] rounded-full"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        <div className="text-center max-w-3xl mx-auto mb-16">
+
+        <div className="text-center max-w-3xl mx-auto mb-8">
           <span className="text-[#D4AF37] font-serif italic tracking-wider text-2xl sm:text-3xl">Client Stories</span>
           <h2 className="text-4xl sm:text-5xl font-extrabold text-white mt-3 mb-6">
             Trusted by <span className="text-[#D4AF37]">Happy Clients</span>
@@ -69,28 +69,28 @@ export default function Testimonials() {
 
         <div className="relative group">
           {/* Navigation Buttons */}
-          <button 
-            onClick={() => scroll('left')} 
+          <button
+            onClick={() => scroll('left')}
             className="absolute -left-2 md:-left-6 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-[#D4AF37] p-3 rounded-full text-white shadow-xl backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100"
           >
             <ChevronLeft size={24} />
           </button>
-          
-          <button 
-            onClick={() => scroll('right')} 
+
+          <button
+            onClick={() => scroll('right')}
             className="absolute -right-2 md:-right-6 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-[#D4AF37] p-3 rounded-full text-white shadow-xl backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100"
           >
             <ChevronRight size={24} />
           </button>
 
           {/* Scroll Container */}
-          <div 
+          <div
             ref={scrollContainerRef}
             className="flex overflow-x-auto gap-6 snap-x snap-mandatory pb-8 pt-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           >
             {testimonials.map((item, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="min-w-full md:min-w-[calc(33.333%-1rem)] snap-center bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors duration-300 flex flex-col"
               >
                 <div className="flex gap-1 mb-6">

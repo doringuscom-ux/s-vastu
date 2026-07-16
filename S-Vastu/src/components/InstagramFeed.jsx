@@ -58,7 +58,7 @@ export default function InstagramFeed() {
   }, []);
 
   return (
-    <section id="instagram-feed" className="py-24 bg-white relative overflow-hidden">
+    <section id="instagram-feed" className="pt-12 pb-2 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header Section */}

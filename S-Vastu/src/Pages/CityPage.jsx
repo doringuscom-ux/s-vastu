@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import { PAGES_API } from '../utils/api';
@@ -25,7 +25,7 @@ function CityHero({ city, customText, country }) {
             S-Vastu Services in {formattedCity}
           </h4>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Vastu Consultant in <span className="text-orange-500 whitespace-nowrap">{formattedCity}{country ? `, ${country}` : ''}</span>
+            Vastu Consultant in <span className="text-orange-500 whitespace-nowrap">{formattedCity}</span>
           </h1>
           {customText ? (
             <div 
@@ -46,11 +46,11 @@ function CityHero({ city, customText, country }) {
             </p>
           )}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#contact" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg shadow-orange-500/30">
-              Book a Consultation in {formattedCity}
-            </a>
-            <a href="#services" className="bg-white text-orange-500 border border-orange-500 hover:bg-orange-50 px-8 py-3 rounded-full font-bold transition-all">
-              Explore Our Services
+            <Link to="/contact" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg shadow-orange-500/30">
+              Book a Consultation
+            </Link>
+            <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="bg-white text-orange-500 border border-orange-500 hover:bg-orange-50 px-8 py-3 rounded-full font-bold transition-all flex items-center justify-center gap-2">
+              WhatsApp Now
             </a>
           </div>
         </div>

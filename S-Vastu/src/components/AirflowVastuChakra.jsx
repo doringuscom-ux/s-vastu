@@ -84,42 +84,8 @@ export default function AirflowVastuChakra() {
           <div className="flex flex-col items-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 text-center">Home Airflow</h2>
             <h2 className="text-3xl md:text-4xl font-bold text-[#D4AF37] mb-4 text-center">Visualization System</h2>
-            <p className="text-gray-300 mb-6 text-center">Interactive simulation of air circulation and ventilation efficiency</p>
+            <p className="text-gray-300 mb-8 text-center">Interactive simulation of air circulation and ventilation efficiency</p>
             
-            {/* Controls */}
-            <div className="flex flex-wrap justify-center gap-2 mb-8">
-              <button 
-                onClick={() => setAcState(true)}
-                className={`px-4 py-2 rounded font-semibold text-white transition-colors shadow-sm ${acState ? 'bg-[#4ade80]' : 'bg-[#64748b]'}`}
-              >
-                AC ON
-              </button>
-              <button 
-                onClick={() => setAcState(false)}
-                className={`px-4 py-2 rounded font-semibold text-white transition-colors shadow-sm ${!acState ? 'bg-[#4ade80]' : 'bg-[#64748b]'}`}
-              >
-                AC OFF
-              </button>
-              <button 
-                onClick={() => setWindowsState(true)}
-                className={`px-4 py-2 rounded font-semibold text-white transition-colors shadow-sm ${windowsState ? 'bg-[#4ade80]' : 'bg-[#64748b]'}`}
-              >
-                Open Windows
-              </button>
-              <button 
-                onClick={() => setWindowsState(false)}
-                className={`px-4 py-2 rounded font-semibold text-white transition-colors shadow-sm ${!windowsState ? 'bg-[#4ade80]' : 'bg-[#64748b]'}`}
-              >
-                Close Windows
-              </button>
-              <button 
-                onClick={handleReset}
-                className="px-4 py-2 rounded font-semibold text-white bg-[#64748b] transition-colors shadow-sm"
-              >
-                Reset Vents
-              </button>
-            </div>
-
             {/* Floor Plan Container */}
             <div className="relative w-full max-w-[500px] aspect-square bg-[#e0e9f0] rounded-lg p-4 shadow-inner overflow-hidden border border-gray-200">
               
@@ -292,6 +258,40 @@ export default function AirflowVastuChakra() {
               </AnimatePresence>
 
             </div>
+
+            {/* Controls */}
+            <div className="flex flex-wrap justify-center gap-2 mt-8">
+              <button 
+                onClick={() => setAcState(true)}
+                className={`px-4 py-2 rounded font-semibold text-white transition-colors shadow-sm ${acState ? 'bg-[#4ade80]' : 'bg-[#64748b]'}`}
+              >
+                AC ON
+              </button>
+              <button 
+                onClick={() => setAcState(false)}
+                className={`px-4 py-2 rounded font-semibold text-white transition-colors shadow-sm ${!acState ? 'bg-[#4ade80]' : 'bg-[#64748b]'}`}
+              >
+                AC OFF
+              </button>
+              <button 
+                onClick={() => setWindowsState(true)}
+                className={`px-4 py-2 rounded font-semibold text-white transition-colors shadow-sm ${windowsState ? 'bg-[#4ade80]' : 'bg-[#64748b]'}`}
+              >
+                Open Windows
+              </button>
+              <button 
+                onClick={() => setWindowsState(false)}
+                className={`px-4 py-2 rounded font-semibold text-white transition-colors shadow-sm ${!windowsState ? 'bg-[#4ade80]' : 'bg-[#64748b]'}`}
+              >
+                Close Windows
+              </button>
+              <button 
+                onClick={handleReset}
+                className="px-4 py-2 rounded font-semibold text-white bg-[#64748b] transition-colors shadow-sm"
+              >
+                Reset Vents
+              </button>
+            </div>
           </div>
 
           {/* Right Column: Vastu Energy Chakra */}
@@ -324,7 +324,7 @@ export default function AirflowVastuChakra() {
                 <div className="bg-[#bde871] flex items-center justify-center p-1 sm:p-2 relative z-0">
                   <motion.div 
                     whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.15 }}
-                    className="bg-black/30 px-1 py-1 sm:px-3 sm:py-2 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[95%] sm:min-w-[70%] cursor-pointer"
+                    className="bg-black/30 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[90%] h-[80%] relative cursor-pointer"
                   >
                     <p className="text-white font-bold text-[9px] sm:text-base leading-tight">Northwest</p>
                     <p className="text-white font-bold text-[8px] sm:text-sm leading-tight mt-0.5">(Vayavya)</p>
@@ -335,7 +335,7 @@ export default function AirflowVastuChakra() {
                 <div className="bg-[#2fccdd] flex items-center justify-center p-1 sm:p-2 relative z-0">
                   <motion.div 
                     whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.15 }}
-                    className="bg-black/30 px-1 py-1 sm:px-3 sm:py-3 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[95%] sm:min-w-[85%] relative cursor-pointer"
+                    className="bg-black/30 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[90%] h-[80%] relative cursor-pointer"
                   >
                     <div className="absolute -top-[8px] sm:-top-[12px] left-1/2 -translate-x-1/2 text-green-500 pointer-events-none"><svg className="w-4 h-4 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 16H4z"/></svg></div>
                     <p className="text-white font-bold text-[10px] sm:text-lg leading-tight">North</p>
@@ -347,7 +347,7 @@ export default function AirflowVastuChakra() {
                 <div className="bg-[#2fccdd] flex items-center justify-center p-1 sm:p-2 relative z-0">
                   <motion.div 
                     whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.15 }}
-                    className="bg-black/30 px-1 py-1 sm:px-3 sm:py-2 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[95%] sm:min-w-[70%] cursor-pointer"
+                    className="bg-black/30 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[90%] h-[80%] relative cursor-pointer"
                   >
                     <p className="text-white font-bold text-[9px] sm:text-base leading-tight">Northeast</p>
                     <p className="text-white font-bold text-[8px] sm:text-sm leading-tight mt-0.5">(Eshanya)</p>
@@ -358,7 +358,7 @@ export default function AirflowVastuChakra() {
                 <div className="bg-[#96cc41] flex items-center justify-center p-1 sm:p-2 relative z-0">
                   <motion.div 
                     whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.15 }}
-                    className="bg-black/30 px-1 py-1 sm:px-3 sm:py-3 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[95%] sm:min-w-[85%] relative cursor-pointer"
+                    className="bg-black/30 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[90%] h-[80%] relative cursor-pointer"
                   >
                     <div className="absolute top-1/2 -left-[8px] sm:-left-[12px] -translate-x-0 -translate-y-1/2 text-green-500 pointer-events-none"><svg className="w-4 h-4 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 16H4z"/></svg></div>
                     <p className="text-white font-bold text-[10px] sm:text-lg leading-tight">West</p>
@@ -367,10 +367,10 @@ export default function AirflowVastuChakra() {
                 </div>
 
                 {/* Center */}
-                <div className="bg-gradient-to-br from-[#fffa8a] to-[#ffdb3b] flex items-center justify-center p-1 sm:p-2 relative z-0">
+                <div className="bg-gradient-to-br from-[#fffa8a] to-[#ffdb3b] flex items-center justify-center p-1 sm:p-2 relative z-0 hover:z-50">
                   <motion.p 
                     whileHover={{ scale: 1.1 }} whileTap={{ scale: 1.2 }}
-                    className="text-[#2A3642] font-black text-[10px] sm:text-xl lg:text-2xl tracking-wide md:tracking-wide z-20 cursor-pointer select-none text-center"
+                    className="text-[#2A3642] font-black text-[10px] sm:text-lg lg:text-xl tracking-wide md:tracking-wide z-20 cursor-pointer select-none text-center"
                   >
                     Brahmasthan
                   </motion.p>
@@ -380,7 +380,7 @@ export default function AirflowVastuChakra() {
                 <div className="bg-[#96cc41] flex items-center justify-center p-1 sm:p-2 relative z-0">
                   <motion.div 
                     whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.15 }}
-                    className="bg-black/30 px-1 py-1 sm:px-3 sm:py-3 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[95%] sm:min-w-[85%] relative cursor-pointer"
+                    className="bg-black/30 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[90%] h-[80%] relative cursor-pointer"
                   >
                     <div className="absolute top-1/2 -right-[8px] sm:-right-[12px] -translate-y-1/2 text-green-500 pointer-events-none"><svg className="w-4 h-4 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 16H4z"/></svg></div>
                     <p className="text-white font-bold text-[10px] sm:text-lg leading-tight">East</p>
@@ -392,7 +392,7 @@ export default function AirflowVastuChakra() {
                 <div className="bg-[#cba25b] flex items-center justify-center p-1 sm:p-2 relative z-0">
                   <motion.div 
                     whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.15 }}
-                    className="bg-black/30 px-1 py-1 sm:px-3 sm:py-2 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[95%] sm:min-w-[70%] cursor-pointer"
+                    className="bg-black/30 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[90%] h-[80%] relative cursor-pointer"
                   >
                     <p className="text-white font-bold text-[9px] sm:text-base leading-tight">Southwest</p>
                     <p className="text-white font-bold text-[8px] sm:text-sm leading-tight mt-0.5">(Nairutya)</p>
@@ -403,7 +403,7 @@ export default function AirflowVastuChakra() {
                 <div className="bg-[#b88c4f] flex items-center justify-center p-1 sm:p-2 relative z-0">
                   <motion.div 
                     whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                    className="bg-black/30 px-1 py-1 sm:px-3 sm:py-3 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[95%] sm:min-w-[85%] relative cursor-pointer"
+                    className="bg-black/30 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[90%] h-[80%] relative cursor-pointer"
                   >
                     <div className="absolute -bottom-[8px] sm:-bottom-[12px] left-1/2 -translate-x-1/2 text-green-500/80 pointer-events-none"><svg className="w-4 h-4 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 16H4z"/></svg></div>
                     <p className="text-white font-bold text-[10px] sm:text-lg leading-tight">South</p>
@@ -415,7 +415,7 @@ export default function AirflowVastuChakra() {
                 <div className="bg-[#f45656] flex items-center justify-center p-1 sm:p-2 relative z-0">
                   <motion.div 
                     whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                    className="bg-black/30 px-1 py-1 sm:px-3 sm:py-2 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[95%] sm:min-w-[70%] cursor-pointer"
+                    className="bg-black/30 rounded-md flex flex-col items-center justify-center text-center shadow-inner w-[90%] h-[80%] relative cursor-pointer"
                   >
                     <p className="text-white font-bold text-[9px] sm:text-base leading-tight">Southeast</p>
                     <p className="text-white font-bold text-[8px] sm:text-sm leading-tight mt-0.5">(Agneya)</p>

@@ -26,18 +26,18 @@ export default function Blog({ hideHeader = false, limit }) {
   const hasMore = limit && posts.length > limit;
 
   return (
-    <section id="blog" className={`bg-slate-50 relative ${hideHeader ? 'py-10' : 'py-24'}`}>
+    <section id="blog" className={`bg-slate-50 relative ${hideHeader ? 'py-10' : 'pt-0 pb-10'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
         {!hideHeader && (
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-[#B8860B] font-serif italic tracking-wider text-2xl sm:text-3xl">Our Insights</span>
-            <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mt-3 mb-6">
+          <div className="text-center max-w-3xl mx-auto mb-6 pt-12">
+            <span className="text-[#B8860B] font-serif italic tracking-wider text-2xl sm:text-3xl leading-none">Our Insights</span>
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mt-2 mb-4 leading-tight">
               Latest from the <span className="text-[#B8860B]">Blog</span>
             </h2>
-            <div className="w-24 h-1 bg-[#D4AF37] mx-auto rounded-full mb-6"></div>
-            <p className="text-gray-600 text-lg">
+            {/* <div className="w-24 h-1 bg-[#D4AF37] mx-auto rounded-full mb-4"></div> */}
+            <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
               Stay updated with expert tips, scientific explanations, and practical remedies for everyday Vastu compliance.
             </p>
           </div>
@@ -102,6 +102,6 @@ export default function Blog({ hideHeader = false, limit }) {
         )}
 
       </div>
-    </section>
+    </section >
   );
 }
