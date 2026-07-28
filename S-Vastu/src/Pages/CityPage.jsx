@@ -11,6 +11,7 @@ import Founders from '../components/Founders';
 import Testimonials from '../components/Testimonials';
 import Contact from '../components/Contact';
 import AirflowVastuChakra from '../components/AirflowVastuChakra';
+import YoutubeShorts from '../components/YoutubeShorts';
 
 function CityHero({ city, customText, country }) {
   const formattedCity = city 
@@ -120,6 +121,8 @@ export default function CityPage() {
       <div id="services">
         <Services />
       </div>
+      
+      <YoutubeShorts />
       
       <AirflowVastuChakra />
       <Testimonials />

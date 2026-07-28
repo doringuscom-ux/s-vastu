@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="bg-[#0A192F] text-gray-300 pt-16 pb-8 border-t border-[#0A192F]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-12">
-          
+
           {/* Brand Col */}
           <div className="flex flex-col items-start lg:items-center text-center lg:text-left space-y-6">
             <div className="bg-white p-6 rounded-full shadow-sm inline-block mb-2">
@@ -15,18 +15,18 @@ export default function Footer() {
             </div>
             <div className="flex flex-col items-center">
               <p className="text-white font-medium mb-3">Follow Us On :</p>
-              <div className="flex gap-4 text-[#D4AF37]">
-                <a href="#" className="hover:text-white transition-colors" aria-label="Facebook">
-                  <FaFacebookF className="w-[18px] h-[18px]" />
+              <div className="flex gap-3 text-[#D4AF37]">
+                <a href="https://www.facebook.com/Svastusolution" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#0A192F] transition-all shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]" aria-label="Facebook">
+                  <FaFacebookF className="w-4 h-4" />
                 </a>
-                <a href="#" className="hover:text-white transition-colors" aria-label="YouTube">
-                  <FaYoutube className="w-5 h-5" />
+                <a href="https://www.youtube.com/@Svastusolution" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#0A192F] transition-all shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]" aria-label="YouTube">
+                  <FaYoutube className="w-4 h-4" />
                 </a>
-                <a href="#" className="hover:text-white transition-colors" aria-label="Instagram">
-                  <FaInstagram className="w-5 h-5" />
+                <a href="https://www.instagram.com/svastusolution/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#0A192F] transition-all shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]" aria-label="Instagram">
+                  <FaInstagram className="w-4 h-4" />
                 </a>
-                <a href="#" className="hover:text-white transition-colors" aria-label="Pinterest">
-                  <FaPinterestP className="w-[18px] h-[18px]" />
+                <a href="https://in.pinterest.com/Svastusolution/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#0A192F] transition-all shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]" aria-label="Pinterest">
+                  <FaPinterestP className="w-4 h-4" />
                 </a>
               </div>
             </div>
@@ -60,13 +60,13 @@ export default function Footer() {
                 let linkPath = link.toLowerCase().replace(' ', '-');
                 if (link === 'Home') linkPath = '';
                 if (link === 'About Us') linkPath = 'about';
-                
+
                 return (
-                <li key={link}>
-                  <a href={`/${linkPath}`} className="text-gray-300 hover:text-[#D4AF37] transition-colors flex items-center gap-2 text-sm">
-                    <span className="text-[#D4AF37] font-bold">›</span> {link}
-                  </a>
-                </li>
+                  <li key={link}>
+                    <a href={`/${linkPath}`} className="text-gray-300 hover:text-[#D4AF37] transition-colors flex items-center gap-2 text-sm">
+                      <span className="text-[#D4AF37] font-bold">›</span> {link}
+                    </a>
+                  </li>
                 );
               })}
             </ul>
@@ -90,9 +90,16 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400 text-sm">
-            &copy; {new Date().getFullYear()} S Vastu Solution. All Rights Reserved.
-          </p>
+          <div className="text-gray-400 text-sm text-center md:text-left flex flex-col md:flex-row gap-1 md:gap-2">
+            <span>&copy; {new Date().getFullYear()} S Vastu Solution. All Rights Reserved.</span>
+            <span className="hidden md:inline">|</span>
+            <span>
+              Designed & Developed by{' '}
+              <a href="https://digitalorra.com/" target="_blank" rel="noopener noreferrer" className="text-[#D4AF37] hover:text-white font-medium transition-colors">
+                Digital ORRA
+              </a>
+            </span>
+          </div>
           <div className="flex gap-4 text-sm text-gray-400">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>

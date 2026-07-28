@@ -81,13 +81,13 @@ const seedBlogs = async () => {
   try {
     console.log('Connecting to MongoDB...');
     await mongoose.connect(process.env.MONGODB_URI);
-    
+
     console.log('Connected! Clearing existing blogs...');
     await Blog.deleteMany({});
-    
+
     console.log('Inserting sample blogs...');
     await Blog.insertMany(sampleBlogs);
-    
+
     console.log(`Successfully seeded ${sampleBlogs.length} blogs!`);
     process.exit(0);
   } catch (error) {

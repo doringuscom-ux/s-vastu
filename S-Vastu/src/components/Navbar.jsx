@@ -27,7 +27,7 @@ export default function Navbar() {
   return (
     <header className={`w-full font-sans shadow-sm fixed top-0 z-50 bg-white border-b border-gray-100 transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'}`}>
       {/* Top Bar - Info */}
-      <div className="bg-[#B8860B] text-white py-2 px-4 sm:px-8 flex-col md:flex-row justify-between items-center hidden md:flex">
+      {/* <div className="bg-[#B8860B] text-white py-2 px-4 sm:px-8 flex-col md:flex-row justify-between items-center hidden md:flex">
         <p className="text-sm font-medium tracking-wide">
           Welcome to S-Vastu Solution – Trusted Vastu Consultant
         </p>
@@ -39,7 +39,7 @@ export default function Navbar() {
             <Mail size={14} /> info@svastusolution.com
           </a>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

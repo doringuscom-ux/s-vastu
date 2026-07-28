@@ -20,6 +20,7 @@ const galleryRoutes = require('./routes/galleryRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const seoRoutes = require('./routes/seoRoutes');
 const sitemapRoutes = require('./routes/sitemapRoutes');
+const youtubeRoutes = require('./routes/youtubeRoutes');
 
 app.use('/api/pages', pageRoutes);
 app.use('/api/admin', adminRoutes);
@@ -27,6 +28,7 @@ app.use('/api/blogs', blogRoutes);
 app.use('/api/gallery', galleryRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/seo', seoRoutes);
+app.use('/api/youtube', youtubeRoutes);
 app.use('/sitemap.xml', sitemapRoutes);
 
 app.get('/', (req, res) => {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Compass, Star, Eye, Shield, Target, Check } from 'lucide-react';
+import { Compass, Star, Eye, Shield, Target, Check, X } from 'lucide-react';
 import Founders from '../components/Founders';
 import consultationImg from '../assets/consultation.png';
 import SeoMeta from '../components/SeoMeta';
@@ -11,10 +11,10 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <div className="pt-20 lg:pt-24 min-h-screen bg-slate-50">
+    <div className="pt-20 lg:pt-24 min-h-screen bg-slate-50 flex flex-col">
       <SeoMeta pageName="about" />
       {/* Hero Section */}
-      <section className="relative bg-[#0B152A] pt-16 pb-10 sm:pt-20 sm:pb-12 overflow-hidden">
+      <section className="relative bg-[#0B152A] pt-12 pb-12 sm:pt-16 sm:pb-16 overflow-hidden">
         {/* Animated glowing blobs */}
         <motion.div
           animate={{ x: [0, 40, 0], y: [0, -25, 0], scale: [1, 1.1, 1] }}
@@ -60,7 +60,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision Section */}
-      <section className="py-24 bg-white">
+      <section className="py-10 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -107,7 +107,7 @@ export default function AboutPage() {
       </section>
 
       {/* Premium Vision & Mission Section */}
-      <section className="py-16 relative overflow-hidden bg-[#0B152A]">
+      <section className="py-10 relative overflow-hidden bg-[#0B152A]">
         <div className="absolute top-0 -left-1/4 w-1/2 h-full bg-[#D4AF37]/10 blur-[100px] pointer-events-none" />
         <div className="absolute bottom-0 -right-1/4 w-1/2 h-full bg-[#D4AF37]/10 blur-[100px] pointer-events-none" />
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#D4AF37 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
@@ -180,14 +180,14 @@ export default function AboutPage() {
       </section>
 
       {/* Our Approach Section */}
-      <section className="py-24 bg-white border-t border-slate-200">
+      <section className="py-10 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="mb-16 text-center"
+            className="mb-8 text-center"
           >
             <h3 className="text-[#D4AF37] font-semibold tracking-widest uppercase mb-2">Our Approach</h3>
             <h2 className="text-4xl font-serif font-bold text-gray-900 mb-4">Spatial Intelligence Framework™️</h2>
@@ -197,15 +197,15 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="flex flex-wrap justify-center gap-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all"
+              className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all"
             >
-              <div className="text-5xl font-black text-[#D4AF37]/20 mb-4">01</div>
+              <div className="text-5xl font-black text-[#D4AF37]/60 mb-4">01</div>
               <h4 className="text-xl font-bold text-gray-900 mb-3">Space Analysis</h4>
               <p className="text-gray-600 leading-relaxed">
                 We study the complete layout, orientation, functional zoning, circulation patterns, natural light, ventilation, surrounding influences, and the interaction of the five elements.
@@ -217,9 +217,9 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all"
+              className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all"
             >
-              <div className="text-5xl font-black text-[#D4AF37]/20 mb-4">02</div>
+              <div className="text-5xl font-black text-[#D4AF37]/60 mb-4">02</div>
               <h4 className="text-xl font-bold text-gray-900 mb-3">Energy Mapping</h4>
               <p className="text-gray-600 leading-relaxed">
                 Every room serves a purpose. We analyse how the distribution of spaces aligns with the intended activities and identify energetic imbalances that may affect wellbeing, relationships, productivity, or business performance.
@@ -231,27 +231,212 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all"
+              className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all"
             >
-              <div className="text-5xl font-black text-[#D4AF37]/20 mb-4">03</div>
+              <div className="text-5xl font-black text-[#D4AF37]/60 mb-4">03</div>
               <h4 className="text-xl font-bold text-gray-900 mb-3">Root Cause Identification</h4>
               <p className="text-gray-600 leading-relaxed">
                 Instead of treating visible symptoms, we identify the underlying spatial factors that may be contributing to challenges in your life or business, addressing issues at their source.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all"
+            >
+              <div className="text-5xl font-black text-[#D4AF37]/60 mb-4">04</div>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">Practical Optimisation</h4>
+              <p className="text-gray-600 leading-relaxed">
+                Our recommendations prioritise practical adjustments and intelligent space planning. Structural modifications are suggested only when genuinely necessary.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all"
+            >
+              <div className="text-5xl font-black text-[#D4AF37]/60 mb-4">05</div>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">Personal Alignment</h4>
+              <p className="text-gray-600 leading-relaxed">
+                Where appropriate, we consider the occupants’ goals and lifestyle to ensure the space supports their individual aspirations.
               </p>
             </motion.div>
           </div>
         </div>
       </section>
 
+      {/* Why We're Different Section */}
+      <section className="py-10 bg-[#0B152A] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#D4AF37 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mb-8 text-center"
+          >
+            <h2 className="text-4xl font-serif font-bold text-white mb-4">Why We’re Different</h2>
+            <div className="w-20 h-1 bg-[#D4AF37] mx-auto rounded-full"></div>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-8 relative mt-10">
+            {/* Animated Pulsing VS Badge */}
+            <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 z-30 items-center justify-center">
+              <motion.div 
+                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.8, 0.3] }} 
+                transition={{ duration: 2, repeat: Infinity }} 
+                className="absolute inset-0 bg-[#D4AF37] rounded-full blur-md"
+              />
+              <div className="relative w-full h-full bg-[#0B152A] rounded-full border-2 border-[#D4AF37] flex items-center justify-center shadow-[0_0_20px_rgba(212,175,55,0.4)]">
+                <span className="text-[#D4AF37] font-black italic text-xl">VS</span>
+              </div>
+            </div>
+
+            {/* Most Consultants */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, type: "spring", bounce: 0.3 }}
+              className="bg-gradient-to-b from-white/5 to-transparent border border-white/10 p-6 md:p-8 rounded-3xl backdrop-blur-md opacity-70 hover:opacity-100 transition-all duration-500 hover:shadow-2xl"
+            >
+              <h3 className="text-xl font-bold text-slate-400 mb-6 pb-4 border-b border-white/10 text-center md:text-left tracking-wide">
+                Most Vastu Consultants
+              </h3>
+              <ul className="space-y-4">
+                {[
+                  "Follow fixed, rigid rules",
+                  "One-size-fits-all recommendations",
+                  "Focus mainly on directions",
+                  "Recommend expensive remedies",
+                  "Fear-based consultation",
+                  "Explain what is wrong"
+                ].map((item, idx) => (
+                  <motion.li 
+                    key={idx} 
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2 + (idx * 0.1) }}
+                    className="flex items-start gap-3 text-slate-400 text-[15px]"
+                  >
+                    <div className="p-1 rounded-full bg-red-500/10 mt-0.5 shrink-0">
+                      <X className="w-4 h-4 text-red-500/80" />
+                    </div>
+                    {item}
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Svastu */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, type: "spring", bounce: 0.3 }}
+              className="bg-gradient-to-br from-[#1a2942] via-[#0B152A] to-[#D4AF37]/20 border border-[#D4AF37]/50 p-6 md:p-8 rounded-3xl backdrop-blur-xl shadow-[0_0_50px_rgba(212,175,55,0.2)] relative z-10 transform md:scale-105 hover:shadow-[0_0_60px_rgba(212,175,55,0.3)] transition-all duration-500 overflow-hidden"
+            >
+              {/* Inner animated glow */}
+              <motion.div 
+                animate={{ opacity: [0.1, 0.2, 0.1] }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#D4AF37]/20 to-transparent pointer-events-none"
+              />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent shadow-[0_0_10px_rgba(212,175,55,0.8)]"></div>
+              
+              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#D4AF37]/20 text-center md:text-left flex justify-center md:justify-start items-center gap-2">
+                <Star className="w-6 h-6 text-[#D4AF37] fill-current drop-shadow-[0_0_5px_rgba(212,175,55,0.8)]" /> 
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#f8e8a0] to-[#D4AF37] animate-pulse">
+                  The Svastu Way
+                </span>
+              </h3>
+              <ul className="space-y-4 relative z-10">
+                {[
+                  "Scientific observation with traditional wisdom",
+                  "Property-specific analysis",
+                  "Focus on complete spatial dynamics",
+                  "Practical solutions before remedies",
+                  "Education instead of fear",
+                  "Explain why a recommendation works",
+                  "Balance architecture, functionality, and energy",
+                  "Premium consultation backed by systematic analysis"
+                ].map((item, idx) => (
+                  <motion.li 
+                    key={idx} 
+                    initial={{ opacity: 0, x: 10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + (idx * 0.1) }}
+                    className="flex items-start gap-3 text-slate-100 text-[15px] font-medium"
+                  >
+                    <div className="p-1 rounded-full bg-[#D4AF37]/20 mt-0.5 shrink-0 shadow-[0_0_10px_rgba(212,175,55,0.3)]">
+                      <Check className="w-4 h-4 text-[#D4AF37]" />
+                    </div>
+                    {item}
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Core Philosophy */}
+      <section className="py-[70px] relative overflow-hidden bg-[#050A15]">
+        {/* Deep animated glow in background */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#D4AF37]/10 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, type: "spring" }}
+            className="relative bg-white/5 border border-white/10 p-10 md:p-16 rounded-3xl backdrop-blur-xl shadow-2xl"
+          >
+            {/* Floating Quote Icon */}
+            <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-[#D4AF37] to-[#B8860B] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(212,175,55,0.4)] border-4 border-[#050A15]">
+              <span className="text-[#050A15] text-5xl font-serif font-black leading-none mt-5">"</span>
+            </div>
+
+            <h3 className="text-[#D4AF37] font-bold tracking-widest uppercase mb-8 mt-4 text-sm md:text-base">
+              Our Core Philosophy
+            </h3>
+            
+            <p className="text-xl md:text-3xl font-serif text-slate-200 leading-relaxed mb-8">
+              "A building does not change your destiny. <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#f8e8a0] font-bold">
+                It shapes the environment
+              </span>{' '}
+              in which your decisions, emotions, relationships, health, and opportunities unfold."
+            </p>
+            
+            <div className="w-20 h-[1px] bg-gradient-to-r from-transparent via-slate-500 to-transparent mx-auto mb-8"></div>
+            
+            <p className="text-base md:text-lg text-slate-400 font-medium tracking-wide">
+              When the environment supports you, <span className="text-white">life often becomes easier to navigate.</span>
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Core Values */}
-      <section className="py-24 bg-slate-50 border-t border-slate-200">
+      <section className="py-10 bg-slate-50 border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="mb-16"
+            className="mb-8"
           >
             <h2 className="text-4xl font-serif font-bold text-gray-900 mb-4">Our Core Values</h2>
             <div className="w-20 h-1 bg-[#D4AF37] mx-auto rounded-full"></div>
@@ -287,7 +472,7 @@ export default function AboutPage() {
       <Founders />
 
       {/* Call to Action */}
-      <section className="py-16 bg-white border-t border-gray-100">
+      <section className="py-10 bg-white border-t border-gray-100">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
