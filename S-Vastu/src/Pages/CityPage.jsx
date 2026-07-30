@@ -101,9 +101,13 @@ export default function CityPage() {
     ? actualCityName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
     : 'Your City';
 
-  const metaTitle = pageData?.metaTitle || `Best Vastu Consultant & Astrologer in ${formattedCity} | S-Vastu`;
-  const metaDescription = pageData?.metaDescription || `Looking for expert Vastu and Astrology services in ${formattedCity}? S-Vastu offers personalized consultations for home, business, and numerology.`;
-  const metaKeywords = pageData?.metaKeywords || `vastu consultant ${formattedCity}, best astrologer ${formattedCity}, numerology ${formattedCity}`;
+  const justCityName = actualCityName && actualCityName.startsWith('vastu-consultant-in-')
+    ? actualCityName.replace('vastu-consultant-in-', '').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
+    : formattedCity;
+
+  const metaTitle = pageData?.metaTitle || `Best Vastu Consultant & Astrologer in ${justCityName} | S-Vastu`;
+  const metaDescription = pageData?.metaDescription || `Looking for expert Vastu and Astrology services in ${justCityName}? S-Vastu offers personalized consultations for home, business, and numerology.`;
+  const metaKeywords = pageData?.metaKeywords || '';
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://svastusolution.com';
   const metaCanonical = pageData?.metaCanonical || `${baseUrl}/${actualCityName}`;
   const metaRobots = pageData?.metaRobots || 'index, follow';

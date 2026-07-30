@@ -45,10 +45,14 @@ router.get('/metadata', async (req, res) => {
       const pageData = await Page.findOne({ slug: parts[0] });
       if (pageData) {
         const formattedCity = parts[0].split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+        const justCityName = parts[0].startsWith('vastu-consultant-in-') 
+          ? parts[0].replace('vastu-consultant-in-', '').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
+          : formattedCity;
+
         seoResponse = {
-          title: pageData.metaTitle || `Best Vastu Consultant & Astrologer in ${formattedCity} | S-Vastu`,
-          description: pageData.metaDescription || `Looking for expert Vastu and Astrology services in ${formattedCity}? S-Vastu offers personalized consultations for home, business, and numerology.`,
-          keywords: pageData.metaKeywords || `vastu consultant ${formattedCity}, best astrologer ${formattedCity}, numerology ${formattedCity}`,
+          title: pageData.metaTitle || `Best Vastu Consultant & Astrologer in ${justCityName} | S-Vastu`,
+          description: pageData.metaDescription || `Looking for expert Vastu and Astrology services in ${justCityName}? S-Vastu offers personalized consultations for home, business, and numerology.`,
+          keywords: pageData.metaKeywords || '',
           canonical: pageData.metaCanonical || '',
           robots: pageData.metaRobots || ''
         };
