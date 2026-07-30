@@ -106,7 +106,7 @@ function App() {
             <Route path="gallery" element={<GalleryPage />} />
             <Route path="blog" element={<BlogPage />} />
             <Route path="blog/:slug" element={<SingleBlogPage />} />
-            <Route path="contact" element={<ContactPage />} />
+            <Route path="contact-us" element={<ContactPage />} />
             <Route path="locations" element={<LocationsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>

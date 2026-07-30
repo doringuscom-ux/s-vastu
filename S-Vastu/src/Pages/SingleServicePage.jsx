@@ -260,7 +260,7 @@ export default function SingleServicePage() {
               <h3 className="text-2xl font-bold mb-2">Book a Consultation</h3>
               <p className="text-gray-400 mb-8 text-sm">Get expert guidance tailored to your specific needs.</p>
               
-              <Link to="/contact" className="w-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center hover:shadow-[0_10px_20px_rgba(212,175,55,0.3)] transition-all duration-300 transform hover:-translate-y-1 mb-4">
+              <Link to="/contact-us" className="w-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center hover:shadow-[0_10px_20px_rgba(212,175,55,0.3)] transition-all duration-300 transform hover:-translate-y-1 mb-4">
                 <Calendar className="w-5 h-5 mr-2" />
                 Schedule Now
               </Link>

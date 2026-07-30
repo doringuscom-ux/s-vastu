@@ -175,7 +175,7 @@ export default function SingleBlogPage() {
                 <p className="text-gray-700 leading-relaxed mb-4 text-sm md:text-base">
                   S-Vastu Solution provides expert Vastu consulting services for homes and businesses. We combine ancient architectural science with modern living to bring harmony, prosperity, and peace to your spaces.
                 </p>
-                <Link to="/contact" className="text-[#B8860B] font-bold hover:text-gray-900 transition-colors text-sm uppercase tracking-wider flex items-center gap-1">
+                <Link to="/contact-us" className="text-[#B8860B] font-bold hover:text-gray-900 transition-colors text-sm uppercase tracking-wider flex items-center gap-1">
                   Book a Consultation <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -253,7 +253,7 @@ export default function SingleBlogPage() {
                 
                 <h3 className="font-bold text-2xl mb-3 relative z-10">Vastu Consultation</h3>
                 <p className="text-gray-300 text-sm mb-8 leading-relaxed relative z-10">Balance the energies of your home or office. Connect with our experts today.</p>
-                <Link to="/contact" className="block w-full bg-[#D4AF37] hover:bg-[#B8860B] py-3.5 rounded-xl font-bold uppercase tracking-wider text-sm transition-colors mb-4 relative z-10 text-white shadow-md">
+                <Link to="/contact-us" className="block w-full bg-[#D4AF37] hover:bg-[#B8860B] py-3.5 rounded-xl font-bold uppercase tracking-wider text-sm transition-colors mb-4 relative z-10 text-white shadow-md">
                   Book Now
                 </Link>
                 <div className="flex flex-col items-center justify-center gap-2 text-sm text-gray-300 relative z-10">

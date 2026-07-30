@@ -74,7 +74,7 @@ export default function BlogPage() {
             <motion.a
               whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(184, 134, 11, 0.4)" }}
               whileTap={{ scale: 0.95 }}
-              href="/contact"
+              href="/contact-us"
               className="inline-block bg-gradient-to-r from-[#B8860B] to-[#D4AF37] text-white font-bold text-lg px-10 py-3.5 rounded-full shadow-lg transition-all"
             >
               Book a Consultation

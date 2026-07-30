@@ -49,7 +49,7 @@ function CityHero({ city, customText, country }) {
             </p>
           )}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/contact" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg shadow-orange-500/30">
+            <Link to="/contact-us" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg shadow-orange-500/30">
               Book a Consultation
             </Link>
             <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="bg-white text-orange-500 border border-orange-500 hover:bg-orange-50 px-8 py-3 rounded-full font-bold transition-all flex items-center justify-center gap-2">

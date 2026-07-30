@@ -8,7 +8,7 @@ const STATIC_PAGE_DEFAULTS = [
   { _id: 'about', title: 'About Page', slug: '/about-us', metaTitle: '', metaDescription: '', isStatic: true },
   { _id: 'services', title: 'Services Page', slug: '/services', metaTitle: '', metaDescription: '', isStatic: true },
   { _id: 'gallery', title: 'Gallery Page', slug: '/gallery', metaTitle: '', metaDescription: '', isStatic: true },
-  { _id: 'contact', title: 'Contact Page', slug: '/contact', metaTitle: '', metaDescription: '', isStatic: true },
+  { _id: 'contact', title: 'Contact Page', slug: '/contact-us', metaTitle: '', metaDescription: '', isStatic: true },
 ];
 
 export default function AdminSeoManager() {

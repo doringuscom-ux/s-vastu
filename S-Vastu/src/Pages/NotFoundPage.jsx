@@ -60,7 +60,7 @@ export default function NotFoundPage() {
             Back to Home
           </Link>
           <Link 
-            to="/contact" 
+            to="/contact-us" 
             className="flex items-center gap-2 bg-white text-gray-800 border-2 border-gray-200 hover:border-orange-500 hover:text-orange-600 font-semibold px-8 py-4 rounded-full transition-all hover:shadow-md"
           >
             Contact Support

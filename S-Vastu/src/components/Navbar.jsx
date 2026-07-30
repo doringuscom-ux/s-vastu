@@ -64,8 +64,8 @@ export default function Navbar() {
           <nav className="hidden md:flex space-x-8 lg:space-x-10 items-center">
             {['Home', 'About', 'Services', 'Gallery', 'Locations', 'Blog', 'Contact'].map((item) => {
               const isRoute = true;
-              const routePath = item === 'Home' ? '/' : item === 'About' ? '/about-us' : `/${item.toLowerCase()}`;
-              const hashPath = item === 'About' ? '/#about-us' : `/#${item.toLowerCase()}`;
+              const routePath = item === 'Home' ? '/' : item === 'About' ? '/about-us' : item === 'Contact' ? '/contact-us' : `/${item.toLowerCase()}`;
+              const hashPath = item === 'About' ? '/#about-us' : item === 'Contact' ? '/#contact-us' : `/#${item.toLowerCase()}`;
 
               if (isRoute) {
                 return (
@@ -115,8 +115,8 @@ export default function Navbar() {
           </p>
           {['Home', 'About', 'Services', 'Gallery', 'Locations', 'Blog', 'Contact'].map((item) => {
             const isRoute = true;
-            const routePath = item === 'Home' ? '/' : item === 'About' ? '/about-us' : `/${item.toLowerCase()}`;
-            const hashPath = item === 'About' ? '/#about-us' : `/#${item.toLowerCase()}`;
+            const routePath = item === 'Home' ? '/' : item === 'About' ? '/about-us' : item === 'Contact' ? '/contact-us' : `/${item.toLowerCase()}`;
+            const hashPath = item === 'About' ? '/#about-us' : item === 'Contact' ? '/#contact-us' : `/#${item.toLowerCase()}`;
 
             if (isRoute) {
               return (

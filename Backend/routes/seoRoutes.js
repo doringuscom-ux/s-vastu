@@ -20,12 +20,12 @@ router.get('/metadata', async (req, res) => {
     if (parts.length === 0) {
       const data = await Seo.findOne({ pageName: 'home' });
       if (data) seoResponse = data;
-    } else if (['about-us', 'services', 'gallery', 'contact'].includes(parts[0])) {
+    } else if (['about-us', 'services', 'gallery', 'contact-us'].includes(parts[0])) {
       const pageMap = {
         'about-us': 'about',
         'services': 'services',
         'gallery': 'gallery',
-        'contact': 'contact'
+        'contact-us': 'contact'
       };
       const data = await Seo.findOne({ pageName: pageMap[parts[0]] });
       if (data) seoResponse = data;
