@@ -55,12 +55,12 @@ const updatePage = async (req, res) => {
       page.title = title || page.title;
       page.slug = slug || page.slug;
       page.country = country !== undefined ? country : page.country;
-      page.metaTitle = metaTitle || page.metaTitle;
-      page.metaDescription = metaDescription || page.metaDescription;
-      page.metaKeywords = metaKeywords || page.metaKeywords;
-      page.metaCanonical = metaCanonical || page.metaCanonical;
-      page.metaRobots = metaRobots || page.metaRobots;
-      page.customText = customText || page.customText;
+      page.metaTitle = metaTitle !== undefined ? metaTitle : page.metaTitle;
+      page.metaDescription = metaDescription !== undefined ? metaDescription : page.metaDescription;
+      page.metaKeywords = metaKeywords !== undefined ? metaKeywords : page.metaKeywords;
+      page.metaCanonical = metaCanonical !== undefined ? metaCanonical : page.metaCanonical;
+      page.metaRobots = metaRobots !== undefined ? metaRobots : page.metaRobots;
+      page.customText = customText !== undefined ? customText : page.customText;
 
       const updatedPage = await page.save();
       res.json(updatedPage);
