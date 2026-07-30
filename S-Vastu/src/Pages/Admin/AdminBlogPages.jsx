@@ -31,6 +31,18 @@ export default function AdminBlogPages() {
     metaRobots: 'index, follow'
   });
 
+  const editorComponent = React.useMemo(() => (
+    <JoditEditor
+      value={formData.content || ''}
+      config={{
+        readonly: false,
+        placeholder: 'Write your blog content here...',
+        height: 400,
+      }}
+      onBlur={(newContent) => setFormData(prev => ({ ...prev, content: newContent }))}
+    />
+  ), [editingBlog?._id]);
+
   const getAuthHeaders = () => {
     const token = localStorage.getItem('adminToken');
     return { headers: { Authorization: `Bearer ${token}` } };
@@ -338,17 +350,7 @@ export default function AdminBlogPages() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Content * (HTML allowed)</label>
-                  {React.useMemo(() => (
-                    <JoditEditor
-                      value={formData.content || ''}
-                      config={{
-                        readonly: false,
-                        placeholder: 'Write your blog content here...',
-                        height: 400,
-                      }}
-                      onBlur={(newContent) => setFormData(prev => ({ ...prev, content: newContent }))}
-                    />
-                  ), [editingBlog?._id])}
+                  {editorComponent}
                 </div>
 
                 <div className="flex items-center gap-2">

@@ -22,7 +22,7 @@ export default function SingleBlogPage() {
         // Fetch all blogs for the sidebar (recent posts, categories)
         const { data: blogsList } = await axios.get(BLOGS_API);
         setAllBlogs(blogsList);
-        
+
         setLoading(false);
       } catch (err) {
         setError('Blog not found');
@@ -40,7 +40,7 @@ export default function SingleBlogPage() {
 
   // Get recent 3 posts excluding current
   const recentPosts = allBlogs.filter(b => b._id !== blog?._id).slice(0, 3);
-  
+
   // Get unique categories
   const categories = [...new Set(allBlogs.map(b => b.category).filter(Boolean))];
 
@@ -79,10 +79,10 @@ export default function SingleBlogPage() {
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
         <div className="absolute right-0 top-0 w-1/3 h-full bg-[#D4AF37]/10 skew-x-12 transform origin-bottom"></div>
-        
+
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="max-w-3xl">
+            <div className="w-full">
               {/* Breadcrumb */}
               <div className="flex items-center text-xs md:text-sm text-gray-400 font-medium mb-4 overflow-x-auto whitespace-nowrap">
                 <Link to="/" className="hover:text-white transition-colors">Home</Link>
@@ -91,11 +91,11 @@ export default function SingleBlogPage() {
                 <ChevronRight className="w-3 h-3 mx-2 opacity-50" />
                 <span className="text-[#D4AF37] truncate max-w-[150px] sm:max-w-xs">{blog.category || 'Article'}</span>
               </div>
-              
+
               <h1 className="text-3xl md:text-5xl font-black leading-tight tracking-tight mb-6">
                 {blog.title}
               </h1>
-              
+
               {/* Meta details */}
               <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-xs md:text-sm text-gray-300 font-medium">
                 <div className="flex items-center gap-1.5">
@@ -125,16 +125,16 @@ export default function SingleBlogPage() {
       {/* 2. Main Content & Sidebar Layout */}
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-12 md:py-16">
         <div className="flex flex-col lg:flex-row gap-12">
-          
+
           {/* LEFT: Blog Content Area (70%) */}
           <div className="lg:w-[70%]">
-            
+
             {/* Cover Image */}
             {blog.coverImage && (
               <div className="mb-10 rounded-2xl overflow-hidden shadow-xl">
-                <img 
-                  src={blog.coverImage} 
-                  alt={blog.title} 
+                <img
+                  src={blog.coverImage}
+                  alt={blog.title}
                   className="w-full max-h-[500px] object-cover hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -148,8 +148,8 @@ export default function SingleBlogPage() {
             )}
 
             {/* Article Body */}
-            <article className="vastu-article mb-12">
-              <div dangerouslySetInnerHTML={{ __html: blog.content }} />
+            <article className="vastu-article mb-8">
+              <div dangerouslySetInnerHTML={{ __html: blog.content?.replace(/(<p>(\s|&nbsp;|<br\s*\/?>)*<\/p>\s*)+$/gi, '') }} />
             </article>
 
             {/* Share Footer */}
@@ -157,14 +157,14 @@ export default function SingleBlogPage() {
               <div className="flex items-center gap-4">
                 <span className="font-bold text-gray-900">Share this wisdom:</span>
                 <button onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`, '_blank')} className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-colors">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
                 </button>
                 <button onClick={() => window.open(`https://twitter.com/intent/tweet?url=${window.location.href}&text=${blog.title}`, '_blank')} className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-colors">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.52 8.52 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"></path></svg>
                 </button>
               </div>
             </div>
-            
+
             {/* Author Block */}
             <div className="bg-[#FFF9EB] p-8 rounded-2xl mt-12 flex flex-col md:flex-row gap-6 items-center md:items-start border border-[#D4AF37]/20 shadow-sm">
               <div className="w-20 h-20 bg-gray-900 text-[#D4AF37] flex items-center justify-center font-black text-3xl rounded-full shrink-0 shadow-md">
@@ -185,15 +185,15 @@ export default function SingleBlogPage() {
 
           {/* RIGHT: Sidebar (30%) */}
           <div className="lg:w-[30%]">
-            <div className="sticky top-28 space-y-8">
-              
+            <div className="sticky top-28 space-y-8 max-h-[calc(100vh-7rem)] overflow-y-auto pb-4 scrollbar-hide">
+
               {/* Search Widget */}
               <div className="bg-slate-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
                 <h3 className="font-bold text-lg text-gray-900 mb-4 border-b-2 border-[#D4AF37] pb-2 inline-block">Search Blog</h3>
                 <div className="relative mt-2">
-                  <input 
-                    type="text" 
-                    placeholder="Search articles..." 
+                  <input
+                    type="text"
+                    placeholder="Search articles..."
                     className="w-full bg-white border border-gray-200 rounded-xl py-3 pl-4 pr-10 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-shadow"
                   />
                   <Search className="w-5 h-5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2" />
@@ -250,7 +250,7 @@ export default function SingleBlogPage() {
               <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl text-white text-center shadow-lg relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-[#D4AF37]/10 rounded-full blur-2xl"></div>
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-orange-500/10 rounded-full blur-2xl"></div>
-                
+
                 <h3 className="font-bold text-2xl mb-3 relative z-10">Vastu Consultation</h3>
                 <p className="text-gray-300 text-sm mb-8 leading-relaxed relative z-10">Balance the energies of your home or office. Connect with our experts today.</p>
                 <Link to="/contact-us" className="block w-full bg-[#D4AF37] hover:bg-[#B8860B] py-3.5 rounded-xl font-bold uppercase tracking-wider text-sm transition-colors mb-4 relative z-10 text-white shadow-md">
