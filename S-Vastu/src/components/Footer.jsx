@@ -59,7 +59,7 @@ export default function Footer() {
               {['Home', 'About Us', 'Services', 'Locations', 'Blog'].map((link) => {
                 let linkPath = link.toLowerCase().replace(' ', '-');
                 if (link === 'Home') linkPath = '';
-                if (link === 'About Us') linkPath = 'about';
+                if (link === 'About Us') linkPath = 'about-us';
 
                 return (
                   <li key={link}>

@@ -318,7 +318,7 @@ export default function LocationsPage() {
                         show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 300, damping: 24 } }
                       }}>
                         <Link 
-                          to={`/city/${cityName}`}
+                          to={`/${cityName}`}
                           className={`group relative bg-gradient-to-br ${palette.card} rounded-3xl p-5 border ${palette.border} transition-all duration-300 flex flex-col items-center justify-center text-center h-48 overflow-hidden transform hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_${palette.shadow}] block`}
                         >
                           {/* Decorative Rings */}
@@ -336,7 +336,7 @@ export default function LocationsPage() {
                           
                           {/* City Name */}
                           <span className={`font-bold text-gray-800 text-base sm:text-lg group-hover:${palette.text} transition-all duration-300 z-10 relative`}>
-                            {formattedName}
+                            {loc.title || formattedName}
                           </span>
 
                           {/* View Services pill */}

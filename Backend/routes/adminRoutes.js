@@ -3,10 +3,10 @@ const router = express.Router();
 const Admin = require('../models/Admin');
 const jwt = require('jsonwebtoken');
 
-// Generate Access Token (15 minutes)
+// Generate Access Token (30 days)
 const generateAccessToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '15m',
+    expiresIn: '30d',
   });
 };
 

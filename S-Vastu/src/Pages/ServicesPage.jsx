@@ -88,7 +88,7 @@ export default function ServicesPage() {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="/about"
+              href="/about-us"
               className="inline-block border-2 border-[#D4AF37] text-[#B8860B] font-semibold text-lg px-10 py-3.5 rounded-full hover:bg-[#D4AF37]/5 transition-all"
             >
               About Us

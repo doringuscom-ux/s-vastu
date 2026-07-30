@@ -31,9 +31,15 @@ app.use('/api/seo', seoRoutes);
 app.use('/api/youtube', youtubeRoutes);
 app.use('/sitemap.xml', sitemapRoutes);
 
-app.get('/', (req, res) => {
-  res.send('S-Vastu Backend is running...');
-});
+const path = require('path');
+const seoInjector = require('./utils/seoInjector');
+
+// Serve frontend static files from the React build directory
+app.use(express.static(path.join(__dirname, '../S-Vastu/dist'), { index: false }));
+
+// Catch-all route to serve the React app and inject SEO metadata
+// Using Regex for Express 5 compatibility
+app.get(/.*/, seoInjector);
 
 const PORT = process.env.PORT || 5000;
 

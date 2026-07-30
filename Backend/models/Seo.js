@@ -25,6 +25,14 @@ const seoSchema = new mongoose.Schema({
   scriptTags: {
     type: String,
     default: ''
+  },
+  canonical: {
+    type: String,
+    default: ''
+  },
+  robots: {
+    type: String,
+    default: 'index, follow'
   }
 }, { timestamps: true });
 

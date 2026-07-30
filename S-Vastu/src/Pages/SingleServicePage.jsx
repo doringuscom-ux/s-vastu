@@ -1,11 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { Home, Building2, Factory, Hash, Monitor, Map, ArrowLeft, CheckCircle2, Phone, Calendar, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 // Using the same data structure from Services.jsx but enriched with more details
 const servicesData = {
-  'residential-vastu': {
+  'vastu-solution': {
+    title: 'Vastu Solution',
+    icon: <Star className="w-12 h-12 text-white" />,
+    shortDesc: 'Expert solutions for your home and office to positively influence the energy sources of the universe.',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop',
+    overview: 'At S-Vastu Solution, we offer expert consulting to balance the five natural elements in your living or working spaces. Our mission is to align your environment with cosmic energies, ensuring harmony, financial success, and emotional well-being.',
+    benefits: [
+      'Enhanced Health and Vitality',
+      'Improved Financial Stability',
+      'Harmonious Relationships',
+      'Increased Productivity and Success',
+      'Spiritual and Mental Clarity'
+    ],
+    features: [
+      { title: 'Energy Alignment', desc: 'Balancing the 5 natural elements.' },
+      { title: 'Detailed Analysis', desc: 'In-depth study of your property layout.' },
+      { title: 'Space Optimization', desc: 'Proper placement for maximum positivity.' },
+      { title: 'Custom Remedies', desc: 'Personalized solutions for your space.' }
+    ]
+  },
+  'vastu-for-house': {
     title: 'Residential Vastu',
     icon: <Home className="w-12 h-12 text-white" />,
     shortDesc: 'Harmonize your home to attract health, wealth, and family peace.',
@@ -23,7 +43,7 @@ const servicesData = {
       { title: 'Bedroom Vastu', desc: 'Ensuring restful sleep and strong relationships.' }
     ]
   },
-  'commercial-vastu': {
+  'vastu-for-office': {
     title: 'Commercial Vastu',
     icon: <Building2 className="w-12 h-12 text-white" />,
     shortDesc: 'Boost your business growth, employee productivity, and client retention.',
@@ -59,7 +79,7 @@ const servicesData = {
       { title: 'Finished Goods', desc: 'Accelerating sales and dispatch.' }
     ]
   },
-  'numerology-integration': {
+  'numerology': {
     title: 'Numerology Integration',
     icon: <Hash className="w-12 h-12 text-white" />,
     shortDesc: 'Combine the power of your numbers with Vastu for personalized remedies.',
@@ -121,16 +141,16 @@ export default function SingleServicePage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // In a real app, this might fetch from an API
+    // Remove fallback to vastu-for-house and handle invalid slug
     if (slug && servicesData[slug]) {
       setService(servicesData[slug]);
     } else {
-      // Fallback for demo if exact slug isn't found
-      setService(servicesData['residential-vastu']);
+      setService('not-found');
     }
   }, [slug]);
 
   if (!service) return null;
+  if (service === 'not-found') return <Navigate to="/404" replace />;
 
   return (
     <div className="bg-gray-50 min-h-screen font-sans">
@@ -141,7 +161,7 @@ export default function SingleServicePage() {
           <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-gray-900/60"></div>
         </div>
         
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4 mt-16">
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-4 mt-32 md:mt-40">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -213,16 +233,16 @@ export default function SingleServicePage() {
                   </ul>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <h3 className="text-xl font-bold text-gray-900 mb-4">Our Approach</h3>
                   {service.features.map((feature, idx) => (
-                    <div key={idx} className="flex gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center shrink-0 border border-[#D4AF37]/20">
-                        <span className="text-[#B8860B] font-bold text-lg">{idx + 1}</span>
+                    <div key={idx} className="flex gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center shrink-0 border border-[#D4AF37]/20">
+                        <span className="text-[#B8860B] font-bold">{idx + 1}</span>
                       </div>
-                      <div>
-                        <h4 className="font-bold text-gray-900">{feature.title}</h4>
-                        <p className="text-sm text-gray-500 mt-1">{feature.desc}</p>
+                      <div className="flex-1 mt-0.5">
+                        <h4 className="font-bold text-gray-900 text-sm md:text-base">{feature.title}</h4>
+                        <p className="text-xs md:text-sm text-gray-500 mt-0.5 leading-relaxed">{feature.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -262,7 +282,7 @@ export default function SingleServicePage() {
                   return (
                     <Link 
                       key={key} 
-                      to={`/services/${key}`}
+                      to={`/${key}`}
                       className="group flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition-colors"
                     >
                       <span className="text-gray-600 group-hover:text-[#B8860B] font-medium transition-colors">

@@ -1,19 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Home, Building2, Factory, Hash, Monitor, Map } from 'lucide-react';
+import { Home, Building2, Factory, Hash, Monitor, Map, Star } from 'lucide-react';
 import numerologyImg from '../assets/7 nume.webp';
 
 export default function Services({ hideHeader = false, layout = 'grid' }) {
   const services = [
     {
-      slug: "residential-vastu",
+      slug: "vastu-solution",
+      icon: <Star className="w-10 h-10 text-white" />,
+      title: "Vastu Solution",
+      description: "Expert solutions for your home and office to positively influence the energy sources of the universe for harmony and prosperity.",
+      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      slug: "vastu-for-house",
       icon: <Home className="w-10 h-10 text-white" />,
       title: "Residential Vastu",
       description: "Harmonize your home to attract health, wealth, and family peace. We analyze the placement of bedrooms, kitchens, and entrances to ensure optimal cosmic flow.",
       image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=800&auto=format&fit=crop"
     },
     {
-      slug: "commercial-vastu",
+      slug: "vastu-for-office",
       icon: <Building2 className="w-10 h-10 text-white" />,
       title: "Commercial Vastu",
       description: "Boost your business growth, employee productivity, and client retention by aligning your office, shop, or showroom with powerful Vastu principles.",
@@ -27,7 +34,7 @@ export default function Services({ hideHeader = false, layout = 'grid' }) {
       image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop"
     },
     {
-      slug: "numerology-integration",
+      slug: "numerology",
       icon: <Hash className="w-10 h-10 text-white" />,
       title: "Numerology Integration",
       description: "Combine the power of your numbers with Vastu. We provide personalized remedies based on your date of birth and planetary alignments.",
@@ -87,7 +94,7 @@ export default function Services({ hideHeader = false, layout = 'grid' }) {
                 </p>
 
                 {/* Action Link */}
-                <Link to={`/services/${service.slug}`} className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-[#B8860B] group-hover:text-[#D4AF37] transition-colors duration-300 cursor-pointer">
+                <Link to={`/${service.slug}`} className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-[#B8860B] group-hover:text-[#D4AF37] transition-colors duration-300 cursor-pointer">
                   <span>Read More</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                 </Link>
@@ -123,7 +130,7 @@ export default function Services({ hideHeader = false, layout = 'grid' }) {
                       {service.description}
                     </p>
 
-                    <Link to={`/services/${service.slug}`} className="mt-auto flex items-center gap-2 text-sm font-bold text-[#B8860B] cursor-pointer w-fit border-b border-[#D4AF37]/30 pb-1 hover:border-[#D4AF37] transition-all duration-300">
+                    <Link to={`/${service.slug}`} className="mt-auto flex items-center gap-2 text-sm font-bold text-[#B8860B] cursor-pointer w-fit border-b border-[#D4AF37]/30 pb-1 hover:border-[#D4AF37] transition-all duration-300">
                       <span>Explore Service</span>
                       <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </Link>

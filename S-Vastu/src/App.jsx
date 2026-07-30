@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet, useParams } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -13,6 +13,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 import AirflowVastuChakra from './components/AirflowVastuChakra';
+import VastuChakra from './components/VastuChakra';
 import CoreValues from './components/CoreValues';
 import Founders from './components/Founders';
 import AboutPage from './Pages/AboutPage';
@@ -36,6 +37,24 @@ import AdminSeoManager from './Pages/Admin/AdminSeoManager';
 import { Navigate } from 'react-router-dom';
 import SeoMeta from './components/SeoMeta';
 
+function DynamicRouteResolver() {
+  const { slug } = useParams();
+  const serviceSlugs = [
+    'vastu-solution',
+    'vastu-for-house',
+    'vastu-for-office',
+    'industrial-vastu',
+    'numerology',
+    'astrology',
+    'vastu-for-land'
+  ];
+
+  if (serviceSlugs.includes(slug)) {
+    return <SingleServicePage />;
+  }
+  return <CityPage />;
+}
+
 function Home() {
   return (
     <>
@@ -47,6 +66,7 @@ function Home() {
       <Founders />
       <Services />
       <AirflowVastuChakra />
+      <VastuChakra />
       <Gallery limit={6} />
       <InstagramFeed />
       <Testimonials />
@@ -77,18 +97,20 @@ function App() {
           {/* Public Routes wrapped in PublicLayout */}
           <Route path="/" element={<PublicLayout />}>
             <Route index element={<Home />} />
-            <Route path="about" element={<AboutPage />} />
+            <Route path="about-us" element={<AboutPage />} />
             <Route path="services" element={<ServicesPage />} />
-            <Route path="services/:slug" element={<SingleServicePage />} />
+            
+            {/* Dynamic slug resolver for both services and city pages */}
+            <Route path=":slug" element={<DynamicRouteResolver />} />
+            
             <Route path="gallery" element={<GalleryPage />} />
             <Route path="blog" element={<BlogPage />} />
             <Route path="blog/:slug" element={<SingleBlogPage />} />
             <Route path="contact" element={<ContactPage />} />
             <Route path="locations" element={<LocationsPage />} />
-            <Route path="city/:cityName" element={<CityPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
-          
+
           {/* Admin Auth Routes (No public Navbar/Footer) */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>

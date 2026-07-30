@@ -5,7 +5,7 @@ import { SEO_API, PAGES_API, BLOGS_API } from '../../utils/api';
 
 const STATIC_PAGE_DEFAULTS = [
   { _id: 'home', title: 'Home Page', slug: '/', metaTitle: '', metaDescription: '', isStatic: true },
-  { _id: 'about', title: 'About Page', slug: '/about', metaTitle: '', metaDescription: '', isStatic: true },
+  { _id: 'about', title: 'About Page', slug: '/about-us', metaTitle: '', metaDescription: '', isStatic: true },
   { _id: 'services', title: 'Services Page', slug: '/services', metaTitle: '', metaDescription: '', isStatic: true },
   { _id: 'gallery', title: 'Gallery Page', slug: '/gallery', metaTitle: '', metaDescription: '', isStatic: true },
   { _id: 'contact', title: 'Contact Page', slug: '/contact', metaTitle: '', metaDescription: '', isStatic: true },
@@ -70,6 +70,8 @@ export default function AdminSeoManager() {
               metaTitle: found.title || '',
               metaDescription: found.description || '',
               metaKeywords: found.keywords || '',
+              metaCanonical: found.canonical || '',
+              metaRobots: found.robots || 'index, follow',
               ogImage: found.ogImage || '',
               scriptTags: found.scriptTags || ''
             };
@@ -100,11 +102,27 @@ export default function AdminSeoManager() {
 
   const handleEdit = (item) => {
     setEditingItem(item);
+    
+    // Auto-generate canonical URL if it's empty
+    let autoCanonical = item.metaCanonical || '';
+    if (!autoCanonical) {
+      const baseUrl = window.location.origin;
+      let path = '';
+      if (activeTab === 'City Pages') {
+        path = `/${item.slug}`;
+      } else if (activeTab === 'Blogs') {
+        path = `/blog/${item.slug}`;
+      } else if (activeTab === 'Static Pages') {
+        path = item.slug === '/' ? '' : item.slug;
+      }
+      autoCanonical = `${baseUrl}${path}`;
+    }
+
     setFormData({
       metaTitle: item.metaTitle || '',
       metaDescription: item.metaDescription || '',
       metaKeywords: item.metaKeywords || '',
-      metaCanonical: item.metaCanonical || '',
+      metaCanonical: autoCanonical,
       metaRobots: item.metaRobots || 'index, follow',
       ogImage: item.ogImage || '',
       scriptTags: item.scriptTags || ''
@@ -153,6 +171,8 @@ export default function AdminSeoManager() {
         submitData.append('description', formData.metaDescription);
         submitData.append('keywords', formData.metaKeywords);
         submitData.append('scriptTags', formData.scriptTags);
+        submitData.append('canonical', formData.metaCanonical);
+        submitData.append('robots', formData.metaRobots);
         
         if (imageFile) {
           submitData.append('ogImageFile', imageFile);
@@ -241,7 +261,7 @@ export default function AdminSeoManager() {
                   <tr key={item._id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-4 font-semibold text-gray-900">{item.title}</td>
                     <td className="px-6 py-4 font-mono text-gray-500 text-xs">
-                      {activeTab === 'City Pages' ? `/city/${item.slug}` : 
+                      {activeTab === 'City Pages' ? `/${item.slug}` : 
                        activeTab === 'Blogs' ? `/blog/${item.slug}` : 
                        item.slug}
                     </td>
@@ -337,32 +357,30 @@ export default function AdminSeoManager() {
                   <p className="text-xs text-gray-500 mt-1.5">Comma separated list of keywords.</p>
                 </div>
 
-                {/* Only show these advanced fields for City Pages and Blogs */}
-                {activeTab !== 'Static Pages' && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">Canonical URL</label>
-                      <input
-                        type="text"
-                        name="metaCanonical"
-                        value={formData.metaCanonical}
-                        onChange={handleInputChange}
-                        placeholder="https://..."
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">Meta Robots</label>
-                      <input
-                        type="text"
-                        name="metaRobots"
-                        value={formData.metaRobots}
-                        onChange={handleInputChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                      />
-                    </div>
+                {/* Advanced fields for all pages */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Canonical URL</label>
+                    <input
+                      type="text"
+                      name="metaCanonical"
+                      value={formData.metaCanonical}
+                      onChange={handleInputChange}
+                      placeholder="https://..."
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                    />
                   </div>
-                )}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Meta Robots</label>
+                    <input
+                      type="text"
+                      name="metaRobots"
+                      value={formData.metaRobots}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                    />
+                  </div>
+                </div>
 
                 {/* Static pages specific (OG Image & Scripts) */}
                 {activeTab === 'Static Pages' && (

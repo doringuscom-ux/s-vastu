@@ -27,6 +27,18 @@ export default function AdminCityPages() {
     fetchPages();
   }, []);
 
+  const editorComponent = React.useMemo(() => (
+    <JoditEditor
+      value={formData.customText || ''}
+      config={{
+        readonly: false,
+        placeholder: 'Customized welcoming text for this city...',
+        height: 300,
+      }}
+      onBlur={(newContent) => setFormData(prev => ({ ...prev, customText: newContent }))}
+    />
+  ), [editingId]);
+
   const fetchPages = async () => {
     try {
       const response = await axios.get(API_URL);
@@ -189,15 +201,7 @@ export default function AdminCityPages() {
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Custom Hero Text (optional)</label>
                 <div className="border border-gray-300 rounded overflow-hidden">
-                  <JoditEditor
-                    value={formData.customText}
-                    config={{
-                      readonly: false,
-                      placeholder: 'Customized welcoming text for this city...',
-                      height: 300,
-                    }}
-                    onBlur={(newContent) => handleInputChange({ target: { name: 'customText', value: newContent } })}
-                  />
+                  {editorComponent}
                 </div>
               </div>
             </div>
@@ -253,8 +257,8 @@ export default function AdminCityPages() {
                     <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{page.title}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-500">{page.country || '-'}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-500">
-                      <a href={`/city/${page.slug}`} target="_blank" rel="noreferrer" className="text-orange-500 hover:underline">
-                        /city/{page.slug}
+                      <a href={`/${page.slug}`} target="_blank" rel="noreferrer" className="text-orange-500 hover:underline">
+                        /{page.slug}
                       </a>
                     </td>
                     <td className="px-6 py-4 text-gray-500 truncate max-w-xs">{page.metaTitle}</td>

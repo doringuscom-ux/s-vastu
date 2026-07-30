@@ -30,6 +30,9 @@ export default function SeoMeta({ pageName }) {
       {seoData.description && <meta property="og:description" content={seoData.description} />}
       {seoData.ogImage && <meta property="og:image" content={seoData.ogImage} />}
 
+      {seoData.canonical && <link rel="canonical" href={seoData.canonical} />}
+      {seoData.robots && <meta name="robots" content={seoData.robots} />}
+
       {/* Render custom scripts if any are provided */}
       {seoData.scriptTags && (
         <script type="text/javascript">

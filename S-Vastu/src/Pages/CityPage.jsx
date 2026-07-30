@@ -12,10 +12,12 @@ import Testimonials from '../components/Testimonials';
 import Contact from '../components/Contact';
 import AirflowVastuChakra from '../components/AirflowVastuChakra';
 import YoutubeShorts from '../components/YoutubeShorts';
+import NotFoundPage from './NotFoundPage';
 
 function CityHero({ city, customText, country }) {
-  const formattedCity = city 
-    ? city.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
+  const cleanCitySlug = city ? city.replace(/^(experienced-)?vastu-consultant-in-/i, '') : '';
+  const formattedCity = cleanCitySlug 
+    ? cleanCitySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
     : 'Your City';
 
   return (
@@ -64,7 +66,8 @@ function CityHero({ city, customText, country }) {
 }
 
 export default function CityPage() {
-  const { cityName } = useParams();
+  const { cityName, slug } = useParams();
+  const actualCityName = cityName || slug;
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -72,12 +75,11 @@ export default function CityPage() {
   useEffect(() => {
     const fetchPageData = async () => {
       try {
-        const { data } = await axios.get(`${PAGES_API}/${cityName}`);
+        const { data } = await axios.get(`${PAGES_API}/${actualCityName}`);
         setPageData(data);
       } catch (err) {
         console.error('Page SEO data not found for this city.');
-        // We don't set error to true here to allow rendering a default city page even if backend data is missing
-        // setError(true);
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -85,21 +87,25 @@ export default function CityPage() {
     
     fetchPageData();
     window.scrollTo(0, 0);
-  }, [cityName]);
+  }, [actualCityName]);
 
   if (loading) {
-    return <div className="min-h-screen pt-32 text-center text-xl font-bold">Loading {cityName}...</div>;
+    return <div className="min-h-screen pt-32 text-center text-xl font-bold">Loading {actualCityName}...</div>;
   }
 
-  const formattedCity = cityName 
-    ? cityName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
+  if (error) {
+    return <NotFoundPage />;
+  }
+
+  const formattedCity = actualCityName 
+    ? actualCityName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
     : 'Your City';
 
   const metaTitle = pageData?.metaTitle || `Best Vastu Consultant & Astrologer in ${formattedCity} | S-Vastu`;
   const metaDescription = pageData?.metaDescription || `Looking for expert Vastu and Astrology services in ${formattedCity}? S-Vastu offers personalized consultations for home, business, and numerology.`;
   const metaKeywords = pageData?.metaKeywords || `vastu consultant ${formattedCity}, best astrologer ${formattedCity}, numerology ${formattedCity}`;
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://s-vastu.com';
-  const metaCanonical = pageData?.metaCanonical || `${baseUrl}/city/${cityName}`;
+  const metaCanonical = pageData?.metaCanonical || `${baseUrl}/${actualCityName}`;
   const metaRobots = pageData?.metaRobots || 'index, follow';
 
   return (
@@ -112,7 +118,7 @@ export default function CityPage() {
         <meta name="robots" content={metaRobots} />
       </Helmet>
 
-      <CityHero city={cityName} customText={pageData?.customText} country={pageData?.country} />
+      <CityHero city={actualCityName} customText={pageData?.customText} country={pageData?.country} />
       
       <About />
       <CoreValues />
