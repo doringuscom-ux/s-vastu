@@ -153,7 +153,7 @@ export default function AdminSeoManager() {
 
     try {
       if (activeTab === 'City Pages') {
-        await axios.put(`${PAGES_API}/${editingItem._id}`, formData);
+        await axios.put(`${PAGES_API}/${editingItem._id}`, formData, getAuthHeaders());
       } else if (activeTab === 'Blogs') {
         const submitData = new FormData();
         // Blogs API requires title, slug, content to update, wait! 
@@ -164,7 +164,7 @@ export default function AdminSeoManager() {
         await axios.put(`${BLOGS_API}/${editingItem._id}`, {
           ...editingItem,
           ...formData
-        });
+        }, getAuthHeaders());
       } else if (activeTab === 'Static Pages') {
         const submitData = new FormData();
         submitData.append('title', formData.metaTitle);
