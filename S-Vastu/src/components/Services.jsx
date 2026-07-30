@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Home, Building2, Factory, Hash, Monitor, Map, Star } from 'lucide-react';
 import numerologyImg from '../assets/7 nume.webp';
 
-export default function Services({ hideHeader = false, layout = 'grid' }) {
+export default function Services({ hideHeader = false, layout = 'grid', showAllServices = false }) {
   const services = [
     {
       slug: "vastu-solution",
@@ -56,6 +56,11 @@ export default function Services({ hideHeader = false, layout = 'grid' }) {
     }
   ];
 
+  let displayedServices = services;
+  if (!showAllServices) {
+    displayedServices = services.filter(service => service.slug !== 'vastu-solution');
+  }
+
   return (
     <section id="services" className={`bg-slate-50 relative ${hideHeader ? 'py-5' : 'py-12'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -73,7 +78,7 @@ export default function Services({ hideHeader = false, layout = 'grid' }) {
 
         {layout === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {services.map((service, index) => (
+            {displayedServices.map((service, index) => (
               <div key={index} className="group bg-white p-8 border border-dashed border-gray-300 hover:border-[#D4AF37] transition-colors duration-300 flex flex-col items-center text-center h-full">
 
                 {/* Double Dotted Icon Container */}
@@ -104,7 +109,7 @@ export default function Services({ hideHeader = false, layout = 'grid' }) {
           </div>
         ) : (
           <div className="flex flex-col gap-8 lg:gap-12">
-            {services.map((service, index) => {
+            {displayedServices.map((service, index) => {
               const isEven = index % 2 === 0;
 
               return (

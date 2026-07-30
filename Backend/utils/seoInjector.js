@@ -18,7 +18,7 @@ const injectSEO = async (req, res, next) => {
     let metaTitle = 'S Vastu Solution - Expert Vastu Consultant';
     let metaDescription = 'Trusted Vastu Consultant in Zirakpur, Chandigarh. Expert in Residential, Commercial, and Industrial Vastu.';
     let metaKeywords = 'Vastu Consultant, S Vastu Solution, Chandigarh, Zirakpur, Numerology, Residential Vastu';
-    let metaCanonical = 'https://s-vastu.com' + req.path;
+    let metaCanonical = 'https://svastusolution.com' + req.path;
     let metaRobots = 'index, follow';
     let metaOgImage = '';
     let scriptTags = '';
@@ -108,14 +108,14 @@ const injectSEO = async (req, res, next) => {
     }
 
     // Inject data into HTML
-    htmlData = htmlData.replace(/<title>S-Vastu Solution<\/title>/g, `<title>${metaTitle}</title>`);
-    htmlData = htmlData.replace(/<meta name="description" content="S-Vastu Description" \/>/g, `<meta name="description" content="${metaDescription}" />`);
-    htmlData = htmlData.replace(/<meta name="keywords" content="S-Vastu Keywords" \/>/g, `<meta name="keywords" content="${metaKeywords}" />`);
-    htmlData = htmlData.replace(/<link rel="canonical" href="https:\/\/s-vastu.com" \/>/g, `<link rel="canonical" href="${metaCanonical}" />`);
-    htmlData = htmlData.replace(/<meta name="robots" content="index, follow" \/>/g, `<meta name="robots" content="${metaRobots}" />`);
-    htmlData = htmlData.replace(/<meta property="og:title" content="S-Vastu Solution" \/>/g, `<meta property="og:title" content="${metaTitle}" />`);
-    htmlData = htmlData.replace(/<meta property="og:description" content="S-Vastu Description" \/>/g, `<meta property="og:description" content="${metaDescription}" />`);
-    htmlData = htmlData.replace(/<meta property="og:image" content="" \/>/g, `<meta property="og:image" content="${metaOgImage}" />`);
+    htmlData = htmlData.replace(/<title data-rh="true">S-Vastu Solution<\/title>/g, `<title data-rh="true">${metaTitle}</title>`);
+    htmlData = htmlData.replace(/<meta data-rh="true" name="description" content="S-Vastu Description" \/>/g, `<meta data-rh="true" name="description" content="${metaDescription}" />`);
+    htmlData = htmlData.replace(/<meta data-rh="true" name="keywords" content="S-Vastu Keywords" \/>/g, `<meta data-rh="true" name="keywords" content="${metaKeywords}" />`);
+    htmlData = htmlData.replace(/<link data-rh="true" rel="canonical" href="https:\/\/svastusolution\.com" \/>/g, `<link data-rh="true" rel="canonical" href="${metaCanonical}" />`);
+    htmlData = htmlData.replace(/<meta data-rh="true" name="robots" content="index, follow" \/>/g, `<meta data-rh="true" name="robots" content="${metaRobots}" />`);
+    htmlData = htmlData.replace(/<meta data-rh="true" property="og:title" content="S-Vastu Solution" \/>/g, `<meta data-rh="true" property="og:title" content="${metaTitle}" />`);
+    htmlData = htmlData.replace(/<meta data-rh="true" property="og:description" content="S-Vastu Description" \/>/g, `<meta data-rh="true" property="og:description" content="${metaDescription}" />`);
+    htmlData = htmlData.replace(/<meta data-rh="true" property="og:image" content="" \/>/g, `<meta data-rh="true" property="og:image" content="${metaOgImage}" />`);
     htmlData = htmlData.replace(/<!-- S-VASTU-SCRIPTS -->/g, scriptTags || '');
 
     return res.send(htmlData);

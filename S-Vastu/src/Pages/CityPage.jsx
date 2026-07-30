@@ -104,7 +104,7 @@ export default function CityPage() {
   const metaTitle = pageData?.metaTitle || `Best Vastu Consultant & Astrologer in ${formattedCity} | S-Vastu`;
   const metaDescription = pageData?.metaDescription || `Looking for expert Vastu and Astrology services in ${formattedCity}? S-Vastu offers personalized consultations for home, business, and numerology.`;
   const metaKeywords = pageData?.metaKeywords || `vastu consultant ${formattedCity}, best astrologer ${formattedCity}, numerology ${formattedCity}`;
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://s-vastu.com';
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://svastusolution.com';
   const metaCanonical = pageData?.metaCanonical || `${baseUrl}/${actualCityName}`;
   const metaRobots = pageData?.metaRobots || 'index, follow';
 

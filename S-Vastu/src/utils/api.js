@@ -1,7 +1,7 @@
 // Automatically switch to local backend if running on localhost to prevent CORS and deployment errors
 export const BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:5001'
-    : 'https://s-vastu.vercel.app';
+    : 'https://s-vastu.onrender.com';
 // API Endpoints
 export const API = `${BASE_URL}/api`;
 

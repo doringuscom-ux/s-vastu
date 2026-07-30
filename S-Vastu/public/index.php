@@ -7,13 +7,13 @@ $requestPath = $_SERVER['REQUEST_URI'] ?? '/';
 $pathOnly = parse_url($requestPath, PHP_URL_PATH);
 
 // UPDATE THIS URL to your actual Render backend URL when deploying!
-$apiUrl = "http://localhost:5001/api/seo/metadata?path=" . urlencode($pathOnly);
+$apiUrl = "https://s-vastu.onrender.com/api/seo/metadata?path=" . urlencode($pathOnly);
 
 // Default SEO values
 $metaTitle = 'S-Vastu Solution';
 $metaDescription = 'S-Vastu Description';
 $metaKeywords = 'S-Vastu Keywords';
-$metaCanonical = 'https://s-vastu.com';
+$metaCanonical = 'https://svastusolution.com';
 $metaRobots = 'index, follow';
 $metaOgImage = '';
 $scriptTags = '';
@@ -45,14 +45,14 @@ if (file_exists($htmlFilePath)) {
     $html = file_get_contents($htmlFilePath);
 
     // Replace standard tags (matching the ones in our built index.html)
-    $html = str_replace('<title>S-Vastu Solution</title>', '<title>' . htmlspecialchars($metaTitle) . '</title>', $html);
-    $html = str_replace('<meta name="description" content="S-Vastu Description" />', '<meta name="description" content="' . htmlspecialchars($metaDescription) . '" />', $html);
-    $html = str_replace('<meta name="keywords" content="S-Vastu Keywords" />', '<meta name="keywords" content="' . htmlspecialchars($metaKeywords) . '" />', $html);
-    $html = str_replace('<link rel="canonical" href="https://s-vastu.com" />', '<link rel="canonical" href="' . htmlspecialchars($metaCanonical) . '" />', $html);
-    $html = str_replace('<meta name="robots" content="index, follow" />', '<meta name="robots" content="' . htmlspecialchars($metaRobots) . '" />', $html);
-    $html = str_replace('<meta property="og:title" content="S-Vastu Solution" />', '<meta property="og:title" content="' . htmlspecialchars($metaTitle) . '" />', $html);
-    $html = str_replace('<meta property="og:description" content="S-Vastu Description" />', '<meta property="og:description" content="' . htmlspecialchars($metaDescription) . '" />', $html);
-    $html = str_replace('<meta property="og:image" content="" />', '<meta property="og:image" content="' . htmlspecialchars($metaOgImage) . '" />', $html);
+    $html = str_replace('<title data-rh="true">S-Vastu Solution</title>', '<title data-rh="true">' . htmlspecialchars($metaTitle) . '</title>', $html);
+    $html = str_replace('<meta data-rh="true" name="description" content="S-Vastu Description" />', '<meta data-rh="true" name="description" content="' . htmlspecialchars($metaDescription) . '" />', $html);
+    $html = str_replace('<meta data-rh="true" name="keywords" content="S-Vastu Keywords" />', '<meta data-rh="true" name="keywords" content="' . htmlspecialchars($metaKeywords) . '" />', $html);
+    $html = str_replace('<link data-rh="true" rel="canonical" href="https://svastusolution.com" />', '<link data-rh="true" rel="canonical" href="' . htmlspecialchars($metaCanonical) . '" />', $html);
+    $html = str_replace('<meta data-rh="true" name="robots" content="index, follow" />', '<meta data-rh="true" name="robots" content="' . htmlspecialchars($metaRobots) . '" />', $html);
+    $html = str_replace('<meta data-rh="true" property="og:title" content="S-Vastu Solution" />', '<meta data-rh="true" property="og:title" content="' . htmlspecialchars($metaTitle) . '" />', $html);
+    $html = str_replace('<meta data-rh="true" property="og:description" content="S-Vastu Description" />', '<meta data-rh="true" property="og:description" content="' . htmlspecialchars($metaDescription) . '" />', $html);
+    $html = str_replace('<meta data-rh="true" property="og:image" content="" />', '<meta data-rh="true" property="og:image" content="' . htmlspecialchars($metaOgImage) . '" />', $html);
     
     // Inject scripts
     if (!empty($scriptTags)) {

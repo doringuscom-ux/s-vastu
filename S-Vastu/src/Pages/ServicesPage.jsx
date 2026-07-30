@@ -63,7 +63,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Services Component */}
-      <Services hideHeader layout="zigzag" />
+      <Services hideHeader layout="zigzag" showAllServices={true} />
 
       {/* Call to Action */}
       <section className="py-16 bg-white border-t border-gray-100">
