@@ -111,7 +111,7 @@ export default function AdminSeoManager() {
       if (activeTab === 'City Pages') {
         path = `/${item.slug}`;
       } else if (activeTab === 'Blogs') {
-        path = `/blog/${item.slug}`;
+        path = `/${item.slug}`;
       } else if (activeTab === 'Static Pages') {
         path = item.slug === '/' ? '' : item.slug;
       }
@@ -262,7 +262,7 @@ export default function AdminSeoManager() {
                     <td className="px-6 py-4 font-semibold text-gray-900">{item.title}</td>
                     <td className="px-6 py-4 font-mono text-gray-500 text-xs">
                       {activeTab === 'City Pages' ? `/${item.slug}` : 
-                       activeTab === 'Blogs' ? `/blog/${item.slug}` : 
+                       activeTab === 'Blogs' ? `/${item.slug}` : 
                        item.slug}
                     </td>
                     <td className="px-6 py-4">

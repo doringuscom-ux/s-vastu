@@ -56,6 +56,19 @@ router.get('/metadata', async (req, res) => {
           canonical: pageData.metaCanonical || '',
           robots: pageData.metaRobots || ''
         };
+      } else {
+        // Check if it's a blog post
+        const blogData = await Blog.findOne({ slug: parts[0] });
+        if (blogData) {
+          seoResponse = {
+            title: blogData.metaTitle || blogData.title,
+            description: blogData.metaDescription || '',
+            keywords: blogData.metaKeywords || '',
+            canonical: blogData.metaCanonical || '',
+            robots: blogData.metaRobots || '',
+            ogImage: blogData.image || ''
+          };
+        }
       }
     }
 

@@ -36,6 +36,8 @@ import AdminContactPages from './Pages/Admin/AdminContactPages';
 import AdminSeoManager from './Pages/Admin/AdminSeoManager';
 import { Navigate } from 'react-router-dom';
 import SeoMeta from './components/SeoMeta';
+import { BLOGS_API } from './utils/api';
+import axios from 'axios';
 
 function DynamicRouteResolver() {
   const { slug } = useParams();
@@ -48,10 +50,25 @@ function DynamicRouteResolver() {
     'astrology',
     'vastu-for-land'
   ];
+  const [type, setType] = React.useState(null);
 
-  if (serviceSlugs.includes(slug)) {
-    return <SingleServicePage />;
-  }
+  React.useEffect(() => {
+    if (serviceSlugs.includes(slug)) {
+      setType('service');
+      return;
+    }
+    
+    // Check if it's a blog
+    axios.get(`${BLOGS_API}/${slug}`)
+      .then(() => setType('blog'))
+      .catch(() => {
+         setType('city');
+      });
+  }, [slug]);
+
+  if (!type) return <div className="min-h-screen pt-32 text-center text-xl font-bold">Loading...</div>;
+  if (type === 'service') return <SingleServicePage />;
+  if (type === 'blog') return <SingleBlogPage />;
   return <CityPage />;
 }
 
@@ -105,7 +122,6 @@ function App() {
             
             <Route path="gallery" element={<GalleryPage />} />
             <Route path="blog" element={<BlogPage />} />
-            <Route path="blog/:slug" element={<SingleBlogPage />} />
             <Route path="contact-us" element={<ContactPage />} />
             <Route path="locations" element={<LocationsPage />} />
             <Route path="*" element={<NotFoundPage />} />

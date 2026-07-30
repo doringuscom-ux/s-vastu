@@ -24,7 +24,6 @@ curl_setopt($ch, CURLOPT_URL, $apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_TIMEOUT, 3); // 3 seconds timeout
 $response = curl_exec($ch);
-curl_close($ch);
 
 if ($response) {
     $data = json_decode($response, true);

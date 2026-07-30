@@ -149,7 +149,7 @@ export default function SingleBlogPage() {
 
             {/* Article Body */}
             <article className="vastu-article mb-12">
-              <div dangerouslySetInnerHTML={{ __html: blog.content.replace(/\n/g, '<br/>') }} />
+              <div dangerouslySetInnerHTML={{ __html: blog.content }} />
             </article>
 
             {/* Share Footer */}
@@ -225,7 +225,7 @@ export default function SingleBlogPage() {
                   <h3 className="font-bold text-lg text-gray-900 mb-6 border-b-2 border-[#D4AF37] pb-2 inline-block">Recent Insights</h3>
                   <div className="space-y-6 mt-2">
                     {recentPosts.map((post) => (
-                      <Link to={`/blog/${post.slug || post._id}`} key={post._id} className="flex gap-4 group items-center">
+                      <Link to={`/${post.slug || post._id}`} key={post._id} className="flex gap-4 group items-center">
                         <div className="w-20 h-20 bg-gray-200 rounded-xl shrink-0 overflow-hidden shadow-sm">
                           {post.coverImage && (
                             <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Pencil, Trash2, Plus, X, Upload } from 'lucide-react';
+import JoditEditor from 'jodit-react';
 import { BLOGS_API } from '../../utils/api';
 
 const API_URL = BLOGS_API;
@@ -337,14 +338,17 @@ export default function AdminBlogPages() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Content * (HTML allowed)</label>
-                  <textarea
-                    name="content"
-                    value={formData.content}
-                    onChange={handleInputChange}
-                    required
-                    rows="8"
-                    className="w-full border border-gray-300 rounded p-2"
-                  ></textarea>
+                  {React.useMemo(() => (
+                    <JoditEditor
+                      value={formData.content || ''}
+                      config={{
+                        readonly: false,
+                        placeholder: 'Write your blog content here...',
+                        height: 400,
+                      }}
+                      onBlur={(newContent) => setFormData(prev => ({ ...prev, content: newContent }))}
+                    />
+                  ), [editingBlog?._id])}
                 </div>
 
                 <div className="flex items-center gap-2">

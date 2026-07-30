@@ -56,7 +56,7 @@ export default function Blog({ hideHeader = false, limit }) {
                 className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 flex flex-col group cursor-pointer"
                 whileHover={{ y: -8 }}
               >
-                <Link to={`/blog/${post.slug}`} className="flex flex-col h-full">
+                <Link to={`/${post.slug}`} className="flex flex-col h-full">
                   {/* Image */}
                   <div className="relative h-56 overflow-hidden">
                     <img
