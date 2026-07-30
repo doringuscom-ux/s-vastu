@@ -49,7 +49,7 @@ router.get('/:idOrSlug', async (req, res) => {
 // @desc    Create a new blog
 router.post('/', protect, upload.single('coverImageFile'), async (req, res) => {
   try {
-    const { title, slug, excerpt, content, category, author, isPublished, coverImageUrl } = req.body;
+    const { title, slug, excerpt, content, category, author, isPublished, coverImageUrl, metaTitle, metaDescription, metaKeywords, metaCanonical, metaRobots } = req.body;
     
     let coverImage = '';
     
@@ -70,7 +70,12 @@ router.post('/', protect, upload.single('coverImageFile'), async (req, res) => {
       coverImage,
       category: category || 'General',
       author: author || 'S-Vastu Solution',
-      isPublished: isPublished === 'false' ? false : true
+      isPublished: isPublished === 'false' ? false : true,
+      metaTitle: metaTitle || '',
+      metaDescription: metaDescription || '',
+      metaKeywords: metaKeywords || '',
+      metaCanonical: metaCanonical || '',
+      metaRobots: metaRobots || 'index, follow'
     });
 
     const savedBlog = await newBlog.save();
@@ -84,7 +89,7 @@ router.post('/', protect, upload.single('coverImageFile'), async (req, res) => {
 // @desc    Update a blog
 router.put('/:id', protect, upload.single('coverImageFile'), async (req, res) => {
   try {
-    const { title, slug, excerpt, content, category, author, isPublished, coverImageUrl } = req.body;
+    const { title, slug, excerpt, content, category, author, isPublished, coverImageUrl, metaTitle, metaDescription, metaKeywords, metaCanonical, metaRobots } = req.body;
     
     const blog = await Blog.findById(req.params.id);
 
@@ -96,6 +101,11 @@ router.put('/:id', protect, upload.single('coverImageFile'), async (req, res) =>
       if (category) blog.category = category;
       if (author) blog.author = author;
       if (isPublished !== undefined) blog.isPublished = isPublished === 'false' ? false : true;
+      if (metaTitle !== undefined) blog.metaTitle = metaTitle;
+      if (metaDescription !== undefined) blog.metaDescription = metaDescription;
+      if (metaKeywords !== undefined) blog.metaKeywords = metaKeywords;
+      if (metaCanonical !== undefined) blog.metaCanonical = metaCanonical;
+      if (metaRobots !== undefined) blog.metaRobots = metaRobots;
 
       if (req.file) {
         const uploadResult = await uploadOnCloudinary(req.file.path);

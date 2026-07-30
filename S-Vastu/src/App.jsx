@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Outlet, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Outlet, useParams, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -10,7 +11,6 @@ import InstagramFeed from './components/InstagramFeed';
 import Testimonials from './components/Testimonials';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
-import Footer from './components/Footer';
 
 import AirflowVastuChakra from './components/AirflowVastuChakra';
 import VastuChakra from './components/VastuChakra';
@@ -34,7 +34,6 @@ import AdminBlogPages from './Pages/Admin/AdminBlogPages';
 import AdminGalleryPages from './Pages/Admin/AdminGalleryPages';
 import AdminContactPages from './Pages/Admin/AdminContactPages';
 import AdminSeoManager from './Pages/Admin/AdminSeoManager';
-import { Navigate } from 'react-router-dom';
 import SeoMeta from './components/SeoMeta';
 import { BLOGS_API } from './utils/api';
 import axios from 'axios';
@@ -50,9 +49,9 @@ function DynamicRouteResolver() {
     'astrology',
     'vastu-for-land'
   ];
-  const [type, setType] = React.useState(null);
+  const [type, setType] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (serviceSlugs.includes(slug)) {
       setType('service');
       return;

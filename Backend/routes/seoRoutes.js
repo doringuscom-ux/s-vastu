@@ -66,7 +66,7 @@ router.get('/metadata', async (req, res) => {
             keywords: blogData.metaKeywords || '',
             canonical: blogData.metaCanonical || '',
             robots: blogData.metaRobots || '',
-            ogImage: blogData.image || ''
+            ogImage: blogData.coverImage || ''
           };
         }
       }
