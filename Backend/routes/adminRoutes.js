@@ -58,7 +58,7 @@ router.post('/login', async (req, res) => {
         refreshToken: generateRefreshToken(admin._id),
       });
     } else {
-      admin.failedLoginAttempts += 1;
+      admin.failedLoginAttempts = (admin.failedLoginAttempts || 0) + 1;
       let msg = 'Invalid username or password';
       
       if (admin.failedLoginAttempts >= 5) {
@@ -74,7 +74,8 @@ router.post('/login', async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    console.error("Login Error:", error);
+    res.status(500).json({ message: error.message, stack: error.stack });
   }
 });
 
@@ -147,7 +148,7 @@ router.post('/login-otp/verify', async (req, res) => {
     }
 
     if (user.resetOtp !== otp) {
-      user.failedOtpAttempts += 1;
+      user.failedOtpAttempts = (user.failedOtpAttempts || 0) + 1;
       if (user.failedOtpAttempts >= 10) {
         user.resetOtp = undefined;
         user.resetOtpExpire = undefined;
