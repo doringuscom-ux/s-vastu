@@ -87,17 +87,7 @@ export default function AdminDashboard() {
     { name: 'Resolved', value: stats.contactsResolved, color: '#10b981' }
   ];
 
-  // Custom label for PieChart
-  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
-    const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
-    return percent > 0 ? (
-      <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize="12" fontWeight="bold">
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    ) : null;
-  };
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
