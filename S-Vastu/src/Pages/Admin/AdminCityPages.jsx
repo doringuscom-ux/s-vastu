@@ -39,6 +39,11 @@ export default function AdminCityPages() {
     />
   ), [editingId]);
 
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('adminToken');
+    return { headers: { Authorization: `Bearer ${token}` } };
+  };
+
   const fetchPages = async () => {
     try {
       const response = await axios.get(API_URL, getAuthHeaders());

@@ -11,6 +11,34 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  name: {
+    type: String,
+    default: 'Admin User'
+  },
+  email: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  resetOtp: {
+    type: String,
+  },
+  resetOtpExpire: {
+    type: Date,
+  },
+  failedLoginAttempts: {
+    type: Number,
+    default: 0,
+  },
+  isLocked: {
+    type: Boolean,
+    default: false,
+  },
+  failedOtpAttempts: {
+    type: Number,
+    default: 0,
+  },
   role: {
     type: String,
     enum: ['admin', 'subadmin'],

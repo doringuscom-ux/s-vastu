@@ -28,12 +28,17 @@ export default function AdminGalleryPages() {
     return { headers: { Authorization: `Bearer ${token}` } };
   };
 
+  const [isFetching, setIsFetching] = useState(true);
+
   const fetchImages = async () => {
+    setIsFetching(true);
     try {
       const { data } = await axios.get(API_URL, getAuthHeaders());
       setImages(data);
     } catch (err) {
       setError('Failed to fetch gallery images');
+    } finally {
+      setIsFetching(false);
     }
   };
 
@@ -166,6 +171,11 @@ export default function AdminGalleryPages() {
       )}
 
       {/* Gallery Grid View */}
+      {isFetching ? (
+        <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+          Loading gallery images...
+        </div>
+      ) : (
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {images.map((img) => (
           <div key={img._id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
@@ -204,6 +214,7 @@ export default function AdminGalleryPages() {
           </div>
         )}
       </div>
+      )}
 
       {/* Modal */}
       {isModalOpen && (

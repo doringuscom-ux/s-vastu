@@ -43,17 +43,22 @@ export default function AdminBlogPages() {
     />
   ), [editingBlog?._id]);
 
+  const [isFetching, setIsFetching] = useState(true);
+
   const getAuthHeaders = () => {
     const token = localStorage.getItem('adminToken');
     return { headers: { Authorization: `Bearer ${token}` } };
   };
 
   const fetchBlogs = async () => {
+    setIsFetching(true);
     try {
       const { data } = await axios.get(`${API_URL}?all=true`, getAuthHeaders());
       setBlogs(data);
     } catch (err) {
       setError('Failed to fetch blogs');
+    } finally {
+      setIsFetching(false);
     }
   };
 
@@ -198,6 +203,11 @@ export default function AdminBlogPages() {
       )}
 
       {/* Blogs Table */}
+      {isFetching ? (
+        <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+          Loading blogs...
+        </div>
+      ) : (
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
@@ -251,6 +261,7 @@ export default function AdminBlogPages() {
           <div className="p-6 text-center text-gray-500">No blogs found. Create one!</div>
         )}
       </div>
+      )}
 
       {/* Modal */}
       {isModalOpen && (
