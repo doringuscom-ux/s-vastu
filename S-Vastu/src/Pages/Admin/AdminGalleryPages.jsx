@@ -30,7 +30,7 @@ export default function AdminGalleryPages() {
 
   const fetchImages = async () => {
     try {
-      const { data } = await axios.get(API_URL);
+      const { data } = await axios.get(API_URL, getAuthHeaders());
       setImages(data);
     } catch (err) {
       setError('Failed to fetch gallery images');

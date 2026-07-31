@@ -37,6 +37,10 @@ const pageSchema = new mongoose.Schema({
   customText: {
     type: String,
     default: '',
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin'
   }
 }, {
   timestamps: true,

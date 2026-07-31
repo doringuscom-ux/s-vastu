@@ -39,6 +39,8 @@ import SeoMeta from './components/SeoMeta';
 import { BLOGS_API } from './utils/api';
 import axios from 'axios';
 
+import AdminUsers from './Pages/Admin/AdminUsers';
+
 function DynamicRouteResolver() {
   const { slug } = useParams();
   const serviceSlugs = [
@@ -137,6 +139,7 @@ function App() {
             <Route path="gallery-pages" element={<AdminGalleryPages />} />
             <Route path="contact-pages" element={<AdminContactPages />} />
             <Route path="seo-manager" element={<AdminSeoManager />} />
+            <Route path="users" element={<AdminUsers />} />
           </Route>
         </Routes>
       </Router>

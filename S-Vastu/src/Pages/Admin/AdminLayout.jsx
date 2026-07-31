@@ -14,6 +14,7 @@ const AdminLayout = () => {
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('adminRole');
     navigate('/admin/login');
   };
 
@@ -52,6 +53,12 @@ const AdminLayout = () => {
             <FileText size={18} />
             <span>SEO Manager</span>
           </Link>
+          {localStorage.getItem('adminRole') === 'admin' && (
+            <Link to="/admin/users" className={`flex items-center gap-3 p-3 rounded transition-colors ${isActive('/admin/users') ? 'bg-orange-600' : 'hover:bg-gray-800'}`}>
+              <FileText size={18} />
+              <span>User Management</span>
+            </Link>
+          )}
         </nav>
         <div className="p-4 border-t border-gray-800">
           <button onClick={handleLogout} className="w-full flex justify-center items-center gap-2 bg-red-500 hover:bg-red-600 p-3 rounded text-white font-medium transition-colors">

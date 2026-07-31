@@ -54,10 +54,10 @@ export default function AdminSeoManager() {
     setLoading(true);
     try {
       if (activeTab === 'City Pages') {
-        const res = await axios.get(PAGES_API);
+        const res = await axios.get(PAGES_API, getAuthHeaders());
         setData(res.data);
       } else if (activeTab === 'Blogs') {
-        const res = await axios.get(BLOGS_API);
+        const res = await axios.get(`${BLOGS_API}?all=true`, getAuthHeaders());
         setData(res.data);
       } else if (activeTab === 'Static Pages') {
         const res = await axios.get(SEO_API, getAuthHeaders());

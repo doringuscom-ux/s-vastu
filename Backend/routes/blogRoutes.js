@@ -10,7 +10,24 @@ const { uploadOnCloudinary } = require('../utils/cloudinary');
 router.get('/', async (req, res) => {
   try {
     const { all } = req.query;
-    const filter = all === 'true' ? {} : { isPublished: true };
+    let filter = all === 'true' ? {} : { isPublished: true };
+
+    // If fetching for admin dashboard, apply RBAC filtering
+    if (all === 'true' && req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      const token = req.headers.authorization.split(' ')[1];
+      const jwt = require('jsonwebtoken');
+      const Admin = require('../models/Admin');
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const adminUser = await Admin.findById(decoded.id);
+        if (adminUser && adminUser.role === 'subadmin') {
+          filter.createdBy = adminUser._id;
+        }
+      } catch (err) {
+        // Token invalid, ignore or handle
+      }
+    }
+
     const blogs = await Blog.find(filter).sort({ createdAt: -1 });
     res.json(blogs);
   } catch (error) {
@@ -75,7 +92,8 @@ router.post('/', protect, upload.single('coverImageFile'), async (req, res) => {
       metaDescription: metaDescription || '',
       metaKeywords: metaKeywords || '',
       metaCanonical: metaCanonical || '',
-      metaRobots: metaRobots || 'index, follow'
+      metaRobots: metaRobots || 'index, follow',
+      createdBy: req.admin._id
     });
 
     const savedBlog = await newBlog.save();
@@ -94,6 +112,11 @@ router.put('/:id', protect, upload.single('coverImageFile'), async (req, res) =>
     const blog = await Blog.findById(req.params.id);
 
     if (blog) {
+      // Check ownership
+      if (req.admin.role === 'subadmin' && blog.createdBy && blog.createdBy.toString() !== req.admin._id.toString()) {
+        return res.status(403).json({ message: 'Not authorized to edit this blog' });
+      }
+
       if (title) blog.title = title;
       if (slug) blog.slug = slug;
       if (excerpt !== undefined) blog.excerpt = excerpt;
@@ -132,6 +155,11 @@ router.delete('/:id', protect, async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
     if (blog) {
+      // Check ownership
+      if (req.admin.role === 'subadmin' && blog.createdBy && blog.createdBy.toString() !== req.admin._id.toString()) {
+        return res.status(403).json({ message: 'Not authorized to delete this blog' });
+      }
+
       await blog.deleteOne();
       res.json({ message: 'Blog removed' });
     } else {

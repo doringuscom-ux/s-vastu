@@ -10,7 +10,22 @@ const { uploadOnCloudinary } = require('../utils/cloudinary');
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const gallery = await Gallery.find({}).sort({ createdAt: -1 });
+    let filter = {};
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      const token = req.headers.authorization.split(' ')[1];
+      const jwt = require('jsonwebtoken');
+      const Admin = require('../models/Admin');
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const adminUser = await Admin.findById(decoded.id);
+        if (adminUser && adminUser.role === 'subadmin') {
+          filter.createdBy = adminUser._id;
+        }
+      } catch (err) {
+        // Token invalid, ignore or handle
+      }
+    }
+    const gallery = await Gallery.find(filter).sort({ createdAt: -1 });
     res.json(gallery);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
@@ -36,7 +51,7 @@ router.post('/', protect, upload.single('imageFile'), async (req, res) => {
       return res.status(400).json({ message: 'Please provide an image, alt text, and category' });
     }
 
-    const newImage = new Gallery({ src, alt, category, size });
+    const newImage = new Gallery({ src, alt, category, size, createdBy: req.admin._id });
     const savedImage = await newImage.save();
     res.status(201).json(savedImage);
   } catch (error) {
@@ -55,6 +70,11 @@ router.put('/:id', protect, upload.single('imageFile'), async (req, res) => {
     const image = await Gallery.findById(req.params.id);
     if (!image) {
       return res.status(404).json({ message: 'Image not found' });
+    }
+
+    // Check ownership
+    if (req.admin.role === 'subadmin' && image.createdBy && image.createdBy.toString() !== req.admin._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to edit this image' });
     }
 
     if (req.file) {
@@ -85,6 +105,12 @@ router.delete('/:id', protect, async (req, res) => {
     if (!image) {
       return res.status(404).json({ message: 'Image not found' });
     }
+
+    // Check ownership
+    if (req.admin.role === 'subadmin' && image.createdBy && image.createdBy.toString() !== req.admin._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to delete this image' });
+    }
+
     await image.deleteOne();
     res.json({ message: 'Image removed' });
   } catch (error) {

@@ -3,7 +3,22 @@ const Page = require('../models/Page');
 // Get all pages
 const getPages = async (req, res) => {
   try {
-    const pages = await Page.find({}).sort({ createdAt: -1 });
+    let filter = {};
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      const token = req.headers.authorization.split(' ')[1];
+      const jwt = require('jsonwebtoken');
+      const Admin = require('../models/Admin');
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const adminUser = await Admin.findById(decoded.id);
+        if (adminUser && adminUser.role === 'subadmin') {
+          filter.createdBy = adminUser._id;
+        }
+      } catch (err) {
+        // Token invalid, ignore or handle
+      }
+    }
+    const pages = await Page.find(filter).sort({ createdAt: -1 });
     res.json(pages);
   } catch (error) {
     res.status(500).json({ message: 'Server Error' });
@@ -35,7 +50,7 @@ const createPage = async (req, res) => {
     }
 
     const page = new Page({
-      title, slug, country, metaTitle, metaDescription, metaKeywords, metaCanonical, metaRobots, customText
+      title, slug, country, metaTitle, metaDescription, metaKeywords, metaCanonical, metaRobots, customText, createdBy: req.admin._id
     });
 
     const createdPage = await page.save();
@@ -52,6 +67,11 @@ const updatePage = async (req, res) => {
     const page = await Page.findById(req.params.id);
 
     if (page) {
+      // Check ownership
+      if (req.admin.role === 'subadmin' && page.createdBy && page.createdBy.toString() !== req.admin._id.toString()) {
+        return res.status(403).json({ message: 'Not authorized to edit this page' });
+      }
+      
       page.title = title || page.title;
       page.slug = slug || page.slug;
       page.country = country !== undefined ? country : page.country;
@@ -77,6 +97,11 @@ const deletePage = async (req, res) => {
   try {
     const page = await Page.findById(req.params.id);
     if (page) {
+      // Check ownership
+      if (req.admin.role === 'subadmin' && page.createdBy && page.createdBy.toString() !== req.admin._id.toString()) {
+        return res.status(403).json({ message: 'Not authorized to delete this page' });
+      }
+      
       await page.deleteOne();
       res.json({ message: 'Page removed' });
     } else {

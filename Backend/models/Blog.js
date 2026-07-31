@@ -13,7 +13,8 @@ const blogSchema = new mongoose.Schema({
   metaDescription: { type: String, default: '' },
   metaKeywords: { type: String, default: '' },
   metaCanonical: { type: String, default: '' },
-  metaRobots: { type: String, default: 'index, follow' }
+  metaRobots: { type: String, default: 'index, follow' },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Blog', blogSchema);

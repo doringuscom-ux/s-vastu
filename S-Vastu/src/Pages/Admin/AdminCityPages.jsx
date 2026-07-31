@@ -41,7 +41,7 @@ export default function AdminCityPages() {
 
   const fetchPages = async () => {
     try {
-      const response = await axios.get(API_URL);
+      const response = await axios.get(API_URL, getAuthHeaders());
       setPages(response.data);
     } catch (error) {
       console.error('Error fetching pages:', error);

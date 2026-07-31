@@ -17,6 +17,10 @@ const gallerySchema = new mongoose.Schema({
     type: String,
     enum: ['small', 'medium', 'large'],
     default: 'small',
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin'
   }
 }, { timestamps: true });
 

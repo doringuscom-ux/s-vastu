@@ -50,7 +50,7 @@ export default function AdminBlogPages() {
 
   const fetchBlogs = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}?all=true`);
+      const { data } = await axios.get(`${API_URL}?all=true`, getAuthHeaders());
       setBlogs(data);
     } catch (err) {
       setError('Failed to fetch blogs');

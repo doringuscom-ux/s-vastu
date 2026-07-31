@@ -99,7 +99,7 @@ export default function Blog({ hideHeader = false, limit, showFilters = false })
 
                   {/* Content */}
                   <div className="p-8 flex-1 flex flex-col">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#B8860B] transition-colors leading-tight">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#B8860B] transition-colors leading-tight line-clamp-3">
                       {post.title}
                     </h3>
                     <p className="text-gray-600 leading-relaxed mb-6 flex-1 text-sm line-clamp-3">
