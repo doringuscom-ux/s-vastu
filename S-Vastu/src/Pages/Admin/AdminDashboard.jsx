@@ -154,68 +154,119 @@ export default function AdminDashboard() {
           </div>
 
           {/* Charts Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             
             {/* Contacts Chart */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center">
-              <h2 className="text-lg font-bold text-gray-900 mb-2 w-full text-center">Contact Queries</h2>
-              <div className="h-64 w-full">
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center hover:-translate-y-1 hover:shadow-lg transition-all duration-300 relative overflow-hidden group">
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-orange-400 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="flex items-center gap-2 mb-6 w-full pb-4 border-b border-gray-50">
+                <div className="bg-orange-100 p-2 rounded-lg"><MessageSquare className="w-5 h-5 text-orange-600" /></div>
+                <h2 className="text-lg font-bold text-gray-800">Contact Queries</h2>
+              </div>
+              <div className="h-64 w-full relative">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie data={contactsData} cx="50%" cy="50%" labelLine={false} label={renderCustomizedLabel} outerRadius={80} dataKey="value">
+                    <Pie 
+                      data={contactsData} 
+                      cx="50%" cy="50%" 
+                      innerRadius={70} 
+                      outerRadius={90} 
+                      dataKey="value"
+                      stroke="none"
+                      paddingAngle={5}
+                    >
                       {contactsData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip contentStyle={{ borderRadius: '8px' }} />
-                    <Legend />
+                    <Tooltip 
+                      contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', fontWeight: 'bold' }}
+                      itemStyle={{ color: '#374151' }}
+                    />
+                    <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
                   </PieChart>
                 </ResponsiveContainer>
-              </div>
-              <div className="w-full mt-4 text-sm text-gray-600 text-center">
-                Total Queries: <span className="font-bold">{stats.contactsTotal}</span>
+                {/* Center Text */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-[-20px]">
+                  <span className="text-3xl font-black text-gray-800">{stats.contactsTotal}</span>
+                  <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Total</span>
+                </div>
               </div>
             </div>
 
             {/* Pages SEO Chart */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center">
-              <h2 className="text-lg font-bold text-gray-900 mb-2 w-full text-center">City Pages SEO Status</h2>
-              <div className="h-64 w-full">
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center hover:-translate-y-1 hover:shadow-lg transition-all duration-300 relative overflow-hidden group">
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-400 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="flex items-center gap-2 mb-6 w-full pb-4 border-b border-gray-50">
+                <div className="bg-blue-100 p-2 rounded-lg"><MapPin className="w-5 h-5 text-blue-600" /></div>
+                <h2 className="text-lg font-bold text-gray-800">City Pages SEO</h2>
+              </div>
+              <div className="h-64 w-full relative">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie data={pagesData} cx="50%" cy="50%" labelLine={false} label={renderCustomizedLabel} outerRadius={80} dataKey="value">
+                    <Pie 
+                      data={pagesData} 
+                      cx="50%" cy="50%" 
+                      innerRadius={70} 
+                      outerRadius={90} 
+                      dataKey="value"
+                      stroke="none"
+                      paddingAngle={5}
+                    >
                       {pagesData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip contentStyle={{ borderRadius: '8px' }} />
-                    <Legend />
+                    <Tooltip 
+                      contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', fontWeight: 'bold' }}
+                      itemStyle={{ color: '#374151' }}
+                    />
+                    <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
                   </PieChart>
                 </ResponsiveContainer>
-              </div>
-              <div className="w-full mt-4 text-sm text-gray-600 text-center">
-                Total Pages: <span className="font-bold">{stats.pagesTotal}</span>
+                {/* Center Text */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-[-20px]">
+                  <span className="text-3xl font-black text-gray-800">{stats.pagesTotal}</span>
+                  <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Pages</span>
+                </div>
               </div>
             </div>
 
             {/* Blogs Chart */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center">
-              <h2 className="text-lg font-bold text-gray-900 mb-2 w-full text-center">Blog Status</h2>
-              <div className="h-64 w-full">
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center hover:-translate-y-1 hover:shadow-lg transition-all duration-300 relative overflow-hidden group">
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-green-400 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="flex items-center gap-2 mb-6 w-full pb-4 border-b border-gray-50">
+                <div className="bg-green-100 p-2 rounded-lg"><BookOpen className="w-5 h-5 text-green-600" /></div>
+                <h2 className="text-lg font-bold text-gray-800">Blog Status</h2>
+              </div>
+              <div className="h-64 w-full relative">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie data={blogsData} cx="50%" cy="50%" labelLine={false} label={renderCustomizedLabel} outerRadius={80} dataKey="value">
+                    <Pie 
+                      data={blogsData} 
+                      cx="50%" cy="50%" 
+                      innerRadius={70} 
+                      outerRadius={90} 
+                      dataKey="value"
+                      stroke="none"
+                      paddingAngle={5}
+                    >
                       {blogsData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip contentStyle={{ borderRadius: '8px' }} />
-                    <Legend />
+                    <Tooltip 
+                      contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', fontWeight: 'bold' }}
+                      itemStyle={{ color: '#374151' }}
+                    />
+                    <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
                   </PieChart>
                 </ResponsiveContainer>
-              </div>
-              <div className="w-full mt-4 text-sm text-gray-600 text-center">
-                Total Blogs: <span className="font-bold">{stats.blogsTotal}</span>
+                {/* Center Text */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-[-20px]">
+                  <span className="text-3xl font-black text-gray-800">{stats.blogsTotal}</span>
+                  <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Blogs</span>
+                </div>
               </div>
             </div>
 
