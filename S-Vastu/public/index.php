@@ -9,10 +9,10 @@ $pathOnly = parse_url($requestPath, PHP_URL_PATH);
 // UPDATE THIS URL to your actual Render backend URL when deploying!
 $apiUrl = "https://s-vastu.onrender.com/api/seo/metadata?path=" . urlencode($pathOnly);
 
-// Default SEO values
-$metaTitle = 'S-Vastu Solution';
-$metaDescription = 'S-Vastu Description';
-$metaKeywords = 'S-Vastu Keywords';
+// Default SEO values (Matching React frontend defaults exactly)
+$metaTitle = 'S-Vastu - Best Vastu Consultant';
+$metaDescription = 'Expert Vastu consulting for home and commercial spaces.';
+$metaKeywords = 'Vastu, consultant, astrology';
 $metaCanonical = 'https://svastusolution.com';
 $metaRobots = 'index, follow';
 $metaOgImage = '';
@@ -43,15 +43,15 @@ $htmlFilePath = __DIR__ . '/index.html';
 if (file_exists($htmlFilePath)) {
     $html = file_get_contents($htmlFilePath);
 
-    // Replace standard tags (matching the ones in our built index.html)
-    $html = str_replace('<title data-rh="true">S-Vastu Solution</title>', '<title data-rh="true">' . htmlspecialchars($metaTitle) . '</title>', $html);
-    $html = str_replace('<meta data-rh="true" name="description" content="S-Vastu Description" />', '<meta data-rh="true" name="description" content="' . htmlspecialchars($metaDescription) . '" />', $html);
-    $html = str_replace('<meta data-rh="true" name="keywords" content="S-Vastu Keywords" />', '<meta data-rh="true" name="keywords" content="' . htmlspecialchars($metaKeywords) . '" />', $html);
-    $html = str_replace('<link data-rh="true" rel="canonical" href="https://svastusolution.com" />', '<link data-rh="true" rel="canonical" href="' . htmlspecialchars($metaCanonical) . '" />', $html);
-    $html = str_replace('<meta data-rh="true" name="robots" content="index, follow" />', '<meta data-rh="true" name="robots" content="' . htmlspecialchars($metaRobots) . '" />', $html);
-    $html = str_replace('<meta data-rh="true" property="og:title" content="S-Vastu Solution" />', '<meta data-rh="true" property="og:title" content="' . htmlspecialchars($metaTitle) . '" />', $html);
-    $html = str_replace('<meta data-rh="true" property="og:description" content="S-Vastu Description" />', '<meta data-rh="true" property="og:description" content="' . htmlspecialchars($metaDescription) . '" />', $html);
-    $html = str_replace('<meta data-rh="true" property="og:image" content="" />', '<meta data-rh="true" property="og:image" content="' . htmlspecialchars($metaOgImage) . '" />', $html);
+    // Replace standard tags using regex to handle minified or changed default strings
+    $html = preg_replace('/<title[^>]*>.*?<\/title>/is', '<title data-rh="true">' . htmlspecialchars($metaTitle) . '</title>', $html);
+    $html = preg_replace('/<meta[^>]*name=["\']?description["\']?[^>]*>/is', '<meta data-rh="true" name="description" content="' . htmlspecialchars($metaDescription) . '" />', $html);
+    $html = preg_replace('/<meta[^>]*name=["\']?keywords["\']?[^>]*>/is', '<meta data-rh="true" name="keywords" content="' . htmlspecialchars($metaKeywords) . '" />', $html);
+    $html = preg_replace('/<link[^>]*rel=["\']?canonical["\']?[^>]*>/is', '<link data-rh="true" rel="canonical" href="' . htmlspecialchars($metaCanonical) . '" />', $html);
+    $html = preg_replace('/<meta[^>]*name=["\']?robots["\']?[^>]*>/is', '<meta data-rh="true" name="robots" content="' . htmlspecialchars($metaRobots) . '" />', $html);
+    $html = preg_replace('/<meta[^>]*property=["\']?og:title["\']?[^>]*>/is', '<meta data-rh="true" property="og:title" content="' . htmlspecialchars($metaTitle) . '" />', $html);
+    $html = preg_replace('/<meta[^>]*property=["\']?og:description["\']?[^>]*>/is', '<meta data-rh="true" property="og:description" content="' . htmlspecialchars($metaDescription) . '" />', $html);
+    $html = preg_replace('/<meta[^>]*property=["\']?og:image["\']?[^>]*>/is', '<meta data-rh="true" property="og:image" content="' . htmlspecialchars($metaOgImage) . '" />', $html);
     
     // Inject scripts
     if (!empty($scriptTags)) {

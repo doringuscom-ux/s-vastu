@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BookOpen } from 'lucide-react';
 import Blog from '../components/Blog';
+import SeoMeta from '../components/SeoMeta';
 
 export default function BlogPage() {
   useEffect(() => {
@@ -10,6 +11,7 @@ export default function BlogPage() {
 
   return (
     <div className="pt-20 lg:pt-24 min-h-screen bg-slate-50">
+      <SeoMeta pageName="blog" />
       {/* Hero Section */}
       <section className="relative bg-[#0B152A] pt-16 pb-10 sm:pt-20 sm:pb-12 overflow-hidden">
         {/* Animated glowing blobs */}
@@ -57,7 +59,7 @@ export default function BlogPage() {
       </section>
 
       {/* Blog Component */}
-      <Blog hideHeader />
+      <Blog hideHeader showFilters={true} />
 
       {/* Call to Action */}
       <section className="py-16 bg-white border-t border-gray-100">

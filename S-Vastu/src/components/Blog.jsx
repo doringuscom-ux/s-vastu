@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { BLOGS_API } from '../utils/api';
 
-export default function Blog({ hideHeader = false, limit }) {
+export default function Blog({ hideHeader = false, limit, showFilters = false }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('All');
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -22,8 +23,14 @@ export default function Blog({ hideHeader = false, limit }) {
     fetchBlogs();
   }, []);
 
-  const displayedPosts = limit ? posts.slice(0, limit) : posts;
-  const hasMore = limit && posts.length > limit;
+  const categories = ['All', ...new Set(posts.map(post => post.category || 'General'))];
+
+  const filteredPosts = activeCategory === 'All' 
+    ? posts 
+    : posts.filter(post => (post.category || 'General') === activeCategory);
+
+  const displayedPosts = limit ? filteredPosts.slice(0, limit) : filteredPosts;
+  const hasMore = limit && filteredPosts.length > limit;
 
   return (
     <section id="blog" className={`bg-slate-50 relative ${hideHeader ? 'py-10' : 'pt-0 pb-10'}`}>
@@ -43,11 +50,30 @@ export default function Blog({ hideHeader = false, limit }) {
           </div>
         )}
 
+        {/* Filters */}
+        {showFilters && !loading && categories.length > 1 && (
+          <div className="flex flex-wrap justify-center gap-3 mb-10 mt-4">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 shadow-sm ${
+                  activeCategory === category
+                    ? 'bg-gradient-to-r from-[#B8860B] to-[#D4AF37] text-white shadow-md transform scale-105'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Blog Grid */}
         {loading ? (
           <div className="text-center text-gray-500 py-12">Loading blogs...</div>
         ) : displayedPosts.length === 0 ? (
-          <div className="text-center text-gray-500 py-12">No blog posts found. Please check back later.</div>
+          <div className="text-center text-gray-500 py-12">No blog posts found in this category.</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {displayedPosts.map((post) => (
