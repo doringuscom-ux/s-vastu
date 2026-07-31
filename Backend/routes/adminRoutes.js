@@ -25,7 +25,13 @@ router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     
-    const admin = await Admin.findOne({ username });
+    // allow login via username OR email
+    const admin = await Admin.findOne({ 
+      $or: [
+        { username: username }, 
+        { email: username }
+      ] 
+    });
 
     if (!admin) {
       return res.status(401).json({ message: 'Invalid username or password' });
@@ -78,7 +84,12 @@ router.post('/login', async (req, res) => {
 router.post('/login-otp/send', async (req, res) => {
   try {
     const { username } = req.body;
-    const user = await Admin.findOne({ username });
+    const user = await Admin.findOne({ 
+      $or: [
+        { username: username }, 
+        { email: username }
+      ] 
+    });
     
     if (!user) return res.status(404).json({ message: 'User not found' });
     if (!user.email) return res.status(400).json({ message: 'No email associated with this account. Contact super admin.' });
@@ -124,7 +135,10 @@ router.post('/login-otp/verify', async (req, res) => {
     const { username, otp } = req.body;
     
     const user = await Admin.findOne({ 
-      username, 
+      $or: [
+        { username: username }, 
+        { email: username }
+      ],
       resetOtpExpire: { $gt: Date.now() } 
     });
 
@@ -322,6 +336,45 @@ router.post('/users', protect, adminOnly, async (req, res) => {
     } else {
       res.status(400).json({ message: 'Invalid user data' });
     }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// @desc    Update a user
+// @route   PUT /api/admin/users/:id
+// @access  Private/Admin
+router.put('/users/:id', protect, adminOnly, async (req, res) => {
+  try {
+    const { name, email, phone, username } = req.body;
+    const user = await Admin.findById(req.params.id);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (username && username !== user.username) {
+      const usernameExists = await Admin.findOne({ username });
+      if (usernameExists) {
+        return res.status(400).json({ message: 'Username is already taken' });
+      }
+      user.username = username;
+    }
+
+    user.name = name !== undefined ? name : user.name;
+    user.email = email !== undefined ? email : user.email;
+    user.phone = phone !== undefined ? phone : user.phone;
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      username: updatedUser.username,
+      role: updatedUser.role,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      phone: updatedUser.phone
+    });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Eye, EyeOff, Mail, KeyRound, ArrowLeft, AlertTriangle } from 'lucide-react';
+import { Eye, EyeOff, Mail, KeyRound, ArrowLeft, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { ADMIN_API } from '../../utils/api';
 
 const AdminLogin = () => {
@@ -12,13 +12,15 @@ const AdminLogin = () => {
   
   // Forgot Password State
   const [isForgotMode, setIsForgotMode] = useState(false);
-  const [isOtpMode, setIsOtpMode] = useState(false);
-  const [email, setEmail] = useState('');
+  const [isForgotOtpMode, setIsForgotOtpMode] = useState(false);
+  const [email, setEmail] = useState(''); // Used for forgot password
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
-  // Lockout / Unlock State
-  const [isLockedMode, setIsLockedMode] = useState(false);
+  // Lockout / OTP Login State (they use the same backend endpoints)
+  const [isOtpLoginMode, setIsOtpLoginMode] = useState(false);
+  const [isLockedMode, setIsLockedMode] = useState(false); 
+  const [isUnlockOtpMode, setIsUnlockOtpMode] = useState(false);
   const [unlockOtp, setUnlockOtp] = useState('');
 
   // Global State
@@ -35,7 +37,7 @@ const AdminLogin = () => {
     }
   }, [navigate]);
 
-  const handleLogin = async (e) => {
+  const handleStandardLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -52,20 +54,23 @@ const AdminLogin = () => {
       setError(responseData?.message || 'Login failed');
       if (responseData?.locked) {
         setIsLockedMode(true);
+        setIsOtpLoginMode(true);
       }
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSendUnlockOtp = async () => {
+  // Used for both unlocking account and passwordless login
+  const handleSendLoginOtp = async (e) => {
+    if (e) e.preventDefault();
     setLoading(true);
     setError('');
     setSuccess('');
     try {
       const { data } = await axios.post(`${ADMIN_API}/login-otp/send`, { username });
-      setSuccess(data.message || 'Unlock OTP sent to your registered email.');
-      setIsOtpMode(true); // Reusing isOtpMode for unlock OTP entry
+      setSuccess(data.message || 'OTP sent to your registered email.');
+      setIsUnlockOtpMode(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to send OTP');
     } finally {
@@ -73,7 +78,7 @@ const AdminLogin = () => {
     }
   };
 
-  const handleVerifyUnlockOtp = async (e) => {
+  const handleVerifyLoginOtp = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -93,7 +98,7 @@ const AdminLogin = () => {
     }
   };
 
-  const handleSendOtp = async (e) => {
+  const handleSendForgotOtp = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -101,7 +106,7 @@ const AdminLogin = () => {
     try {
       await axios.post(`${ADMIN_API}/forgot-password`, { email });
       setSuccess('OTP has been sent to your email.');
-      setIsOtpMode(true);
+      setIsForgotOtpMode(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to send OTP');
     } finally {
@@ -117,7 +122,7 @@ const AdminLogin = () => {
       await axios.post(`${ADMIN_API}/reset-password`, { email, otp, newPassword });
       setSuccess('Password reset successfully! You can now login.');
       setIsForgotMode(false);
-      setIsOtpMode(false);
+      setIsForgotOtpMode(false);
       setUsername('');
       setPassword('');
       setEmail('');
@@ -132,18 +137,21 @@ const AdminLogin = () => {
 
   const resetAllModes = () => {
     setIsForgotMode(false);
+    setIsOtpLoginMode(false);
     setIsLockedMode(false);
-    setIsOtpMode(false);
+    setIsUnlockOtpMode(false);
+    setIsForgotOtpMode(false);
     setError('');
     setSuccess('');
+    setUnlockOtp('');
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
         
-        {/* Render Unlock Mode if Locked */}
-        {isLockedMode ? (
+        {/* Render OTP Login / Unlock Mode */}
+        {isOtpLoginMode ? (
           <>
             <button 
               onClick={resetAllModes}
@@ -151,27 +159,52 @@ const AdminLogin = () => {
             >
               <ArrowLeft size={18} /> Back to Login
             </button>
-            <div className="flex justify-center mb-4 text-red-500">
-              <AlertTriangle size={48} />
-            </div>
-            <h2 className="text-2xl font-bold mb-2 text-center text-gray-800">Account Locked</h2>
+            
+            {isLockedMode ? (
+              <div className="flex justify-center mb-4 text-red-500">
+                <AlertTriangle size={48} />
+              </div>
+            ) : (
+              <div className="flex justify-center mb-4 text-blue-500">
+                <ShieldCheck size={48} />
+              </div>
+            )}
+            
+            <h2 className="text-2xl font-bold mb-2 text-center text-gray-800">
+              {isLockedMode ? 'Account Locked' : 'Login with OTP'}
+            </h2>
             <p className="text-sm text-gray-600 mb-6 text-center">
-              Your account has been locked due to multiple failed login attempts. To regain access, please verify your identity using an OTP sent to your registered email.
+              {isLockedMode 
+                ? 'Your account has been locked due to multiple failed login attempts. Verify your identity using an OTP sent to your registered email.'
+                : 'Enter your Username or Email to receive a secure login OTP.'}
             </p>
             
             {error && <div className="bg-red-50 text-red-500 p-3 rounded mb-4 text-sm text-center border border-red-200">{error}</div>}
             {success && <div className="bg-green-50 text-green-600 p-3 rounded mb-4 text-sm text-center border border-green-200">{success}</div>}
             
-            {!isOtpMode ? (
-              <button 
-                disabled={loading} 
-                onClick={handleSendUnlockOtp} 
-                className="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-700 font-bold transition-colors shadow-md disabled:bg-red-400"
-              >
-                {loading ? 'Sending OTP...' : 'Send Unlock OTP to Email'}
-              </button>
+            {!isUnlockOtpMode ? (
+              <form onSubmit={handleSendLoginOtp}>
+                 <div className="mb-6">
+                  <label className="block text-gray-700 mb-2 font-medium">Username or Email</label>
+                  <input 
+                    type="text" 
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none transition-all" 
+                    value={username} 
+                    onChange={(e) => setUsername(e.target.value)} 
+                    required
+                    placeholder="Enter username or email"
+                  />
+                </div>
+                <button 
+                  disabled={loading} 
+                  type="submit"
+                  className={`w-full text-white p-3 rounded-lg font-bold transition-colors shadow-md ${isLockedMode ? 'bg-red-600 hover:bg-red-700 disabled:bg-red-400' : 'bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400'}`}
+                >
+                  {loading ? 'Sending OTP...' : 'Send OTP'}
+                </button>
+              </form>
             ) : (
-              <form onSubmit={handleVerifyUnlockOtp}>
+              <form onSubmit={handleVerifyLoginOtp}>
                 <div className="mb-6">
                   <label className="block text-gray-700 mb-2 font-medium flex items-center gap-2">
                     <KeyRound size={16} /> Enter 6-Digit OTP
@@ -192,58 +225,7 @@ const AdminLogin = () => {
               </form>
             )}
           </>
-        ) : !isForgotMode ? (
-          <>
-            <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Admin Login</h2>
-            
-            {error && <div className="bg-red-50 text-red-500 p-3 rounded mb-4 text-sm text-center border border-red-200">{error}</div>}
-            {success && <div className="bg-green-50 text-green-600 p-3 rounded mb-4 text-sm text-center border border-green-200">{success}</div>}
-            
-            <form onSubmit={handleLogin}>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2 font-medium">Username</label>
-                <input 
-                  type="text" 
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none transition-all" 
-                  value={username} 
-                  onChange={(e) => setUsername(e.target.value)} 
-                  required
-                />
-              </div>
-              <div className="mb-6">
-                <label className="block text-gray-700 mb-2 font-medium">Password</label>
-                <div className="relative">
-                  <input 
-                    type={showPassword ? "text" : "password"}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none pr-10 transition-all" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
-                <div className="flex justify-end mt-2">
-                  <button 
-                    type="button" 
-                    onClick={() => { setIsForgotMode(true); setError(''); setSuccess(''); }}
-                    className="text-sm text-orange-600 hover:text-orange-700 font-medium"
-                  >
-                    Forgot Password?
-                  </button>
-                </div>
-              </div>
-              <button disabled={loading} type="submit" className="w-full bg-orange-500 text-white p-3 rounded-lg hover:bg-orange-600 font-bold transition-colors shadow-md disabled:bg-orange-300 flex items-center justify-center gap-2">
-                {loading ? 'Logging in...' : 'Login Securely'}
-              </button>
-            </form>
-          </>
-        ) : (
+        ) : isForgotMode ? (
           <>
             <button 
               onClick={resetAllModes}
@@ -256,8 +238,8 @@ const AdminLogin = () => {
             {error && <div className="bg-red-50 text-red-500 p-3 rounded mb-4 text-sm text-center border border-red-200">{error}</div>}
             {success && <div className="bg-green-50 text-green-600 p-3 rounded mb-4 text-sm text-center border border-green-200">{success}</div>}
             
-            {!isOtpMode ? (
-              <form onSubmit={handleSendOtp}>
+            {!isForgotOtpMode ? (
+              <form onSubmit={handleSendForgotOtp}>
                 <p className="text-sm text-gray-600 mb-6">Enter your registered email address and we'll send you an OTP to reset your password.</p>
                 <div className="mb-6">
                   <label className="block text-gray-700 mb-2 font-medium flex items-center gap-2">
@@ -316,6 +298,65 @@ const AdminLogin = () => {
                 </button>
               </form>
             )}
+          </>
+        ) : (
+          <>
+            <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Admin Login</h2>
+            
+            {error && <div className="bg-red-50 text-red-500 p-3 rounded mb-4 text-sm text-center border border-red-200">{error}</div>}
+            {success && <div className="bg-green-50 text-green-600 p-3 rounded mb-4 text-sm text-center border border-green-200">{success}</div>}
+            
+            <form onSubmit={handleStandardLogin}>
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2 font-medium">Username or Email</label>
+                <input 
+                  type="text" 
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none transition-all" 
+                  value={username} 
+                  onChange={(e) => setUsername(e.target.value)} 
+                  required
+                  placeholder="admin or admin@svastu.com"
+                />
+              </div>
+              <div className="mb-6">
+                <label className="block text-gray-700 mb-2 font-medium">Password</label>
+                <div className="relative">
+                  <input 
+                    type={showPassword ? "text" : "password"}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none pr-10 transition-all" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                   <button 
+                    type="button" 
+                    onClick={() => { setIsOtpLoginMode(true); setError(''); setSuccess(''); }}
+                    className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                  >
+                    Login with OTP
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => { setIsForgotMode(true); setError(''); setSuccess(''); }}
+                    className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
+              </div>
+              <button disabled={loading} type="submit" className="w-full bg-orange-500 text-white p-3 rounded-lg hover:bg-orange-600 font-bold transition-colors shadow-md disabled:bg-orange-300 flex items-center justify-center gap-2">
+                {loading ? 'Logging in...' : 'Login Securely'}
+              </button>
+            </form>
           </>
         )}
       </div>
