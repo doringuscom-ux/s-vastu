@@ -16,7 +16,7 @@ const seedAdmin = async () => {
       adminUser.password = password;
       adminUser.role = 'admin';
       adminUser.name = 'Main Admin';
-      adminUser.email = 'admin@svastu.com';
+      adminUser.email = 'svastuandnumerology@gmail.com';
       adminUser.phone = '1234567890';
       await adminUser.save();
       console.log('Admin user updated successfully');
@@ -26,7 +26,7 @@ const seedAdmin = async () => {
         password,
         role: 'admin',
         name: 'Main Admin',
-        email: 'admin@svastu.com',
+        email: 'svastuandnumerology@gmail.com',
         phone: '1234567890'
       });
       await newAdmin.save();
