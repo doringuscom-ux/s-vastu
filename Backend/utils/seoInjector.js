@@ -23,21 +23,31 @@ const injectSEO = async (req, res, next) => {
     let metaOgImage = '';
     let scriptTags = '';
 
+    // Fetch default SEO from Home to use as fallback
+    let defaultSeo = null;
+    try {
+      defaultSeo = await Seo.findOne({ pageName: 'home' });
+      if (defaultSeo && defaultSeo.ogImage) {
+        metaOgImage = defaultSeo.ogImage;
+      }
+    } catch (e) {
+      // ignore
+    }
+
     const routePath = req.path;
     const parts = routePath.split('/').filter(Boolean);
 
     // Dynamic Route Resolution
     if (parts.length === 0) {
       // Home Page
-      const seoData = await Seo.findOne({ pageName: 'home' });
-      if (seoData) {
-        metaTitle = seoData.title || metaTitle;
-        metaDescription = seoData.description || metaDescription;
-        metaKeywords = seoData.keywords || metaKeywords;
-        metaCanonical = seoData.canonical || metaCanonical;
-        metaRobots = seoData.robots || metaRobots;
-        metaOgImage = seoData.ogImage || metaOgImage;
-        scriptTags = seoData.scriptTags || scriptTags;
+      if (defaultSeo) {
+        metaTitle = defaultSeo.title || metaTitle;
+        metaDescription = defaultSeo.description || metaDescription;
+        metaKeywords = defaultSeo.keywords || metaKeywords;
+        metaCanonical = defaultSeo.canonical || metaCanonical;
+        metaRobots = defaultSeo.robots || metaRobots;
+        metaOgImage = defaultSeo.ogImage || metaOgImage;
+        scriptTags = defaultSeo.scriptTags || scriptTags;
       }
     } else if (parts[0] === 'about-us') {
       const seoData = await Seo.findOne({ pageName: 'about' });
@@ -92,7 +102,7 @@ const injectSEO = async (req, res, next) => {
         metaKeywords = blogData.metaKeywords || '';
         metaCanonical = blogData.metaCanonical || metaCanonical;
         metaRobots = blogData.metaRobots || metaRobots;
-        metaOgImage = blogData.image || metaOgImage;
+        metaOgImage = blogData.coverImage || metaOgImage;
       }
     } else if (parts.length === 1) {
       // City Pages or Single Service Pages
@@ -115,7 +125,13 @@ const injectSEO = async (req, res, next) => {
     htmlData = htmlData.replace(/<meta data-rh="true" name="robots" content="index, follow" \/>/g, `<meta data-rh="true" name="robots" content="${metaRobots}" />`);
     htmlData = htmlData.replace(/<meta data-rh="true" property="og:title" content="S-Vastu Solution" \/>/g, `<meta data-rh="true" property="og:title" content="${metaTitle}" />`);
     htmlData = htmlData.replace(/<meta data-rh="true" property="og:description" content="S-Vastu Description" \/>/g, `<meta data-rh="true" property="og:description" content="${metaDescription}" />`);
-    htmlData = htmlData.replace(/<meta data-rh="true" property="og:image" content="" \/>/g, `<meta data-rh="true" property="og:image" content="${metaOgImage}" />`);
+    
+    if (metaOgImage) {
+      htmlData = htmlData.replace(/<meta data-rh="true" property="og:image" content="" \/>/g, `<meta data-rh="true" property="og:image" content="${metaOgImage}" />`);
+    } else {
+      // Remove it so WhatsApp/Facebook can fallback to images in the body
+      htmlData = htmlData.replace(/<meta data-rh="true" property="og:image" content="" \/>/g, ``);
+    }
     htmlData = htmlData.replace(/<!-- S-VASTU-SCRIPTS -->/g, scriptTags || '');
 
     return res.send(htmlData);
