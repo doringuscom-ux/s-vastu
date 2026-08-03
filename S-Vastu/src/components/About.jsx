@@ -8,7 +8,7 @@ export default function About() {
   return (
     <div id="about" className="bg-white">
       {/* Mission & Vision Section */}
-      <section className="pb-24 pt-24 bg-white">
+      <section className="py-10 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -37,17 +37,17 @@ export default function About() {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -15, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -inset-4 bg-gradient-to-r from-[#D4AF37]/20 to-[#B8860B]/20 rounded-3xl transform rotate-3 scale-105"
               ></motion.div>
-              <motion.img 
+              <motion.img
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.5 }}
-                src={consultationImg} 
-                alt="Vastu Consultation" 
-                className="relative rounded-3xl shadow-2xl object-cover w-full h-[500px]" 
+                src={consultationImg}
+                alt="Vastu Consultation"
+                className="relative rounded-3xl shadow-2xl object-cover w-full h-[500px]"
               />
             </motion.div>
           </div>
@@ -62,9 +62,9 @@ export default function About() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            
+
             {/* Vision */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -85,7 +85,7 @@ export default function About() {
             </motion.div>
 
             {/* Mission */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -99,7 +99,7 @@ export default function About() {
               <p className="text-white text-xl md:text-2xl font-serif mb-6 leading-relaxed">
                 Delivering premium consultations through clarity, precision, and uncompromised integrity.
               </p>
-              
+
               <ul className="space-y-4">
                 {[
                   "Providing practical, evidence-informed recommendations rather than fear-based advice.",
@@ -108,7 +108,7 @@ export default function About() {
                   "Educating clients so they understand the reasoning behind every recommendation.",
                   "Creating healthier, more balanced environments that support long-term growth, happiness, and success."
                 ].map((text, i) => (
-                  <motion.li 
+                  <motion.li
                     key={i}
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}

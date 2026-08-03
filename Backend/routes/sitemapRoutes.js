@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
     
     // Default static routes
-    const defaultRoutes = ['/', '/about-us', '/contact', '/services', '/gallery', '/blogs', '/locations'];
+    const defaultRoutes = ['/', '/about-us', '/contact-us', '/services', '/gallery', '/blog', '/locations', '/privacy-policy', '/terms-of-service'];
     defaultRoutes.forEach(route => {
       xml += `  <url>\n    <loc>${baseUrl}${route}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n`;
     });

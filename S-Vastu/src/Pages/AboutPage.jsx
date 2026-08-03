@@ -114,9 +114,9 @@ export default function AboutPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            
+
             {/* Vision */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -137,7 +137,7 @@ export default function AboutPage() {
             </motion.div>
 
             {/* Mission */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -151,7 +151,7 @@ export default function AboutPage() {
               <p className="text-white text-xl md:text-2xl font-serif mb-6 leading-relaxed">
                 Delivering premium consultations through clarity, precision, and uncompromised integrity.
               </p>
-              
+
               <ul className="space-y-4">
                 {[
                   "Providing practical, evidence-informed recommendations rather than fear-based advice.",
@@ -160,7 +160,7 @@ export default function AboutPage() {
                   "Educating clients so they understand the reasoning behind every recommendation.",
                   "Creating healthier, more balanced environments that support long-term growth, happiness, and success."
                 ].map((text, i) => (
-                  <motion.li 
+                  <motion.li
                     key={i}
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -289,9 +289,9 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-8 relative mt-10">
             {/* Animated Pulsing VS Badge */}
             <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 z-30 items-center justify-center">
-              <motion.div 
-                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.8, 0.3] }} 
-                transition={{ duration: 2, repeat: Infinity }} 
+              <motion.div
+                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.8, 0.3] }}
+                transition={{ duration: 2, repeat: Infinity }}
                 className="absolute inset-0 bg-[#D4AF37] rounded-full blur-md"
               />
               <div className="relative w-full h-full bg-[#0B152A] rounded-full border-2 border-[#D4AF37] flex items-center justify-center shadow-[0_0_20px_rgba(212,175,55,0.4)]">
@@ -319,8 +319,8 @@ export default function AboutPage() {
                   "Fear-based consultation",
                   "Explain what is wrong"
                 ].map((item, idx) => (
-                  <motion.li 
-                    key={idx} 
+                  <motion.li
+                    key={idx}
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -345,15 +345,15 @@ export default function AboutPage() {
               className="bg-gradient-to-br from-[#1a2942] via-[#0B152A] to-[#D4AF37]/20 border border-[#D4AF37]/50 p-6 md:p-8 rounded-3xl backdrop-blur-xl shadow-[0_0_50px_rgba(212,175,55,0.2)] relative z-10 transform md:scale-105 hover:shadow-[0_0_60px_rgba(212,175,55,0.3)] transition-all duration-500 overflow-hidden"
             >
               {/* Inner animated glow */}
-              <motion.div 
+              <motion.div
                 animate={{ opacity: [0.1, 0.2, 0.1] }}
                 transition={{ duration: 4, repeat: Infinity }}
                 className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#D4AF37]/20 to-transparent pointer-events-none"
               />
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent shadow-[0_0_10px_rgba(212,175,55,0.8)]"></div>
-              
+
               <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#D4AF37]/20 text-center md:text-left flex justify-center md:justify-start items-center gap-2">
-                <Star className="w-6 h-6 text-[#D4AF37] fill-current drop-shadow-[0_0_5px_rgba(212,175,55,0.8)]" /> 
+                <Star className="w-6 h-6 text-[#D4AF37] fill-current drop-shadow-[0_0_5px_rgba(212,175,55,0.8)]" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#f8e8a0] to-[#D4AF37] animate-pulse">
                   The Svastu Way
                 </span>
@@ -369,8 +369,8 @@ export default function AboutPage() {
                   "Balance architecture, functionality, and energy",
                   "Premium consultation backed by systematic analysis"
                 ].map((item, idx) => (
-                  <motion.li 
-                    key={idx} 
+                  <motion.li
+                    key={idx}
                     initial={{ opacity: 0, x: 10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -393,7 +393,7 @@ export default function AboutPage() {
       <section className="py-[70px] relative overflow-hidden bg-[#050A15]">
         {/* Deep animated glow in background */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#D4AF37]/10 blur-[120px] rounded-full pointer-events-none" />
-        
+
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -410,7 +410,7 @@ export default function AboutPage() {
             <h3 className="text-[#D4AF37] font-bold tracking-widest uppercase mb-8 mt-4 text-sm md:text-base">
               Our Core Philosophy
             </h3>
-            
+
             <p className="text-xl md:text-3xl font-serif text-slate-200 leading-relaxed mb-8">
               "A building does not change your destiny. <br className="hidden md:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#f8e8a0] font-bold">
@@ -418,9 +418,9 @@ export default function AboutPage() {
               </span>{' '}
               in which your decisions, emotions, relationships, health, and opportunities unfold."
             </p>
-            
+
             <div className="w-20 h-[1px] bg-gradient-to-r from-transparent via-slate-500 to-transparent mx-auto mb-8"></div>
-            
+
             <p className="text-base md:text-lg text-slate-400 font-medium tracking-wide">
               When the environment supports you, <span className="text-white">life often becomes easier to navigate.</span>
             </p>

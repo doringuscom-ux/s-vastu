@@ -27,6 +27,8 @@ import LocationsPage from './Pages/LocationsPage';
 import SingleBlogPage from './Pages/SingleBlogPage';
 import SingleServicePage from './Pages/SingleServicePage';
 import NotFoundPage from './Pages/NotFoundPage';
+import PrivacyPolicyPage from './Pages/PrivacyPolicyPage';
+import TermsOfServicePage from './Pages/TermsOfServicePage';
 import AdminCityPages from './Pages/Admin/AdminCityPages';
 import AdminLogin from './Pages/Admin/AdminLogin';
 import AdminLayout from './Pages/Admin/AdminLayout';
@@ -126,6 +128,8 @@ function App() {
             <Route path="blog" element={<BlogPage />} />
             <Route path="contact-us" element={<ContactPage />} />
             <Route path="locations" element={<LocationsPage />} />
+            <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="terms-of-service" element={<TermsOfServicePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
 

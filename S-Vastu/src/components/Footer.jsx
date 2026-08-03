@@ -1,5 +1,6 @@
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { FaFacebookF, FaYoutube, FaInstagram, FaPinterestP } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import logo from '../assets/S.Vastu-logo.webp';
 
 export default function Footer() {
@@ -101,8 +102,8 @@ export default function Footer() {
             </span>
           </div>
           <div className="flex gap-4 text-sm text-gray-400">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link to="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

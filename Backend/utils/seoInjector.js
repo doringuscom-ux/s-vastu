@@ -93,6 +93,34 @@ const injectSEO = async (req, res, next) => {
         metaOgImage = seoData.ogImage || metaOgImage;
         scriptTags = seoData.scriptTags || scriptTags;
       }
+    } else if (parts[0] === 'privacy-policy') {
+      const seoData = await Seo.findOne({ pageName: 'privacy-policy' });
+      if (seoData) {
+        metaTitle = seoData.title || metaTitle;
+        metaDescription = seoData.description || metaDescription;
+        metaKeywords = seoData.keywords || metaKeywords;
+        metaCanonical = seoData.canonical || metaCanonical;
+        metaRobots = seoData.robots || metaRobots;
+        metaOgImage = seoData.ogImage || metaOgImage;
+        scriptTags = seoData.scriptTags || scriptTags;
+      } else {
+        metaTitle = 'Privacy Policy | S Vastu Solution';
+        metaDescription = 'Read the Privacy Policy of S Vastu Solution. We protect your data and privacy while providing expert Vastu and Numerology consultations.';
+      }
+    } else if (parts[0] === 'terms-of-service') {
+      const seoData = await Seo.findOne({ pageName: 'terms-of-service' });
+      if (seoData) {
+        metaTitle = seoData.title || metaTitle;
+        metaDescription = seoData.description || metaDescription;
+        metaKeywords = seoData.keywords || metaKeywords;
+        metaCanonical = seoData.canonical || metaCanonical;
+        metaRobots = seoData.robots || metaRobots;
+        metaOgImage = seoData.ogImage || metaOgImage;
+        scriptTags = seoData.scriptTags || scriptTags;
+      } else {
+        metaTitle = 'Terms of Service | S Vastu Solution';
+        metaDescription = 'Terms of Service for S Vastu Solution. Understand the terms, conditions, and guidelines for using our Vastu and Numerology services.';
+      }
     } else if (parts[0] === 'blog' && parts.length === 2) {
       // Single Blog Page
       const blogData = await Blog.findOne({ slug: parts[1] });
