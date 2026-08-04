@@ -38,6 +38,48 @@ const pageSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  section1: {
+    topHeading: { type: String, default: '' },
+    topSubHeading: { type: String, default: '' },
+    heading: { type: String, default: '' },
+    text: { type: String, default: '' },
+    image: { type: String, default: '' }
+  },
+  section2: {
+    topHeading: { type: String, default: '' },
+    topSubHeading: { type: String, default: '' },
+    heading: { type: String, default: '' },
+    text: { type: String, default: '' },
+    image: { type: String, default: '' }
+  },
+  section3: {
+    topHeading: { type: String, default: '' },
+    topSubHeading: { type: String, default: '' },
+    heading: { type: String, default: '' },
+    text: { type: String, default: '' },
+    image: { type: String, default: '' }
+  },
+  section4: {
+    topHeading: { type: String, default: '' },
+    topSubHeading: { type: String, default: '' },
+    heading: { type: String, default: '' },
+    text: { type: String, default: '' },
+    image: { type: String, default: '' }
+  },
+  section5: {
+    topHeading: { type: String, default: '' },
+    topSubHeading: { type: String, default: '' },
+    heading: { type: String, default: '' },
+    text: { type: String, default: '' },
+    image: { type: String, default: '' }
+  },
+  section6: {
+    topHeading: { type: String, default: '' },
+    topSubHeading: { type: String, default: '' },
+    heading: { type: String, default: '' },
+    text: { type: String, default: '' },
+    image: { type: String, default: '' }
+  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Admin'

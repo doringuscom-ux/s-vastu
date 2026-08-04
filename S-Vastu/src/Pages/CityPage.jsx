@@ -12,6 +12,7 @@ import Testimonials from '../components/Testimonials';
 import Contact from '../components/Contact';
 import AirflowVastuChakra from '../components/AirflowVastuChakra';
 import YoutubeShorts from '../components/YoutubeShorts';
+import CitySections from '../components/CitySections';
 import NotFoundPage from './NotFoundPage';
 
 function CityHero({ city, customText, country }) {
@@ -32,7 +33,7 @@ function CityHero({ city, customText, country }) {
           </h1>
           {customText ? (
             <div 
-              className="text-lg md:text-xl text-gray-700 mb-10 leading-relaxed max-w-4xl mx-auto text-center
+              className="text-lg md:text-xl text-gray-700 mb-10 leading-relaxed max-w-4xl mx-auto text-center whitespace-pre-wrap
                          [&>p]:mb-4 [&>p:last-child]:mb-0 
                          [&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6 [&>h1]:text-gray-900 
                          [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-3 [&>h2]:mt-6 [&>h2]:text-gray-900 
@@ -123,8 +124,9 @@ export default function CityPage() {
       </Helmet>
 
       <CityHero city={actualCityName} customText={pageData?.customText} country={pageData?.country} />
+      <CitySections pageData={pageData} />
       
-      <About />
+      <About isCityPage={true} />
       <CoreValues />
       <Process />
       <Founders />

@@ -1,10 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { Helmet } from 'react-helmet-async';
 import { Pencil, Trash2, Plus, X } from 'lucide-react';
 import JoditEditor from 'jodit-react';
+import ImageCropperModal from '../../components/ImageCropperModal';
 import { PAGES_API } from '../../utils/api';
 
 const API_URL = PAGES_API;
+
+const SECTION_EDITOR_CONFIG = {
+  readonly: false,
+  placeholder: 'Section content...',
+  height: 250,
+  // We intentionally omit limitChars to prevent the editor from freezing when pasting large blocks of text
+};
 
 export default function AdminCityPages() {
   const [pages, setPages] = useState([]);
@@ -20,24 +29,38 @@ export default function AdminCityPages() {
     metaTitle: '',
     metaDescription: '',
     metaKeywords: '',
-    customText: ''
+    customText: '',
+    section1: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+    section2: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+    section3: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+    section4: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+    section5: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+    section6: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' }
+  });
+
+  const [fileData, setFileData] = useState({
+    section1Image: null, section2Image: null, section3Image: null,
+    section4Image: null, section5Image: null, section6Image: null
+  });
+  
+  const [visibleSections, setVisibleSections] = useState(3);
+  
+  // Cropper states
+  const [cropperOpen, setCropperOpen] = useState(false);
+  const [cropImageSrc, setCropImageSrc] = useState(null);
+  const [currentCropSection, setCurrentCropSection] = useState('');
+  const [previewUrls, setPreviewUrls] = useState({});
+
+  // Ref to store latest editor contents without triggering re-renders
+  const editorContents = useRef({
+    customText: '',
+    section1: '', section2: '', section3: '',
+    section4: '', section5: '', section6: ''
   });
 
   useEffect(() => {
     fetchPages();
   }, []);
-
-  const editorComponent = React.useMemo(() => (
-    <JoditEditor
-      value={formData.customText || ''}
-      config={{
-        readonly: false,
-        placeholder: 'Customized welcoming text for this city...',
-        height: 300,
-      }}
-      onBlur={(newContent) => setFormData(prev => ({ ...prev, customText: newContent }))}
-    />
-  ), [editingId]);
 
   const getAuthHeaders = () => {
     const token = localStorage.getItem('adminToken');
@@ -59,6 +82,32 @@ export default function AdminCityPages() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleSectionChange = (section, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [section]: { ...prev[section], [field]: value }
+    }));
+  };
+
+  const handleFileSelect = (sectionImage, file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      setCropImageSrc(reader.result);
+      setCurrentCropSection(sectionImage);
+      setCropperOpen(true);
+    });
+    reader.readAsDataURL(file);
+    // Reset input value so same file can be selected again if cancelled
+    document.getElementById(`file-${sectionImage}`).value = '';
+  };
+
+  const handleCropComplete = (croppedFile, previewUrl) => {
+    setFileData(prev => ({ ...prev, [currentCropSection]: croppedFile }));
+    setPreviewUrls(prev => ({ ...prev, [currentCropSection]: previewUrl }));
+    setCropperOpen(false);
+  };
+
   const generateSlug = () => {
     if (formData.title && !formData.slug) {
       setFormData({
@@ -72,17 +121,52 @@ export default function AdminCityPages() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('adminToken');
-      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const submitData = new FormData();
+      
+      // Merge latest editor contents before submitting
+      const finalData = {
+        ...formData,
+        customText: editorContents.current.customText,
+        section1: { ...formData.section1, text: editorContents.current.section1 },
+        section2: { ...formData.section2, text: editorContents.current.section2 },
+        section3: { ...formData.section3, text: editorContents.current.section3 },
+        section4: { ...formData.section4, text: editorContents.current.section4 },
+        section5: { ...formData.section5, text: editorContents.current.section5 },
+        section6: { ...formData.section6, text: editorContents.current.section6 },
+      };
+      
+      // Append regular fields
+      Object.keys(finalData).forEach(key => {
+        if (key.startsWith('section')) {
+          submitData.append(key, JSON.stringify(finalData[key]));
+        } else {
+          submitData.append(key, finalData[key] || '');
+        }
+      });
+
+      // Append files
+      if (fileData.section1Image) submitData.append('section1Image', fileData.section1Image);
+      if (fileData.section2Image) submitData.append('section2Image', fileData.section2Image);
+      if (fileData.section3Image) submitData.append('section3Image', fileData.section3Image);
+      if (fileData.section4Image) submitData.append('section4Image', fileData.section4Image);
+      if (fileData.section5Image) submitData.append('section5Image', fileData.section5Image);
+      if (fileData.section6Image) submitData.append('section6Image', fileData.section6Image);
+
+      const config = { headers: { 
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }};
       
       if (editingId) {
-        await axios.put(`${API_URL}/${editingId}`, formData, config);
+        await axios.put(`${API_URL}/${editingId}`, submitData, config);
       } else {
-        await axios.post(API_URL, formData, config);
+        await axios.post(API_URL, submitData, config);
       }
       setShowForm(false);
       setEditingId(null);
-      resetForm();
       fetchPages();
+      resetForm();
+      setPreviewUrls({});
     } catch (error) {
       console.error('Error saving page:', error);
       alert(error.response?.data?.message || 'Error saving page');
@@ -90,10 +174,37 @@ export default function AdminCityPages() {
   };
 
   const handleEdit = (page) => {
+    let activeCount = 3;
+    if (page.section6?.text || page.section6?.image) activeCount = 6;
+    else if (page.section5?.text || page.section5?.image) activeCount = 5;
+    else if (page.section4?.text || page.section4?.image) activeCount = 4;
+    
+    setVisibleSections(activeCount);
+    
     setFormData({
       ...page,
-      country: page.country || ''
+      country: page.country || '',
+      section1: page.section1 || { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+      section2: page.section2 || { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+      section3: page.section3 || { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+      section4: page.section4 || { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+      section5: page.section5 || { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+      section6: page.section6 || { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' }
     });
+    
+    // Initialize editor contents
+    editorContents.current = {
+      customText: page.customText || '',
+      section1: page.section1?.text || '',
+      section2: page.section2?.text || '',
+      section3: page.section3?.text || '',
+      section4: page.section4?.text || '',
+      section5: page.section5?.text || '',
+      section6: page.section6?.text || ''
+    };
+
+    setFileData({ section1Image: null, section2Image: null, section3Image: null, section4Image: null, section5Image: null, section6Image: null });
+    setPreviewUrls({});
     setEditingId(page._id);
     setShowForm(true);
   };
@@ -113,7 +224,24 @@ export default function AdminCityPages() {
   };
 
   const resetForm = () => {
-    setFormData({ title: '', slug: '', country: '', metaTitle: '', metaDescription: '', metaKeywords: '', customText: '' });
+    setVisibleSections(3);
+    setFormData({ 
+      title: '', slug: '', country: '', metaTitle: '', metaDescription: '', metaKeywords: '', customText: '',
+      section1: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+      section2: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+      section3: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+      section4: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+      section5: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' },
+      section6: { topHeading: '', topSubHeading: '', heading: '', text: '', image: '' }
+    });
+    
+    // Reset editor contents
+    editorContents.current = {
+      customText: '', section1: '', section2: '', section3: '', section4: '', section5: '', section6: ''
+    };
+
+    setFileData({ section1Image: null, section2Image: null, section3Image: null, section4Image: null, section5Image: null, section6Image: null });
+    setPreviewUrls({});
   };
 
   return (
@@ -206,9 +334,138 @@ export default function AdminCityPages() {
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Custom Hero Text (optional)</label>
                 <div className="border border-gray-300 rounded overflow-hidden">
-                  {editorComponent}
+                  <JoditEditor
+                    value={formData.customText || ''}
+                    config={{
+                      readonly: false,
+                      placeholder: 'Customized welcoming text for this city...',
+                      height: 300,
+                    }}
+                    onChange={(newContent) => { editorContents.current.customText = newContent; }}
+                  />
                 </div>
               </div>
+
+              {/* Dynamic Sections */}
+              {[...Array(visibleSections)].map((_, i) => {
+                const num = i + 1;
+                return (
+                  <div key={`section${num}`} className="md:col-span-2 border-t pt-8 mt-4">
+                    <h3 className="text-xl font-bold mb-4">Section {num}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                      
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Optional Center Header (Displays above the section)</label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <div className="flex justify-between text-xs text-gray-500 mb-1">
+                              <span>Top Heading</span>
+                              <span className={formData[`section${num}`]?.topHeading?.length > 150 ? 'text-red-500' : ''}>
+                                {formData[`section${num}`]?.topHeading?.length || 0}/150
+                              </span>
+                            </div>
+                            <input
+                              type="text"
+                              maxLength={150}
+                              value={formData[`section${num}`]?.topHeading || ''}
+                              onChange={(e) => handleSectionChange(`section${num}`, 'topHeading', e.target.value)}
+                              className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:ring-orange-500 focus:border-orange-500"
+                            />
+                          </div>
+                          <div>
+                            <div className="flex justify-between text-xs text-gray-500 mb-1">
+                              <span>Top Sub-Heading (Optional)</span>
+                              <span className={formData[`section${num}`]?.topSubHeading?.length > 250 ? 'text-red-500' : ''}>
+                                {formData[`section${num}`]?.topSubHeading?.length || 0}/250
+                              </span>
+                            </div>
+                            <input
+                              type="text"
+                              maxLength={250}
+                              value={formData[`section${num}`]?.topSubHeading || ''}
+                              onChange={(e) => handleSectionChange(`section${num}`, 'topSubHeading', e.target.value)}
+                              className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:ring-orange-500 focus:border-orange-500"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="md:col-span-2 border-t border-gray-200 my-2"></div>
+
+                      <div className="md:col-span-2">
+                        <div className="flex justify-between text-sm font-medium text-gray-700 mb-1">
+                          <span>Side Heading</span>
+                          <span className={formData[`section${num}`]?.heading?.length > 250 ? 'text-red-500 font-normal text-xs' : 'font-normal text-xs text-gray-500'}>
+                            {formData[`section${num}`]?.heading?.length || 0}/250
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          maxLength={250}
+                          value={formData[`section${num}`]?.heading || ''}
+                          onChange={(e) => handleSectionChange(`section${num}`, 'heading', e.target.value)}
+                          className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:ring-orange-500 focus:border-orange-500"
+                        />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Image Upload (4:3 aspect ratio)</label>
+                        <input
+                          id={`file-section${num}Image`}
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleFileSelect(`section${num}Image`, e.target.files[0])}
+                          className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:ring-orange-500 focus:border-orange-500"
+                        />
+                        {(previewUrls[`section${num}Image`] || formData[`section${num}`]?.image) && (
+                          <div className="mt-2 w-32 h-24 relative rounded overflow-hidden border">
+                            <img 
+                              src={previewUrls[`section${num}Image`] || formData[`section${num}`]?.image} 
+                              alt={`Section ${num} preview`} 
+                              className="object-cover w-full h-full"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setPreviewUrls(prev => ({ ...prev, [`section${num}Image`]: null }));
+                                setFileData(prev => ({ ...prev, [`section${num}Image`]: null }));
+                                setFormData(prev => ({ ...prev, [`section${num}`]: { ...prev[`section${num}`], image: '' } }));
+                                document.getElementById(`file-section${num}Image`).value = '';
+                              }}
+                              className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Text Content</label>
+                        <div className="border border-gray-300 rounded overflow-hidden bg-white">
+                          <JoditEditor
+                            value={formData[`section${num}`]?.text || ''}
+                            config={SECTION_EDITOR_CONFIG}
+                            onChange={(newContent) => { editorContents.current[`section${num}`] = newContent; }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Add Section Button */}
+              {visibleSections < 6 && (
+                <div className="md:col-span-2 flex justify-center mt-6">
+                  <button
+                    type="button"
+                    onClick={() => setVisibleSections(prev => Math.min(prev + 1, 6))}
+                    className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-6 rounded-lg transition"
+                  >
+                    <Plus size={20} />
+                    Add Section {visibleSections + 1}
+                  </button>
+                </div>
+              )}
             </div>
             <button
               type="submit"
@@ -282,6 +539,14 @@ export default function AdminCityPages() {
           </table>
         </div>
       )}
+
+      <ImageCropperModal 
+        isOpen={cropperOpen}
+        onClose={() => setCropperOpen(false)}
+        imageSrc={cropImageSrc}
+        onCropComplete={handleCropComplete}
+        aspect={4/3}
+      />
     </div>
   );
 }
