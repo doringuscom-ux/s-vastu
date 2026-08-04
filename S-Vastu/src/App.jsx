@@ -43,6 +43,29 @@ import axios from 'axios';
 
 import AdminUsers from './Pages/Admin/AdminUsers';
 
+// Add global axios interceptor to handle token expiration automatically
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (
+      error.response?.status === 401 ||
+      (error.response?.data?.message && 
+       error.response.data.message.toLowerCase().includes('token'))
+    ) {
+      // Clear stored authentication tokens
+      localStorage.removeItem('token');
+      localStorage.removeItem('adminToken');
+      localStorage.removeItem('userRole');
+      
+      // Redirect to login if on an admin page (prevent loop if already on login)
+      if (window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
+        window.location.href = '/admin/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 function DynamicRouteResolver() {
   const { slug } = useParams();
   const serviceSlugs = [
