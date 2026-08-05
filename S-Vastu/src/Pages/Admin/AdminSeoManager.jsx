@@ -374,13 +374,17 @@ export default function AdminSeoManager() {
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1.5">Meta Robots</label>
-                    <input
-                      type="text"
+                    <select
                       name="metaRobots"
                       value={formData.metaRobots}
                       onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    />
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
+                    >
+                      <option value="index, follow">index, follow</option>
+                      <option value="noindex, follow">noindex, follow</option>
+                      <option value="index, nofollow">index, nofollow</option>
+                      <option value="noindex, nofollow">noindex, nofollow</option>
+                    </select>
                   </div>
                 </div>
 

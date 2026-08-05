@@ -26,7 +26,7 @@ export default function Footer() {
                 <a href="https://www.instagram.com/svastusolution/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#0A192F] transition-all shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]" aria-label="Instagram">
                   <FaInstagram className="w-4 h-4" />
                 </a>
-                <a href="https://in.pinterest.com/Svastusolution/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#0A192F] transition-all shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]" aria-label="Pinterest">
+                <a href="https://www.pinterest.com/svastusolution/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#D4AF37] flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#0A192F] transition-all shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]" aria-label="Pinterest">
                   <FaPinterestP className="w-4 h-4" />
                 </a>
               </div>

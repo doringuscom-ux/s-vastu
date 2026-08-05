@@ -4,6 +4,14 @@ import axios from 'axios';
 import { Eye, EyeOff, Mail, KeyRound, ArrowLeft, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { ADMIN_API } from '../../utils/api';
 
+const isValidPassword = (password) => {
+  const hasMinLength = password.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  return hasMinLength && hasUpperCase && hasNumber && hasSpecialChar;
+};
+
 const AdminLogin = () => {
   // Login State
   const [username, setUsername] = useState('');
@@ -116,6 +124,10 @@ const AdminLogin = () => {
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
+    if (!isValidPassword(newPassword)) {
+      setError('Password must be at least 8 characters long, and include a number, a capital letter, and a special character.');
+      return;
+    }
     setLoading(true);
     setError('');
     try {

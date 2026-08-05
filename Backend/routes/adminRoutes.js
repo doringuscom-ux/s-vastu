@@ -4,6 +4,13 @@ const Admin = require('../models/Admin');
 const jwt = require('jsonwebtoken');
 const { protect, adminOnly } = require('../middlewares/auth');
 
+const isValidPassword = (password) => {
+  const hasMinLength = password.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  return hasMinLength && hasUpperCase && hasNumber && hasSpecialChar;
+};
 // Generate Access Token (30 days)
 const generateAccessToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -261,6 +268,10 @@ router.post('/reset-password', async (req, res) => {
       return res.status(400).json({ message: 'Email, OTP, and new password are required' });
     }
 
+    if (!isValidPassword(newPassword)) {
+      return res.status(400).json({ message: 'Password must be at least 8 characters long, and include a number, a capital letter, and a special character.' });
+    }
+
     const user = await Admin.findOne({ email, resetOtpExpire: { $gt: Date.now() } });
     if (!user) {
       return res.status(400).json({ message: 'OTP has expired or user not found. Request a new one.' });
@@ -311,6 +322,10 @@ router.post('/users', protect, adminOnly, async (req, res) => {
   try {
     const { username, password, role, name, email, phone } = req.body;
     
+    if (!isValidPassword(password)) {
+      return res.status(400).json({ message: 'Password must be at least 8 characters long, and include a number, a capital letter, and a special character.' });
+    }
+
     const userExists = await Admin.findOne({ username });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
@@ -412,6 +427,9 @@ router.put('/users/:id/password', protect, adminOnly, async (req, res) => {
     if (user) {
       if (!req.body.password) {
         return res.status(400).json({ message: 'Password is required' });
+      }
+      if (!isValidPassword(req.body.password)) {
+        return res.status(400).json({ message: 'Password must be at least 8 characters long, and include a number, a capital letter, and a special character.' });
       }
       user.password = req.body.password;
       await user.save();

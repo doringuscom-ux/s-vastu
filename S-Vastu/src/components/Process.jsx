@@ -71,14 +71,11 @@ export default function Process() {
             
             <div className="space-y-2">
               {steps.map((step, index) => (
-                <div key={index} className="group relative flex flex-col sm:flex-row gap-6 p-1 sm:p-0">
-                  <div className="flex-shrink-0 relative z-10">
-                    {/* Number badge for mobile */}
-                    <div className="sm:hidden absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#B8860B] text-white flex items-center justify-center font-bold text-sm shadow-md z-20 border border-white/20">
-                      {index + 1}
-                    </div>
+                <div key={index} className="group relative flex flex-row gap-4 sm:gap-6 p-1 sm:p-0">
+                  <div className="flex-shrink-0 relative z-10 pt-1">
+
                     
-                    <div className="w-20 h-20 rounded-2xl bg-white shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] flex items-center justify-center border border-gray-100 group-hover:border-[#D4AF37]/40 group-hover:shadow-[0_8px_30px_-4px_rgba(212,175,55,0.3)] transition-all duration-500 ease-out group-hover:-translate-y-2 overflow-hidden relative">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] flex items-center justify-center border border-gray-100 group-hover:border-[#D4AF37]/40 group-hover:shadow-[0_8px_30px_-4px_rgba(212,175,55,0.3)] transition-all duration-500 ease-out group-hover:-translate-y-2 overflow-hidden relative">
                       <div className="absolute inset-0 bg-gradient-to-br from-[#FDF9F1] to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                       <div className="text-[#D4AF37] relative z-10 transform group-hover:scale-110 group-hover:text-[#B8860B] transition-all duration-500 drop-shadow-sm">
                         {step.icon}
@@ -86,12 +83,12 @@ export default function Process() {
                     </div>
                   </div>
                   
-                  <div className="pt-2 sm:pt-3 flex-1 bg-white sm:bg-transparent rounded-2xl p-6 sm:p-0 border sm:border-none border-gray-100 shadow-sm sm:shadow-none hover:shadow-md sm:hover:shadow-none transition-all duration-300 group-hover:translate-x-2">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 flex items-center group-hover:text-[#B8860B] transition-colors duration-300">
+                  <div className="pt-1 sm:pt-3 flex-1 transition-all duration-300 group-hover:translate-x-2">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 flex items-center group-hover:text-[#B8860B] transition-colors duration-300">
                       <span className="hidden sm:inline-block text-[#D4AF37]/70 mr-4 text-4xl font-black group-hover:text-[#B8860B] transition-colors duration-300">0{index + 1}</span> 
                       {step.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed text-base group-hover:text-gray-800 transition-colors duration-300">{step.description}</p>
+                    <p className="text-gray-600 leading-relaxed text-sm sm:text-base group-hover:text-gray-800 transition-colors duration-300">{step.description}</p>
                   </div>
                 </div>
               ))}

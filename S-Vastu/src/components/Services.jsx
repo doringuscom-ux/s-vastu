@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Home, Building2, Factory, Hash, Monitor, Map, Star } from 'lucide-react';
 import numerologyImg from '../assets/7 nume.webp';
 
@@ -77,36 +78,71 @@ export default function Services({ hideHeader = false, layout = 'grid', showAllS
         )}
 
         {layout === 'grid' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {displayedServices.map((service, index) => (
-              <div key={index} className="group bg-white p-8 border border-dashed border-gray-300 hover:border-[#D4AF37] transition-colors duration-300 flex flex-col items-center text-center h-full">
+          <>
+            {/* Desktop View: Grid */}
+            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              {displayedServices.map((service, index) => (
+                <div key={index} className="group bg-white p-8 border border-dashed border-gray-300 hover:border-[#D4AF37] transition-colors duration-300 flex flex-col items-center text-center h-full">
 
-                {/* Double Dotted Icon Container */}
-                <div className="w-24 h-24 rounded-full border border-dashed border-gray-300 group-hover:border-[#D4AF37] flex items-center justify-center mb-6 transition-colors duration-300">
-                  <div className="w-20 h-20 rounded-full border border-dashed border-gray-200 flex items-center justify-center group-hover:bg-[#D4AF37] transition-all duration-300">
-                    <div className="text-[#B8860B] group-hover:text-white transition-colors duration-300">
-                      {React.cloneElement(service.icon, { className: "w-8 h-8" })}
+                  {/* Double Dotted Icon Container */}
+                  <div className="w-24 h-24 rounded-full border border-dashed border-gray-300 group-hover:border-[#D4AF37] flex items-center justify-center mb-6 transition-colors duration-300">
+                    <div className="w-20 h-20 rounded-full border border-dashed border-gray-200 flex items-center justify-center group-hover:bg-[#D4AF37] transition-all duration-300">
+                      <div className="text-[#B8860B] group-hover:text-white transition-colors duration-300">
+                        {React.cloneElement(service.icon, { className: "w-8 h-8" })}
+                      </div>
                     </div>
                   </div>
+
+                  <h3 className="text-lg font-bold text-gray-900 group-hover:text-[#B8860B] mb-4 uppercase tracking-wider transition-colors duration-300">
+                    {service.title}
+                  </h3>
+
+                  <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-6">
+                    {service.description}
+                  </p>
+
+                  {/* Action Link */}
+                  <Link to={`/${service.slug}`} className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-[#B8860B] group-hover:text-[#D4AF37] transition-colors duration-300 cursor-pointer">
+                    <span>Read More</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                  </Link>
+
                 </div>
+              ))}
+            </div>
 
-                <h3 className="text-lg font-bold text-gray-900 group-hover:text-[#B8860B] mb-4 uppercase tracking-wider transition-colors duration-300">
-                  {service.title}
-                </h3>
-
-                <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-6">
-                  {service.description}
-                </p>
-
-                {/* Action Link */}
-                <Link to={`/${service.slug}`} className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-[#B8860B] group-hover:text-[#D4AF37] transition-colors duration-300 cursor-pointer">
-                  <span>Read More</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                </Link>
-
-              </div>
-            ))}
-          </div>
+            {/* Mobile View: Infinite Animated Marquee */}
+            <div className="md:hidden overflow-hidden relative w-full flex py-2">
+              <motion.div
+                className="flex gap-4 px-2"
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ ease: "linear", duration: displayedServices.length * 4, repeat: Infinity }}
+                style={{ width: "fit-content" }}
+              >
+                {[...displayedServices, ...displayedServices].map((service, index) => (
+                  <div key={`mobile-${index}`} className="bg-white p-6 border border-dashed border-gray-300 flex flex-col items-center text-center w-[280px] shrink-0">
+                    <div className="w-20 h-20 rounded-full border border-dashed border-gray-300 flex items-center justify-center mb-5">
+                      <div className="w-16 h-16 rounded-full border border-dashed border-gray-200 flex items-center justify-center">
+                        <div className="text-[#B8860B]">
+                          {React.cloneElement(service.icon, { className: "w-7 h-7" })}
+                        </div>
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-3 uppercase tracking-wider whitespace-normal">
+                      {service.title}
+                    </h3>
+                    <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-5 whitespace-normal">
+                      {service.description}
+                    </p>
+                    <Link to={`/${service.slug}`} className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-[#B8860B]">
+                      <span>Read More</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </Link>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+          </>
         ) : (
           <div className="flex flex-col gap-8 lg:gap-12">
             {displayedServices.map((service, index) => {

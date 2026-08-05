@@ -424,14 +424,17 @@ export default function AdminBlogPages() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Meta Robots</label>
-                      <input
-                        type="text"
+                      <select
                         name="metaRobots"
                         value={formData.metaRobots}
                         onChange={handleInputChange}
-                        placeholder="index, follow"
-                        className="w-full border border-gray-300 rounded p-2"
-                      />
+                        className="w-full border border-gray-300 rounded p-2 bg-white"
+                      >
+                        <option value="index, follow">index, follow</option>
+                        <option value="noindex, follow">noindex, follow</option>
+                        <option value="index, nofollow">index, nofollow</option>
+                        <option value="noindex, nofollow">noindex, nofollow</option>
+                      </select>
                     </div>
                   </div>
                 </div>

@@ -75,47 +75,100 @@ export default function Blog({ hideHeader = false, limit, showFilters = false })
         ) : displayedPosts.length === 0 ? (
           <div className="text-center text-gray-500 py-12">No blog posts found in this category.</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {displayedPosts.map((post) => (
+          <>
+            {/* Desktop View: Grid */}
+            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {displayedPosts.map((post) => (
+                <motion.div
+                  key={post._id}
+                  className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 flex flex-col group cursor-pointer"
+                  whileHover={{ y: -8 }}
+                >
+                  <Link to={`/${post.slug}`} className="flex flex-col h-full">
+                    {/* Image */}
+                    <div className="relative h-56 overflow-hidden">
+                      <img
+                        src={post.coverImage || "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=800&auto=format&fit=crop"}
+                        alt={post.title}
+                        className="w-full h-full object-contain bg-slate-100 transform group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-sm">
+                        <span className="text-sm font-bold text-[#D4AF37]">
+                          {new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-8 flex-1 flex flex-col">
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#B8860B] transition-colors leading-tight line-clamp-3">
+                        {post.title}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed mb-6 flex-1 text-sm line-clamp-3">
+                        {post.excerpt || post.content.substring(0, 150) + '...'}
+                      </p>
+
+                      {/* Read More Link */}
+                      <div className="flex items-center gap-2 text-sm font-bold text-gray-900 border-b-2 border-[#D4AF37] pb-1 self-start group-hover:text-[#B8860B] group-hover:border-[#B8860B] transition-colors">
+                        Read Article
+                        <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Mobile View: Infinite Animated Marquee */}
+            <div className="md:hidden overflow-hidden relative w-full flex py-4">
               <motion.div
-                key={post._id}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 flex flex-col group cursor-pointer"
-                whileHover={{ y: -8 }}
+                className="flex gap-4 px-2"
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ ease: "linear", duration: Math.max(15, displayedPosts.length * 6), repeat: Infinity }}
+                style={{ width: "fit-content" }}
               >
-                <Link to={`/${post.slug}`} className="flex flex-col h-full">
-                  {/* Image */}
-                  <div className="relative h-56 overflow-hidden">
-                    <img
-                      src={post.coverImage || "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=800&auto=format&fit=crop"}
-                      alt={post.title}
-                      className="w-full h-full object-contain bg-slate-100 transform group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-sm">
-                      <span className="text-sm font-bold text-[#D4AF37]">
-                        {new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </span>
-                    </div>
-                  </div>
+                {[...displayedPosts, ...displayedPosts].map((post, index) => (
+                  <motion.div
+                    key={`mobile-${index}`}
+                    className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 flex flex-col group cursor-pointer w-[280px] shrink-0"
+                    whileHover={{ y: -4 }}
+                  >
+                    <Link to={`/${post.slug}`} className="flex flex-col h-full">
+                      {/* Image */}
+                      <div className="relative h-48 overflow-hidden">
+                        <img
+                          src={post.coverImage || "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=800&auto=format&fit=crop"}
+                          alt={post.title}
+                          className="w-full h-full object-contain bg-slate-100"
+                        />
+                        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm">
+                          <span className="text-xs font-bold text-[#D4AF37]">
+                            {new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                          </span>
+                        </div>
+                      </div>
 
-                  {/* Content */}
-                  <div className="p-8 flex-1 flex flex-col">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#B8860B] transition-colors leading-tight line-clamp-3">
-                      {post.title}
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed mb-6 flex-1 text-sm line-clamp-3">
-                      {post.excerpt || post.content.substring(0, 150) + '...'}
-                    </p>
+                      {/* Content */}
+                      <div className="p-5 flex-1 flex flex-col">
+                        <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight line-clamp-2 whitespace-normal">
+                          {post.title}
+                        </h3>
+                        <p className="text-gray-600 leading-relaxed mb-4 flex-1 text-sm line-clamp-2 whitespace-normal">
+                          {post.excerpt || post.content.substring(0, 100) + '...'}
+                        </p>
 
-                    {/* Read More Link */}
-                    <div className="flex items-center gap-2 text-sm font-bold text-gray-900 border-b-2 border-[#D4AF37] pb-1 self-start group-hover:text-[#B8860B] group-hover:border-[#B8860B] transition-colors">
-                      Read Article
-                      <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </div>
-                  </div>
-                </Link>
+                        {/* Read More Link */}
+                        <div className="flex items-center gap-2 text-xs font-bold text-gray-900 border-b-2 border-[#D4AF37] pb-1 self-start">
+                          Read Article
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
               </motion.div>
-            ))}
-          </div>
+            </div>
+          </>
         )}
 
         {/* View All Button */}

@@ -56,6 +56,12 @@ export default function Hero() {
     typeof window !== 'undefined' ? window.innerWidth < 768 : true
   );
 
+  const [activeCardIndex, setActiveCardIndex] = useState(null);
+
+  const handleCardClick = (index) => {
+    setActiveCardIndex(activeCardIndex === index ? null : index);
+  };
+
   React.useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -79,6 +85,16 @@ export default function Hero() {
 
   return (
     <div className="relative min-h-screen flex flex-col justify-center pt-32 pb-20 sm:pt-40 sm:pb-24 overflow-hidden gap-8 sm:gap-12 bg-[#1E242C]">
+      
+      <style>{`
+        @keyframes mobileMarquee {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-mobile-marquee {
+          animation: mobileMarquee 20s linear infinite;
+        }
+      `}</style>
 
       {/* Background Media */}
       <div className="absolute inset-0 z-0">
@@ -141,39 +157,40 @@ export default function Hero() {
         transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
         className="relative z-20 w-full px-4 flex-shrink-0"
       >
-        <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-4 sm:gap-6">
+        {/* Desktop View */}
+        <div className="hidden sm:flex max-w-7xl mx-auto flex-wrap justify-center gap-4 sm:gap-6">
           {elements.map((item, i) => (
             <div
               key={i}
-              className="group h-48 sm:h-56 w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(20%-1.2rem)] max-w-[260px] [perspective:1000px] cursor-pointer"
+              className="group h-48 sm:h-56 w-[calc(33.333%-1rem)] lg:w-[calc(20%-1.2rem)] max-w-[260px] [perspective:1000px] cursor-pointer"
             >
               <div className="relative w-full h-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
 
                 {/* Front Side (Glassmorphism) */}
-                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] flex flex-col items-center justify-center bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-6 shadow-xl">
+                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] flex flex-col items-center justify-center bg-black/40 backdrop-blur-md [-webkit-backdrop-filter:blur(12px)] border border-white/10 rounded-2xl p-4 sm:p-6 shadow-xl antialiased">
                   <div className="w-16 h-16 rounded-full border border-dashed border-gray-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500">
                     <div className="transform scale-90">
                       {item.icon}
                     </div>
                   </div>
-                  <h3 className="text-white font-bold text-[11px] sm:text-xs md:text-sm uppercase tracking-[0.15em] text-center mb-3">
+                  <h3 className="text-white font-bold text-xs md:text-sm uppercase tracking-[0.15em] text-center mb-3">
                     {item.title}
                   </h3>
                   <div className="w-6 h-px bg-[#DCC197] mb-3"></div>
-                  <p className="text-[#DCC197] text-[8px] sm:text-[9px] tracking-[0.2em] uppercase opacity-80">
+                  <p className="text-white text-[9px] tracking-[0.2em] uppercase opacity-80">
                     Hover for Info
                   </p>
                 </div>
 
                 {/* Back Side */}
-                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center bg-[#1E242C]/95 backdrop-blur-lg border border-[#DCC197]/30 rounded-2xl p-4 sm:p-6 text-center shadow-[0_0_30px_rgba(220,193,151,0.15)]">
+                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center bg-[#1E242C]/95 backdrop-blur-lg [-webkit-backdrop-filter:blur(16px)] border border-[#DCC197]/30 rounded-2xl p-4 sm:p-6 text-center shadow-[0_0_30px_rgba(220,193,151,0.15)] antialiased">
                   <div className="transform scale-75 mb-2 opacity-80">
                     {item.icon}
                   </div>
-                  <h3 className="text-[#DCC197] font-bold text-[11px] sm:text-xs md:text-sm uppercase tracking-[0.15em] mb-3">
+                  <h3 className="text-[#DCC197] font-bold text-xs md:text-sm uppercase tracking-[0.15em] mb-3">
                     {item.title}
                   </h3>
-                  <p className="text-gray-300 text-[10px] sm:text-[11px] md:text-xs leading-relaxed">
+                  <p className="text-gray-300 text-[11px] md:text-xs leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -181,6 +198,60 @@ export default function Hero() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Mobile View: Infinite Animated Marquee */}
+        <div className="sm:hidden overflow-hidden relative w-full flex py-2">
+          <div
+            className="flex gap-4 px-2 animate-mobile-marquee"
+            style={{ width: "fit-content", animationPlayState: activeCardIndex !== null ? 'paused' : 'running' }}
+          >
+            {[...elements, ...elements].map((item, index) => {
+              const originalIndex = index % elements.length;
+              const isActive = activeCardIndex === originalIndex;
+              
+              return (
+                <div
+                  key={`mobile-${index}`}
+                  className="group h-40 w-[160px] shrink-0 [perspective:1000px] cursor-pointer"
+                  onClick={() => handleCardClick(originalIndex)}
+                >
+                  <div className={`relative w-full h-full transition-all duration-700 [transform-style:preserve-3d] ${isActive ? '[transform:rotateY(180deg)]' : ''}`}>
+
+                    {/* Front Side */}
+                    <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] flex flex-col items-center justify-center bg-black/60 border border-white/10 rounded-2xl p-3 shadow-xl antialiased">
+                      <div className="w-12 h-12 rounded-full border border-dashed border-gray-400 flex items-center justify-center mb-3">
+                        <div className="transform scale-75">
+                          {item.icon}
+                        </div>
+                      </div>
+                      <h3 className="text-white font-bold text-[10px] uppercase tracking-[0.15em] text-center mb-2">
+                        {item.title}
+                      </h3>
+                      <div className="w-6 h-px bg-[#DCC197] mb-2"></div>
+                      <p className="text-white text-[7.5px] tracking-[0.2em] uppercase opacity-80">
+                        Tap for Info
+                      </p>
+                    </div>
+
+                    {/* Back Side */}
+                    <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center bg-[#1E242C]/95 border border-[#DCC197]/30 rounded-2xl p-3 text-center shadow-lg antialiased">
+                      <div className="transform scale-50 mb-1 opacity-80">
+                        {item.icon}
+                      </div>
+                      <h3 className="text-[#DCC197] font-bold text-[10px] uppercase tracking-[0.15em] mb-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-gray-300 text-[9px] leading-relaxed line-clamp-3">
+                        {item.desc}
+                      </p>
+                    </div>
+
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mt-8 sm:mt-12 w-full px-4 sm:px-0">

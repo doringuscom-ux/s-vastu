@@ -17,7 +17,8 @@ export default function CoreValues() {
           <div className="w-20 h-1 bg-[#D4AF37] mx-auto rounded-full"></div>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-10">
+        {/* Desktop View: Grid */}
+        <div className="hidden md:grid md:grid-cols-3 gap-10">
           {[
             { icon: Shield, title: "Integrity", desc: "Honest and transparent guidance without fear-mongering." },
             { icon: Star, title: "Excellence", desc: "Highest standards of service and profound expertise." },
@@ -39,6 +40,37 @@ export default function CoreValues() {
               <p className="text-gray-600 leading-relaxed">{value.desc}</p>
             </motion.div>
           ))}
+        </div>
+
+        {/* Mobile View: Infinite Animated Marquee */}
+        <div className="md:hidden overflow-hidden relative w-full flex py-4">
+          <motion.div
+            className="flex gap-4 px-2"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ ease: "linear", duration: 15, repeat: Infinity }}
+            style={{ width: "fit-content" }}
+          >
+            {[
+              { icon: Shield, title: "Integrity", desc: "Honest and transparent guidance without fear-mongering." },
+              { icon: Star, title: "Excellence", desc: "Highest standards of service and profound expertise." },
+              { icon: Compass, title: "Authenticity", desc: "Rooted in classical texts, adapted for modern architecture." },
+              // Duplicate the set for seamless looping
+              { icon: Shield, title: "Integrity", desc: "Honest and transparent guidance without fear-mongering." },
+              { icon: Star, title: "Excellence", desc: "Highest standards of service and profound expertise." },
+              { icon: Compass, title: "Authenticity", desc: "Rooted in classical texts, adapted for modern architecture." }
+            ].map((value, i) => (
+              <div
+                key={`mobile-${i}`}
+                className="bg-white p-6 rounded-3xl shadow-lg border border-slate-100 w-[260px] shrink-0"
+              >
+                <div className="w-14 h-14 bg-[#D4AF37]/10 rounded-full flex items-center justify-center mx-auto mb-5">
+                  <value.icon className="w-7 h-7 text-[#B8860B]" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed whitespace-normal">{value.desc}</p>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>

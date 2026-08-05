@@ -3,8 +3,15 @@ import axios from 'axios';
 import { Plus, Trash2, Shield, User, Key, Edit, X, Save, Eye, EyeOff } from 'lucide-react';
 import { ADMIN_API } from '../../utils/api';
 
+const isValidPassword = (password) => {
+  const hasMinLength = password.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  return hasMinLength && hasUpperCase && hasNumber && hasSpecialChar;
+};
+
 export default function AdminUsers() {
-  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
@@ -65,6 +72,10 @@ export default function AdminUsers() {
         alert('User details updated successfully!');
       } else {
         // Create User
+        if (!isValidPassword(formData.password)) {
+          setError('Password must be at least 8 characters long, and include a number, a capital letter, and a special character.');
+          return;
+        }
         await axios.post(`${ADMIN_API}/users`, formData, getAuthHeaders());
         alert('User created successfully!');
       }
@@ -119,6 +130,11 @@ export default function AdminUsers() {
     e.preventDefault();
     if (!newPassword.trim()) return;
     
+    if (!isValidPassword(newPassword)) {
+      setError('Password must be at least 8 characters long, and include a number, a capital letter, and a special character.');
+      return;
+    }
+
     try {
       await axios.put(`${ADMIN_API}/users/${changePasswordUserId}/password`, { password: newPassword }, getAuthHeaders());
       alert('Password updated successfully!');
