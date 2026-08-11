@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
     
     // Dynamic Blogs
     blogs.forEach(blog => {
-      xml += `  <url>\n    <loc>${baseUrl}/blog/${blog.slug}</loc>\n    <lastmod>${new Date(blog.updatedAt || Date.now()).toISOString()}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
+      xml += `  <url>\n    <loc>${baseUrl}/${blog.slug}</loc>\n    <lastmod>${new Date(blog.updatedAt || Date.now()).toISOString()}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
     });
     
     xml += '</urlset>';
