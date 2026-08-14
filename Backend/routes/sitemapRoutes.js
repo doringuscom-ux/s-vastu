@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
     const baseUrl = process.env.FRONTEND_URL || 'https://svastusolution.com';
     
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += '<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>\n';
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
     
     // Default static routes
