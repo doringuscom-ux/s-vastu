@@ -267,8 +267,8 @@ export default function SingleServicePage() {
               
               <div className="flex items-center justify-center gap-2 text-gray-300 text-sm">
                 <span>Or call us:</span>
-                <a href="tel:+919876543210" className="text-[#D4AF37] font-bold hover:underline flex items-center">
-                  <Phone className="w-3 h-3 mr-1" /> +91 98765 43210
+                <a href="tel:+919817755699" className="text-[#D4AF37] font-bold hover:underline flex items-center">
+                  <Phone className="w-3 h-3 mr-1" /> +91 98177 55699
                 </a>
               </div>
             </div>

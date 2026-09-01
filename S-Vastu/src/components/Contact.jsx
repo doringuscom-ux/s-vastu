@@ -7,6 +7,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    countryCode: '+91',
     phone: '',
     state: '',
     problem: '',
@@ -19,22 +20,72 @@ export default function Contact() {
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    let { name, value } = e.target;
+    
+    if (name === 'time' || name === 'date') {
+      const today = new Date().toLocaleDateString('en-CA');
+      const currentTime = new Date().toTimeString().slice(0, 5);
+      
+      const selectedDate = name === 'date' ? value : formData.date;
+      const selectedTime = name === 'time' ? value : formData.time;
+
+      if (selectedDate === today && selectedTime && selectedTime < currentTime) {
+        if (name === 'time') {
+           alert("Please select a valid future time for today.");
+           value = ''; 
+        } else {
+           setFormData({ ...formData, date: value, time: '' });
+           alert("Your previously selected time has passed for today's date. Please select the time again.");
+           return;
+        }
+      }
+    }
+    if (name === 'phone') {
+      value = value.replace(/\D/g, '');
+    }
+    
+    if (name === 'countryCode') {
+      value = value.replace(/[^\d+]/g, '');
+      if (value.lastIndexOf('+') > 0) {
+         value = '+' + value.replace(/\+/g, '');
+      }
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.date || formData.time) {
+      const today = new Date().toLocaleDateString('en-CA');
+      const currentTime = new Date().toTimeString().slice(0, 5);
+      
+      if (formData.date && formData.date < today) {
+        setError('Please select a valid future date.');
+        return;
+      }
+      if (formData.date === today && formData.time && formData.time < currentTime) {
+        setError('Please select a valid future time for today.');
+        return;
+      }
+    }
+
     setLoading(true);
     setError('');
     setSuccess(false);
 
     try {
       // 1. Send data to your own Backend (MongoDB)
-      await axios.post(CONTACT_API, formData);
+      const dataToSubmit = {
+        ...formData,
+        phone: `${formData.countryCode} ${formData.phone}`
+      };
+      await axios.post(CONTACT_API, dataToSubmit);
 
       setSuccess(true);
       setFormData({
-        name: '', email: '', phone: '', state: '', problem: '', date: '', time: ''
+        name: '', email: '', countryCode: '+91', phone: '', state: '', problem: '', date: '', time: ''
       });
       // Hide success message after 5 seconds
       setTimeout(() => setSuccess(false), 5000);
@@ -93,7 +144,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-xs text-gray-400 mb-0.5">Email Us</p>
-                    <p className="font-medium text-white tracking-wide text-sm">info@svastusolution.com</p>
+                    <p className="font-medium text-white tracking-wide text-sm">svastunumerology@gmail.com</p>
                   </div>
                 </div>
               </div>
@@ -152,15 +203,31 @@ export default function Contact() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-gray-700 ml-1">Phone *</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="+91"
-                    required
-                    className="w-full bg-[#FCFBF8] border border-[#e5dfd5] rounded-lg px-4 py-3 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-gray-800 placeholder-gray-400 text-sm"
-                  />
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      name="countryCode"
+                      value={formData.countryCode}
+                      onChange={handleChange}
+                      placeholder="+91"
+                      required
+                      maxLength={5}
+                      className="w-[85px] bg-[#FCFBF8] border border-[#e5dfd5] rounded-lg px-3 py-3 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-gray-800 text-sm placeholder-gray-400"
+                    />
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="9876543210"
+                      required
+                      minLength={10}
+                      maxLength={10}
+                      pattern="[0-9]{10}"
+                      title="Phone number must be exactly 10 digits"
+                      className="flex-1 w-full bg-[#FCFBF8] border border-[#e5dfd5] rounded-lg px-4 py-3 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-gray-800 placeholder-gray-400 text-sm"
+                    />
+                  </div>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-gray-700 ml-1">City</label>
@@ -195,6 +262,7 @@ export default function Contact() {
                     type="date"
                     name="date"
                     value={formData.date}
+                    min={new Date().toLocaleDateString('en-CA')}
                     onChange={handleChange}
                     className="w-full bg-[#FCFBF8] border border-[#e5dfd5] rounded-lg px-4 py-3 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-gray-800 text-sm"
                   />
@@ -205,6 +273,7 @@ export default function Contact() {
                     type="time"
                     name="time"
                     value={formData.time}
+                    min={formData.date === new Date().toLocaleDateString('en-CA') ? new Date().toTimeString().slice(0, 5) : undefined}
                     onChange={handleChange}
                     className="w-full bg-[#FCFBF8] border border-[#e5dfd5] rounded-lg px-4 py-3 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-gray-800 text-sm"
                   />

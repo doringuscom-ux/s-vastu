@@ -256,7 +256,8 @@ export default function Hero() {
 
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mt-8 sm:mt-12 w-full px-4 sm:px-0">
           <motion.a
-            href="tel:+919876543210"
+            title="Call Now"
+            href="tel:+919817755699"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="flex items-center gap-2 bg-[#DCC197] text-[#1E242C] font-semibold text-xs sm:text-sm tracking-[0.2em] uppercase px-6 py-4 sm:px-8 sm:py-5 hover:bg-white hover:-translate-y-1 transition-all duration-300 shadow-[0_10px_30px_rgba(220,193,151,0.3)] rounded-sm w-full sm:w-[260px] justify-center"
@@ -266,7 +267,8 @@ export default function Hero() {
           </motion.a>
           
           <motion.a
-            href="https://wa.me/919876543210"
+            title="WhatsApp Now"
+            href="https://wa.me/919817755699"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}

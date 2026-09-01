@@ -32,11 +32,11 @@ export default function Navbar() {
           Welcome to S-Vastu Solution – Trusted Vastu Consultant
         </p>
         <div className="flex gap-6 mt-2 md:mt-0 text-sm font-medium">
-          <a href="tel:+910000000000" className="flex items-center gap-1.5 hover:text-yellow-200 transition-colors">
-            <Phone size={14} /> +91 98765 43210
+          <a href="tel:+919817755699" className="flex items-center gap-1.5 hover:text-yellow-200 transition-colors">
+            <Phone size={14} /> +91 98177 55699
           </a>
-          <a href="mailto:info@svastusolution.com" className="flex items-center gap-1.5 hover:text-yellow-200 transition-colors">
-            <Mail size={14} /> info@svastusolution.com
+          <a href="mailto:svastunumerology@gmail.com" className="flex items-center gap-1.5 hover:text-yellow-200 transition-colors">
+            <Mail size={14} /> svastunumerology@gmail.com
           </a>
         </div>
       </div> */}
@@ -90,9 +90,9 @@ export default function Navbar() {
                 </a>
               );
             })}
-            <button className="bg-gradient-to-r from-[#B8860B] to-[#D4AF37] text-white px-7 py-2.5 rounded-full font-bold hover:shadow-lg hover:shadow-[#B8860B]/30 transition-all duration-300 transform hover:-translate-y-0.5">
+            <a href="https://wa.me/919817755699" target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-[#B8860B] to-[#D4AF37] text-white px-7 py-2.5 rounded-full font-bold hover:shadow-lg hover:shadow-[#B8860B]/30 transition-all duration-300 transform hover:-translate-y-0.5 inline-block text-center">
               Book Now
-            </button>
+            </a>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -142,9 +142,9 @@ export default function Navbar() {
             );
           })}
           <div className="pt-4 px-2">
-            <button className="w-full bg-gradient-to-r from-[#B8860B] to-[#D4AF37] text-white px-6 py-3.5 rounded-xl font-bold hover:shadow-lg transition-all shadow-md">
+            <a href="https://wa.me/919817755699" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)} className="block w-full text-center bg-gradient-to-r from-[#B8860B] to-[#D4AF37] text-white px-6 py-3.5 rounded-xl font-bold hover:shadow-lg transition-all shadow-md">
               Book Appointment
-            </button>
+            </a>
           </div>
         </div>
       </div>

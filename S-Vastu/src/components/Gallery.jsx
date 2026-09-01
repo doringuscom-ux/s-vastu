@@ -122,9 +122,9 @@ export default function Gallery({ hideHeader = false, limit }) {
                   'md:col-span-2 md:row-span-2', // 1 (Large square)
                   'md:col-span-1 md:row-span-1', // 2 (Small square)
                   'md:col-span-1 md:row-span-1', // 3 (Small square)
-                  'md:col-span-1 md:row-span-2', // 4 (Tall rectangle)
-                  'md:col-span-1 lg:col-span-2 md:row-span-1', // 5 (Wide rectangle on LG, small on MD)
-                  'md:col-span-1 lg:col-span-2 md:row-span-1', // 6 (Wide rectangle on LG, small on MD)
+                  'md:col-span-1 md:row-span-1', // 4 (Small square)
+                  'md:col-span-1 md:row-span-1', // 5 (Small square)
+                  'md:col-span-1 md:row-span-1', // 6 (Small square)
                 ];
 
                 const gridClass = isAll ? bentoClasses[index] : 'md:col-span-1 md:row-span-1';

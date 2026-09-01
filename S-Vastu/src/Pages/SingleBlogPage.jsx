@@ -253,11 +253,11 @@ export default function SingleBlogPage() {
 
                 <h3 className="font-bold text-2xl mb-3 relative z-10">Vastu Consultation</h3>
                 <p className="text-gray-300 text-sm mb-8 leading-relaxed relative z-10">Balance the energies of your home or office. Connect with our experts today.</p>
-                <Link to="/contact-us" className="block w-full bg-[#D4AF37] hover:bg-[#B8860B] py-3.5 rounded-xl font-bold uppercase tracking-wider text-sm transition-colors mb-4 relative z-10 text-white shadow-md">
+                <a href="https://wa.me/919817755699" target="_blank" rel="noopener noreferrer" className="block w-full text-center bg-[#D4AF37] hover:bg-[#B8860B] py-3.5 rounded-xl font-bold uppercase tracking-wider text-sm transition-colors mb-4 relative z-10 text-white shadow-md">
                   Book Now
-                </Link>
+                </a>
                 <div className="flex flex-col items-center justify-center gap-2 text-sm text-gray-300 relative z-10">
-                  <div className="flex items-center gap-2"><Phone className="w-4 h-4 text-[#D4AF37]" /> +91 98765 43210</div>
+                  <div className="flex items-center gap-2"><Phone className="w-4 h-4 text-[#D4AF37]" /> +91 98177 55699</div>
                 </div>
               </div>
 

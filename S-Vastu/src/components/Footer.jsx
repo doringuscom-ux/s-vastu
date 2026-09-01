@@ -39,7 +39,7 @@ export default function Footer() {
             <ul className="space-y-4 mb-8">
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-[#D4AF37]" />
-                <a href="mailto:svastunumerology@gmail.com" className="text-gray-300 text-sm hover:text-white transition-colors uppercase">SVASTUNUMEROLOGY@GMAIL.COM</a>
+                <a href="mailto:svastunumerology@gmail.com" className="text-gray-300 text-sm hover:text-white transition-colors">svastunumerology@gmail.com</a>
               </li>
               <li className="flex items-start gap-3">
                 <Phone className="w-4 h-4 text-[#D4AF37] mt-1" />
@@ -53,38 +53,40 @@ export default function Footer() {
 
           </div>
 
-          {/* Quick Links Col */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-6 uppercase tracking-wide">Quick Links</h4>
-            <ul className="space-y-4">
-              {['Home', 'About Us', 'Services', 'Locations', 'Blog'].map((link) => {
-                let linkPath = link.toLowerCase().replace(' ', '-');
-                if (link === 'Home') linkPath = '';
-                if (link === 'About Us') linkPath = 'about-us';
-
-                return (
-                  <li key={link}>
-                    <a href={`/${linkPath}`} className="text-gray-300 hover:text-[#D4AF37] transition-colors flex items-center gap-2 text-sm">
-                      <span className="text-[#D4AF37] font-bold">›</span> {link}
+          <div className="col-span-1 md:col-span-2 lg:col-span-2 grid grid-cols-2 gap-4 lg:gap-8">
+            {/* Quick Links Col */}
+            <div>
+              <h4 className="text-lg font-semibold text-white mb-6 uppercase tracking-wide">Quick Links</h4>
+              <ul className="space-y-4">
+                {['Home', 'About Us', 'Services', 'Locations', 'Blog'].map((link) => {
+                  let linkPath = link.toLowerCase().replace(' ', '-');
+                  if (link === 'Home') linkPath = '';
+                  if (link === 'About Us') linkPath = 'about-us';
+  
+                  return (
+                    <li key={link}>
+                      <a href={`/${linkPath}`} className="text-gray-300 hover:text-[#D4AF37] transition-colors flex items-center gap-2 text-sm">
+                        <span className="text-[#D4AF37] font-bold">›</span> {link}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+  
+            {/* Vastu Services Col */}
+            <div>
+              <h4 className="text-lg font-semibold text-white mb-6 uppercase tracking-wide">Vastu Services</h4>
+              <ul className="space-y-4">
+                {['Vastu Solution', 'Vastu For House', 'Vastu For Office', 'Industrial Vastu', 'Numerology'].map((service) => (
+                  <li key={service}>
+                    <a href={`/services`} className="text-gray-300 hover:text-[#D4AF37] transition-colors flex items-center gap-2 text-sm">
+                      <span className="text-[#D4AF37] font-bold">›</span> {service}
                     </a>
                   </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          {/* Vastu Services Col */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-6 uppercase tracking-wide">Vastu Services</h4>
-            <ul className="space-y-4">
-              {['Vastu Solution', 'Vastu For House', 'Vastu For Office'].map((service) => (
-                <li key={service}>
-                  <a href={`/services`} className="text-gray-300 hover:text-[#D4AF37] transition-colors flex items-center gap-2 text-sm">
-                    <span className="text-[#D4AF37] font-bold">›</span> {service}
-                  </a>
-                </li>
-              ))}
-            </ul>
+                ))}
+              </ul>
+            </div>
           </div>
 
         </div>
