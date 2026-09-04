@@ -75,7 +75,8 @@ function DynamicRouteResolver() {
     'industrial-vastu',
     'numerology',
     'astrology',
-    'vastu-for-land'
+    'vastu-for-land',
+    'online-consultation'
   ];
   const [type, setType] = useState(null);
 
