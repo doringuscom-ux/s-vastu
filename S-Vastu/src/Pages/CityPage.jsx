@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import { PAGES_API } from '../utils/api';
-import About from '../components/About';
 import Services from '../components/Services';
 import Process from '../components/Process';
 import CoreValues from '../components/CoreValues';
@@ -11,6 +10,7 @@ import Founders from '../components/Founders';
 import Testimonials from '../components/Testimonials';
 import Contact from '../components/Contact';
 import AirflowVastuChakra from '../components/AirflowVastuChakra';
+import VastuChakra from '../components/VastuChakra';
 import YoutubeShorts from '../components/YoutubeShorts';
 import CitySections from '../components/CitySections';
 import NotFoundPage from './NotFoundPage';
@@ -126,7 +126,6 @@ export default function CityPage() {
       <CityHero city={actualCityName} customText={pageData?.customText} country={pageData?.country} />
       <CitySections pageData={pageData} />
       
-      <About isCityPage={true} />
       <CoreValues />
       <Process />
       <Founders />
@@ -137,6 +136,7 @@ export default function CityPage() {
       <YoutubeShorts />
       
       <AirflowVastuChakra />
+      <VastuChakra />
       <Testimonials />
       
       <div id="contact">

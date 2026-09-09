@@ -103,78 +103,80 @@ export default function About({ isCityPage = false }) {
         </div>
       </section>
 
-      {/* Premium Vision & Mission Section */}
-      <section className="py-16 relative overflow-hidden bg-[#0B152A]">
-        <div className="absolute top-0 -left-1/4 w-1/2 h-full bg-[#D4AF37]/10 blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 -right-1/4 w-1/2 h-full bg-[#D4AF37]/10 blur-[100px] pointer-events-none" />
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#D4AF37 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+      {/* Premium Vision & Mission Section - Hidden on City Pages */}
+      {!isCityPage && (
+        <section className="py-16 relative overflow-hidden bg-[#0B152A]">
+          <div className="absolute top-0 -left-1/4 w-1/2 h-full bg-[#D4AF37]/10 blur-[100px] pointer-events-none" />
+          <div className="absolute bottom-0 -right-1/4 w-1/2 h-full bg-[#D4AF37]/10 blur-[100px] pointer-events-none" />
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#D4AF37 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-            {/* Vision */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative"
-            >
-              <div className="absolute -left-6 -top-8 text-8xl text-[#D4AF37]/5 font-serif font-black select-none pointer-events-none">01</div>
-              <h3 className="text-[#D4AF37] tracking-[0.2em] text-sm font-semibold uppercase mb-4 flex items-center gap-4">
-                <span className="w-8 h-px bg-[#D4AF37]"></span> Our Vision
-              </h3>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-white leading-tight mb-6">
-                Redefining Vastu for the Modern World
-              </h2>
-              <div className="text-gray-300 text-lg leading-relaxed space-y-4 font-normal">
-                <p>By combining ancient cosmic wisdom with rigorous analytical thinking, we create spaces that deeply inspire wellbeing, prosperity, and purposeful living.</p>
-                <p>We envision a future where Vastu is recognised not as superstition, but as an intelligent, scientific framework for designing environments that positively influence the human experience.</p>
-              </div>
-            </motion.div>
+              {/* Vision */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="relative"
+              >
+                <div className="absolute -left-6 -top-8 text-8xl text-[#D4AF37]/5 font-serif font-black select-none pointer-events-none">01</div>
+                <h3 className="text-[#D4AF37] tracking-[0.2em] text-sm font-semibold uppercase mb-4 flex items-center gap-4">
+                  <span className="w-8 h-px bg-[#D4AF37]"></span> Our Vision
+                </h3>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-white leading-tight mb-6">
+                  Redefining Vastu for the Modern World
+                </h2>
+                <div className="text-gray-300 text-lg leading-relaxed space-y-4 font-normal">
+                  <p>By combining ancient cosmic wisdom with rigorous analytical thinking, we create spaces that deeply inspire wellbeing, prosperity, and purposeful living.</p>
+                  <p>We envision a future where Vastu is recognised not as superstition, but as an intelligent, scientific framework for designing environments that positively influence the human experience.</p>
+                </div>
+              </motion.div>
 
-            {/* Mission */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative bg-white/[0.03] backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-3xl shadow-2xl"
-            >
-              <div className="absolute -right-4 -bottom-4 text-8xl text-white/5 font-serif font-black select-none pointer-events-none">02</div>
-              <h3 className="text-[#D4AF37] tracking-[0.2em] text-sm font-semibold uppercase mb-4 flex items-center gap-4">
-                <span className="w-8 h-px bg-[#D4AF37]"></span> Our Mission
-              </h3>
-              <p className="text-white text-xl md:text-2xl font-serif mb-6 leading-relaxed">
-                Delivering premium consultations through clarity, precision, and uncompromised integrity.
-              </p>
+              {/* Mission */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative bg-white/[0.03] backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-3xl shadow-2xl"
+              >
+                <div className="absolute -right-4 -bottom-4 text-8xl text-white/5 font-serif font-black select-none pointer-events-none">02</div>
+                <h3 className="text-[#D4AF37] tracking-[0.2em] text-sm font-semibold uppercase mb-4 flex items-center gap-4">
+                  <span className="w-8 h-px bg-[#D4AF37]"></span> Our Mission
+                </h3>
+                <p className="text-white text-xl md:text-2xl font-serif mb-6 leading-relaxed">
+                  Delivering premium consultations through clarity, precision, and uncompromised integrity.
+                </p>
 
-              <ul className="space-y-4">
-                {[
-                  "Providing practical, evidence-informed recommendations rather than fear-based advice.",
-                  "Respecting architectural design while enhancing spatial energy.",
-                  "Offering customised solutions instead of generic formulas.",
-                  "Educating clients so they understand the reasoning behind every recommendation.",
-                  "Creating healthier, more balanced environments that support long-term growth, happiness, and success."
-                ].map((text, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.4 + (i * 0.1) }}
-                    className="flex items-start gap-4 text-slate-300 group"
-                  >
-                    <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#D4AF37] shrink-0 group-hover:scale-150 transition-transform duration-300 shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
-                    <span className="text-base md:text-lg leading-relaxed font-normal group-hover:text-white transition-colors">{text}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
+                <ul className="space-y-4">
+                  {[
+                    "Providing practical, evidence-informed recommendations rather than fear-based advice.",
+                    "Respecting architectural design while enhancing spatial energy.",
+                    "Offering customised solutions instead of generic formulas.",
+                    "Educating clients so they understand the reasoning behind every recommendation.",
+                    "Creating healthier, more balanced environments that support long-term growth, happiness, and success."
+                  ].map((text, i) => (
+                    <motion.li
+                      key={i}
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.4 + (i * 0.1) }}
+                      className="flex items-start gap-4 text-slate-300 group"
+                    >
+                      <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#D4AF37] shrink-0 group-hover:scale-150 transition-transform duration-300 shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
+                      <span className="text-base md:text-lg leading-relaxed font-normal group-hover:text-white transition-colors">{text}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
 
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
 
     </div>
