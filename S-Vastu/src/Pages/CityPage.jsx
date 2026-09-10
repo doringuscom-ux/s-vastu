@@ -33,19 +33,11 @@ function CityHero({ city, customText, country }) {
           </h1>
           {customText ? (
             <div 
-              className="text-lg md:text-xl text-gray-700 mb-10 leading-relaxed max-w-4xl mx-auto text-center whitespace-pre-wrap
-                         [&>p]:mb-4 [&>p:last-child]:mb-0 
-                         [&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-6 [&>h1]:text-gray-900 
-                         [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-3 [&>h2]:mt-6 [&>h2]:text-gray-900 
-                         [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mb-3 [&>h3]:mt-5 [&>h3]:text-gray-900 
-                         [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul>li]:mb-2 [&>ul]:text-left [&>ul]:inline-block
-                         [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol>li]:mb-2 [&>ol]:text-left [&>ol]:inline-block
-                         [&>strong]:font-bold [&>strong]:text-gray-900
-                         [&>a]:text-orange-600 [&>a]:underline hover:[&>a]:text-orange-700"
+              className="city-user-content mb-8 max-w-3xl mx-auto text-center whitespace-pre-wrap"
               dangerouslySetInnerHTML={{ __html: customText }}
             />
           ) : (
-            <p className="text-lg md:text-xl text-gray-700 mb-10 leading-relaxed text-center">
+            <p className="text-base sm:text-lg text-gray-600 font-normal mb-8 leading-relaxed text-center max-w-2xl mx-auto">
               Transform your life and space with our specialized Vastu and Astrology services tailored for clients in {formattedCity}. Experience harmony, success, and peace.
             </p>
           )}

@@ -35,16 +35,16 @@ export default function CitySections({ pageData }) {
               <div key={index} className="flex flex-col">
                 
                 {/* Optional Center Header */}
+                {/* Optional Center Header */}
                 {(topHeading || topSubHeading) && (
-                  <div className="text-center max-w-4xl mx-auto px-4 mb-10 md:mb-14 -mt-2">
+                  <div className="text-center max-w-3xl mx-auto px-4 mb-8 md:mb-10">
                     {topHeading && (
-                      <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
-                        {/* We can style the first word differently if we want, but simple text is fine */}
+                      <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-3 tracking-normal">
                         {topHeading}
                       </h2>
                     )}
                     {topSubHeading && (
-                      <p className="text-lg md:text-xl text-gray-600 max-w-4xl mx-auto">
+                      <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
                         {topSubHeading}
                       </p>
                     )}
@@ -52,41 +52,34 @@ export default function CitySections({ pageData }) {
                 )}
 
                 <div 
-                  className={`group flex flex-col md:flex-row items-center gap-8 md:gap-12 ${
+                  className={`group flex flex-col md:flex-row items-center justify-center gap-8 md:gap-14 ${
                     section.reverse ? 'md:flex-row-reverse' : ''
                   }`}
                 >
                 {/* Image Side */}
                 {image && (
-                  <div className="w-full md:w-1/2 flex justify-center relative">
+                  <div className="w-full md:w-1/2 flex justify-center items-center relative">
                     <img 
                       src={image} 
                       alt={heading || `Section ${index + 1}`} 
-                      className="rounded-2xl object-cover aspect-[4/3] w-full ring-4 ring-white transition-transform duration-700 group-hover:scale-[1.02]"
+                      className="rounded-2xl object-cover aspect-[4/3] w-full ring-4 ring-white shadow-sm transition-transform duration-700 group-hover:scale-[1.02]"
                     />
                   </div>
                 )}
                 
                 {/* Text Side */}
-                <div className={`w-full ${image ? 'md:w-1/2' : 'md:w-full'} break-words`}>
+                <div className={`w-full ${image ? 'md:w-1/2' : 'md:w-full'} break-words flex flex-col justify-center my-auto`}>
                   {heading && (
-                    <div className="mb-6 relative inline-block">
-                      <h2 className="text-2xl md:text-4xl font-extrabold text-gray-900 leading-tight">
+                    <div className="mb-4 relative inline-block">
+                      <h2 className="text-2xl sm:text-3xl font-serif font-bold text-gray-900 leading-snug">
                         {heading}
                       </h2>
-                      <div className="h-1.5 w-20 bg-orange-500 rounded-full mt-4"></div>
+                      <div className="h-1 w-16 bg-[#D4AF37] rounded-full mt-2"></div>
                     </div>
                   )}
                   {text && (
                     <div 
-                      className="prose prose-lg text-gray-600 max-w-none break-words whitespace-pre-wrap
-                                 [&>p]:mb-6 [&>p:last-child]:mb-0 [&>p]:leading-relaxed
-                                 [&>h1]:text-3xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-8 [&>h1]:text-gray-900 
-                                 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mb-3 [&>h2]:mt-8 [&>h2]:text-gray-900 
-                                 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:mb-3 [&>h3]:mt-6 [&>h3]:text-gray-900 
-                                 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-6 [&>ul>li]:mb-3 marker:[&>ul]:text-orange-500 marker:[&>ul]:text-xl
-                                 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:mb-6 [&>ol>li]:mb-3 [&>ol>li::marker]:text-orange-600 [&>ol>li::marker]:font-bold
-                                 [&>strong]:font-bold [&>strong]:text-gray-900"
+                      className="city-user-content max-w-none break-words whitespace-pre-wrap"
                       dangerouslySetInnerHTML={{ __html: text }}
                     />
                   )}

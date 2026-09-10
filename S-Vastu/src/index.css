@@ -94,3 +94,107 @@ body {
   font-style: italic;
   color: #6b7280;
 }
+
+/* Normalization for User Injected Content (City Pages & Blog Articles) */
+/* Forces all pasted HTML (Elementor, Word, Google Docs) to follow uniform font size and colors */
+.city-user-content,
+.city-user-content *,
+.vastu-article,
+.vastu-article * {
+  font-family: inherit;
+}
+
+.city-user-content,
+.vastu-article {
+  font-size: 1rem !important; /* 16px uniform */
+  line-height: 1.75 !important;
+  color: #4b5563 !important; /* text-gray-600 */
+}
+
+.city-user-content p,
+.city-user-content div,
+.city-user-content span,
+.city-user-content li,
+.vastu-article p,
+.vastu-article div,
+.vastu-article span,
+.vastu-article li {
+  font-size: 1rem !important; /* 16px */
+  line-height: 1.75 !important;
+  color: #4b5563 !important;
+  background-color: transparent !important;
+  max-width: 100% !important;
+  width: auto !important;
+  height: auto !important; /* Overrides fixed heights from pasted code */
+}
+
+.city-user-content p,
+.vastu-article p {
+  margin-top: 0 !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.city-user-content p:last-child,
+.vastu-article p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.city-user-content h1,
+.city-user-content h2,
+.city-user-content h3,
+.city-user-content h4,
+.vastu-article h1,
+.vastu-article h2,
+.vastu-article h3,
+.vastu-article h4 {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif !important;
+  font-weight: 700 !important;
+  color: #111827 !important; /* text-gray-900 */
+}
+
+.city-user-content h1 {
+  font-size: 1.75rem !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.city-user-content h2 {
+  font-size: 1.5rem !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.city-user-content h3 {
+  font-size: 1.25rem !important;
+  margin-top: 1rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.city-user-content ul {
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.city-user-content ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.city-user-content li {
+  margin-bottom: 0.5rem !important;
+}
+
+.city-user-content strong,
+.city-user-content b {
+  font-weight: 600 !important;
+  color: #111827 !important;
+}
+
+.city-user-content a {
+  color: #ea580c !important;
+  text-decoration: underline !important;
+}
