@@ -91,15 +91,8 @@ export default function AdminCityPages() {
 
   const handleFileSelect = (sectionImage, file) => {
     if (!file) return;
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      setCropImageSrc(reader.result);
-      setCurrentCropSection(sectionImage);
-      setCropperOpen(true);
-    });
-    reader.readAsDataURL(file);
-    // Reset input value so same file can be selected again if cancelled
-    document.getElementById(`file-${sectionImage}`).value = '';
+    setFileData(prev => ({ ...prev, [sectionImage]: file }));
+    setPreviewUrls(prev => ({ ...prev, [sectionImage]: URL.createObjectURL(file) }));
   };
 
   const handleCropComplete = (croppedFile, previewUrl) => {
@@ -408,7 +401,9 @@ export default function AdminCityPages() {
                         />
                       </div>
                       <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Image Upload (4:3 aspect ratio)</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Image Upload (Direct upload, no crop needed)
+                        </label>
                         <input
                           id={`file-section${num}Image`}
                           type="file"
@@ -417,23 +412,26 @@ export default function AdminCityPages() {
                           className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:ring-orange-500 focus:border-orange-500"
                         />
                         {(previewUrls[`section${num}Image`] || formData[`section${num}`]?.image) && (
-                          <div className="mt-2 w-32 h-24 relative rounded overflow-hidden border">
-                            <img 
-                              src={previewUrls[`section${num}Image`] || formData[`section${num}`]?.image} 
-                              alt={`Section ${num} preview`} 
-                              className="object-cover w-full h-full"
-                            />
+                          <div className="mt-3 flex items-center gap-3">
+                            <div className="w-28 h-24 relative rounded-lg overflow-hidden border border-gray-200 shadow-sm bg-gray-50">
+                              <img 
+                                src={previewUrls[`section${num}Image`] || formData[`section${num}`]?.image} 
+                                alt={`Section ${num} preview`} 
+                                className="object-cover w-full h-full"
+                              />
+                            </div>
                             <button
                               type="button"
                               onClick={() => {
                                 setPreviewUrls(prev => ({ ...prev, [`section${num}Image`]: null }));
                                 setFileData(prev => ({ ...prev, [`section${num}Image`]: null }));
-                                setFormData(prev => ({ ...prev, [`section${num}`]: { ...prev[`section${num}`], image: '' } }));
-                                document.getElementById(`file-section${num}Image`).value = '';
+                                handleSectionChange(`section${num}`, 'image', '');
+                                const fileInput = document.getElementById(`file-section${num}Image`);
+                                if (fileInput) fileInput.value = '';
                               }}
-                              className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                              className="px-3 py-1.5 text-xs text-red-600 hover:text-red-800 border border-red-200 rounded-md hover:bg-red-50 transition-colors"
                             >
-                              <X size={14} />
+                              Remove Image
                             </button>
                           </div>
                         )}
@@ -545,7 +543,7 @@ export default function AdminCityPages() {
         onClose={() => setCropperOpen(false)}
         imageSrc={cropImageSrc}
         onCropComplete={handleCropComplete}
-        aspect={4/3}
+        aspect={3/4}
       />
     </div>
   );

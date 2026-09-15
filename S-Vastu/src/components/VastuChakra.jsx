@@ -28,7 +28,7 @@ export default function VastuChakra() {
   const [selectedDir, setSelectedDir] = useState('N');
   const [rotation, setRotation] = useState(0);
   const [showInfo, setShowInfo] = useState(true);
-  
+
   // New states for idle animation and real compass
   const [isIdleAnimating, setIsIdleAnimating] = useState(true);
   const [isRealCompassMode, setIsRealCompassMode] = useState(false);
@@ -52,15 +52,15 @@ export default function VastuChakra() {
     setIsIdleAnimating(false);
     setIsRealCompassMode(false);
     setSelectedDir(dir.id);
-    
+
     // Calculate shortest path for smooth spring rotation
     let currentRotation = rotation;
     let targetRotation = dir.deg;
-    
+
     let diff = targetRotation - (currentRotation % 360);
     if (diff > 180) diff -= 360;
     if (diff < -180) diff += 360;
-    
+
     setRotation(currentRotation + diff);
   };
 
@@ -159,11 +159,11 @@ export default function VastuChakra() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          
+
           {/* Left Text Content */}
           <div className="pr-0 lg:pr-12 space-y-8">
             <div>
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -171,7 +171,7 @@ export default function VastuChakra() {
               >
                 <Compass size={16} /> Ancient Wisdom
               </motion.div>
-              <motion.h2 
+              <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -183,7 +183,7 @@ export default function VastuChakra() {
                   Directional Energy
                 </span>
               </motion.h2>
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -194,21 +194,21 @@ export default function VastuChakra() {
               </motion.p>
             </div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              <button 
+              <button
                 onClick={enableRealCompass}
                 className={`px-8 py-3.5 text-white font-semibold rounded-full hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5 ${isRealCompassMode ? 'bg-gradient-to-r from-green-600 to-green-500 shadow-green-500/30' : 'bg-gradient-to-r from-[#0b66c2] to-[#09519c] shadow-blue-500/30'}`}
               >
-                <Navigation2 size={18} className={isRealCompassMode ? "animate-pulse" : ""} /> 
+                <Navigation2 size={18} className={isRealCompassMode ? "animate-pulse" : ""} />
                 {isRealCompassMode ? 'Real Compass Active' : 'Enable Real Compass'}
               </button>
-              <button 
+              <button
                 onClick={() => { setIsIdleAnimating(true); setIsRealCompassMode(false); }}
                 className={`px-6 py-3.5 bg-white text-[#8b4513] border border-[#8b4513]/20 font-semibold rounded-full hover:bg-[#8b4513]/5 transition-all duration-300 flex items-center justify-center gap-2 ${isIdleAnimating ? 'hidden' : 'flex'}`}
               >
@@ -220,9 +220,9 @@ export default function VastuChakra() {
 
           {/* Right Interactive Map */}
           <div className="flex flex-col items-center justify-center relative">
-            
+
             {/* The Compass Dial */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -230,18 +230,18 @@ export default function VastuChakra() {
             >
               {/* Outer decorative ring */}
               <div className="absolute inset-0 rounded-full border border-[#cba25b]/30 m-2"></div>
-              
+
               {/* Center Pivot */}
               <div className="absolute w-12 h-12 rounded-full bg-gradient-to-br from-[#cba25b] to-[#8b4513] z-30 flex items-center justify-center shadow-lg border-4 border-white">
                 <div className="w-3 h-3 bg-white rounded-full opacity-80"></div>
               </div>
 
               {/* Compass Needle (Animated) */}
-              <motion.div 
+              <motion.div
                 className="absolute w-full h-full z-20 flex items-center justify-center"
                 animate={{ rotate: rotation }}
-                transition={{ 
-                  type: isIdleAnimating ? 'tween' : 'spring', 
+                transition={{
+                  type: isIdleAnimating ? 'tween' : 'spring',
                   stiffness: 40, damping: 12, mass: 1,
                   duration: isIdleAnimating ? 0 : undefined // Immediate for idle loop to avoid snapping
                 }}
@@ -252,7 +252,7 @@ export default function VastuChakra() {
                   <div className="w-0 h-0 border-l-[7px] border-r-[7px] border-b-[110px] sm:border-b-[140px] border-l-transparent border-r-transparent border-b-[#ef4444]"></div>
                   {/* South pointer (Gray) */}
                   <div className="w-0 h-0 border-l-[7px] border-r-[7px] border-t-[110px] sm:border-t-[140px] border-l-transparent border-r-transparent border-t-[#94a3b8]"></div>
-                  
+
                   {/* Center accent on needle */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full z-10 border-2 border-[#ef4444]"></div>
                 </div>
@@ -260,7 +260,7 @@ export default function VastuChakra() {
 
               {/* Tick marks around the circle */}
               {Array.from({ length: 72 }).map((_, i) => (
-                <div 
+                <div
                   key={`tick-${i}`}
                   className="absolute w-full h-full flex justify-center py-2 z-0"
                   style={{ transform: `rotate(${i * 5}deg)` }}
@@ -273,7 +273,7 @@ export default function VastuChakra() {
               {directions.map((dir) => {
                 const isActive = selectedDir === dir.id;
                 return (
-                  <div 
+                  <div
                     key={dir.id}
                     className="absolute z-40 flex items-center justify-center"
                     style={{
@@ -282,7 +282,7 @@ export default function VastuChakra() {
                     }}
                     onClick={() => handleDirClick(dir)}
                   >
-                    <motion.div 
+                    <motion.div
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                       className={`
@@ -305,7 +305,7 @@ export default function VastuChakra() {
             {/* Information Card (Animated underneath) */}
             <AnimatePresence mode="wait">
               {showInfo && (
-                <motion.div 
+                <motion.div
                   key={selectedDir}
                   initial={{ opacity: 0, y: 20, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -316,16 +316,16 @@ export default function VastuChakra() {
                   <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-2xl border border-gray-100/50 backdrop-blur-sm relative overflow-hidden pointer-events-auto">
                     {/* Color accent line */}
                     <div className={`absolute top-0 left-0 w-full h-1.5 ${directionInfo[selectedDir].color}`}></div>
-                    
+
                     <div className="flex justify-between items-start mb-3">
                       <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                         {directionInfo[selectedDir].name}
                       </h3>
-                      <button 
+                      <button
                         onClick={() => setShowInfo(false)}
                         className="text-gray-400 hover:text-gray-600 bg-gray-50 hover:bg-gray-100 p-1 rounded-full transition-colors"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                       </button>
                     </div>
                     <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
