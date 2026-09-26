@@ -17,4 +17,6 @@ const blogSchema = new mongoose.Schema({
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' }
 }, { timestamps: true });
 
+blogSchema.index({ isPublished: 1, createdAt: -1 });
+
 module.exports = mongoose.model('Blog', blogSchema);

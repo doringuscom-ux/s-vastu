@@ -16,13 +16,12 @@ export default function SingleBlogPage() {
     const fetchBlog = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`${BLOGS_API}/${slug}`);
-        setBlog(data);
-
-        // Fetch all blogs for the sidebar (recent posts, categories)
-        const { data: blogsList } = await axios.get(BLOGS_API);
-        setAllBlogs(blogsList);
-
+        const [singleRes, listRes] = await Promise.all([
+          axios.get(`${BLOGS_API}/${slug}`),
+          axios.get(BLOGS_API)
+        ]);
+        setBlog(singleRes.data);
+        setAllBlogs(listRes.data);
         setLoading(false);
       } catch (err) {
         setError('Blog not found');

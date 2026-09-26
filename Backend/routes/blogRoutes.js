@@ -28,7 +28,11 @@ router.get('/', async (req, res) => {
       }
     }
 
-    const blogs = await Blog.find(filter).sort({ createdAt: -1 });
+    // Exclude heavy 'content' field in list view to drastically reduce response payload and speed up loading
+    const blogs = await Blog.find(filter)
+      .select('-content')
+      .sort({ createdAt: -1 })
+      .lean();
     res.json(blogs);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
