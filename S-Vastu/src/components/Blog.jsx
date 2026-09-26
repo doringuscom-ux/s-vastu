@@ -4,6 +4,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { BLOGS_API } from '../utils/api';
 
+const cleanExcerpt = (post) => {
+  const raw = post.excerpt || post.content || '';
+  const stripped = raw.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+  return stripped.length > 150 ? stripped.substring(0, 150) + '...' : stripped;
+};
+
 export default function Blog({ hideHeader = false, limit, showFilters = false }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -107,7 +113,7 @@ export default function Blog({ hideHeader = false, limit, showFilters = false })
                         {post.title}
                       </h3>
                       <p className="text-gray-600 leading-relaxed mb-6 flex-1 text-sm line-clamp-3">
-                        {post.excerpt || post.content.substring(0, 150) + '...'}
+                        {cleanExcerpt(post)}
                       </p>
 
                       {/* Read More Link */}
@@ -158,7 +164,7 @@ export default function Blog({ hideHeader = false, limit, showFilters = false })
                           {post.title}
                         </h3>
                         <p className="text-gray-600 leading-relaxed mb-4 flex-1 text-sm line-clamp-2 whitespace-normal">
-                          {post.excerpt || post.content.substring(0, 100) + '...'}
+                          {cleanExcerpt(post)}
                         </p>
 
                         {/* Read More Link */}
