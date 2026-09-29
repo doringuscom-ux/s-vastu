@@ -49,14 +49,14 @@ axios.interceptors.response.use(
   (error) => {
     if (
       error.response?.status === 401 ||
-      (error.response?.data?.message && 
-       error.response.data.message.toLowerCase().includes('token'))
+      (error.response?.data?.message &&
+        error.response.data.message.toLowerCase().includes('token'))
     ) {
       // Clear stored authentication tokens
       localStorage.removeItem('token');
       localStorage.removeItem('adminToken');
       localStorage.removeItem('userRole');
-      
+
       // Redirect to login if on an admin page (prevent loop if already on login)
       if (window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
         window.location.href = '/admin/login';
@@ -85,13 +85,31 @@ function DynamicRouteResolver() {
       setType('service');
       return;
     }
-    
-    // Check if it's a blog
-    axios.get(`${BLOGS_API}/${slug}`)
-      .then(() => setType('blog'))
-      .catch(() => {
-         setType('city');
-      });
+
+    // Check if it's a blog with retry mechanism for Render cold-starts
+    const checkSlug = async () => {
+      try {
+        await axios.get(`${BLOGS_API}/${slug}`);
+        setType('blog');
+      } catch (err) {
+        // If 404, it might be a city page
+        if (err.response && err.response.status === 404) {
+          setType('city');
+        } else {
+          // If network error/timeout (e.g. Render waking up), retry once before giving up
+          setTimeout(async () => {
+            try {
+              await axios.get(`${BLOGS_API}/${slug}`);
+              setType('blog');
+            } catch {
+              setType('city');
+            }
+          }, 1500);
+        }
+      }
+    };
+
+    checkSlug();
   }, [slug]);
 
   if (!type) return <div className="min-h-screen pt-32 text-center text-xl font-bold">Loading...</div>;
@@ -144,10 +162,10 @@ function App() {
             <Route index element={<Home />} />
             <Route path="about-us" element={<AboutPage />} />
             <Route path="services" element={<ServicesPage />} />
-            
+
             {/* Dynamic slug resolver for both services and city pages */}
             <Route path=":slug" element={<DynamicRouteResolver />} />
-            
+
             <Route path="gallery" element={<GalleryPage />} />
             <Route path="blog" element={<BlogPage />} />
             <Route path="contact-us" element={<ContactPage />} />
