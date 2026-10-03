@@ -295,9 +295,15 @@ const injectSEO = async (req, res, next) => {
         htmlData = htmlData.replace('<div id="root"></div>', `<div id="root">${preRenderedBlog}</div>`);
       } else {
         // Check City Pages or Single Service Pages
-        const pageData = await Page.findOne({ slug });
+        let pageData = await Page.findOne({ slug });
+        if (!pageData) {
+          pageData = await Page.findOne({ slug: `/${slug}` });
+        }
+        if (!pageData) {
+          pageData = await Page.findOne({ slug: new RegExp(`^\\/?${slug}$`, 'i') });
+        }
         if (pageData) {
-          const formattedCity = slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+          const formattedCity = slug.replace(/^vastu-consultant-in-|^experienced-vastu-consultant-in-/, '').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
           metaTitle = pageData.metaTitle || `Best Vastu Consultant & Astrologer in ${formattedCity} | S-Vastu`;
           metaDescription = pageData.metaDescription || `Looking for expert Vastu and Astrology services in ${formattedCity}? S-Vastu offers personalized consultations for home, business, and numerology.`;
           metaKeywords = pageData.metaKeywords || `vastu consultant ${formattedCity}, best astrologer ${formattedCity}, numerology ${formattedCity}`;

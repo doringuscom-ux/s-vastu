@@ -29,7 +29,14 @@ const getPages = async (req, res) => {
 // Get page by slug
 const getPageBySlug = async (req, res) => {
   try {
-    const page = await Page.findOne({ slug: req.params.slug });
+    const rawSlug = req.params.slug ? decodeURIComponent(req.params.slug).replace(/^\/+|\/+$/g, '').trim() : '';
+    let page = await Page.findOne({ slug: rawSlug });
+    if (!page) {
+      page = await Page.findOne({ slug: `/${rawSlug}` });
+    }
+    if (!page) {
+      page = await Page.findOne({ slug: new RegExp(`^\\/?${rawSlug}$`, 'i') });
+    }
     if (page) {
       res.json(page);
     } else {

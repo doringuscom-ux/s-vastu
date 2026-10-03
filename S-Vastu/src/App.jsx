@@ -38,7 +38,7 @@ import AdminGalleryPages from './Pages/Admin/AdminGalleryPages';
 import AdminContactPages from './Pages/Admin/AdminContactPages';
 import AdminSeoManager from './Pages/Admin/AdminSeoManager';
 import SeoMeta from './components/SeoMeta';
-import { BLOGS_API } from './utils/api';
+import { BLOGS_API, PAGES_API } from './utils/api';
 import axios from 'axios';
 
 import AdminUsers from './Pages/Admin/AdminUsers';
@@ -79,6 +79,8 @@ function DynamicRouteResolver() {
     'online-consultation'
   ];
   const [type, setType] = useState(null);
+  const [resolvedCityData, setResolvedCityData] = useState(null);
+  const [resolvedBlogData, setResolvedBlogData] = useState(null);
 
   useEffect(() => {
     if (serviceSlugs.includes(slug)) {
@@ -86,42 +88,61 @@ function DynamicRouteResolver() {
       return;
     }
     
-    // Check if it's a blog with retry mechanism for Render cold-starts
+    // Check if it's a blog or city page
     let isCancelled = false;
 
-    const checkSlug = async (retries = 3) => {
+    const checkSlug = async (retries = 2) => {
       try {
-        const blogRes = await axios.get(`${BLOGS_API}/${slug}`);
-        if (!isCancelled && blogRes.data) {
-          setType('blog');
-          return;
-        }
-      } catch (err) {
-        if (err.response && err.response.status === 404) {
-          // If strictly 404 from blogs API, check if it's a valid city page
-          try {
-            const pageRes = await axios.get(`${PAGES_API}/${slug}`);
-            if (!isCancelled && pageRes.data) {
-              setType('city');
-              return;
-            }
-          } catch (pageErr) {
-            if (!isCancelled) setType('404');
+        // Try blog first
+        let blogData = null;
+        try {
+          const blogRes = await axios.get(`${BLOGS_API}/${slug}`);
+          blogData = blogRes.data;
+        } catch (blogErr) {
+          // If network error (not 404), maybe cold start
+          if (!blogErr.response && retries > 0) {
+            setTimeout(() => {
+              if (!isCancelled) checkSlug(retries - 1);
+            }, 1200);
             return;
           }
         }
 
-        // Network or cold-start error, retry
-        if (retries > 0) {
-          setTimeout(() => {
-            if (!isCancelled) checkSlug(retries - 1);
-          }, 1200);
+        if (isCancelled) return;
+
+        if (blogData) {
+          setResolvedBlogData(blogData);
+          setType('blog');
+          return;
+        }
+
+        // Try city page
+        let cityData = null;
+        try {
+          const cityRes = await axios.get(`${PAGES_API}/${slug}`);
+          cityData = cityRes.data;
+        } catch (cityErr) {
+          if (!cityErr.response && retries > 0) {
+            setTimeout(() => {
+              if (!isCancelled) checkSlug(retries - 1);
+            }, 1200);
+            return;
+          }
+        }
+
+        if (isCancelled) return;
+
+        if (cityData) {
+          setResolvedCityData(cityData);
+          setType('city');
           return;
         }
 
         if (!isCancelled) {
-          setType('blog'); // Fallback to blog component to let it handle or render gracefully
+          setType('404');
         }
+      } catch (err) {
+        if (!isCancelled) setType('404');
       }
     };
 
@@ -134,9 +155,9 @@ function DynamicRouteResolver() {
 
   if (!type) return <div className="min-h-screen pt-32 text-center text-xl font-bold">Loading...</div>;
   if (type === 'service') return <SingleServicePage />;
-  if (type === 'blog') return <SingleBlogPage />;
-  if (type === '404') return <NotFoundPage />;
-  return <CityPage />;
+  if (type === 'blog') return <SingleBlogPage initialData={resolvedBlogData} />;
+  if (type === 'city') return <CityPage initialData={resolvedCityData} />;
+  return <NotFoundPage />;
 }
 
 function Home() {
@@ -183,16 +204,16 @@ function App() {
             <Route index element={<Home />} />
             <Route path="about-us" element={<AboutPage />} />
             <Route path="services" element={<ServicesPage />} />
-            
-            {/* Dynamic slug resolver for both services and city pages */}
-            <Route path=":slug" element={<DynamicRouteResolver />} />
-            
             <Route path="gallery" element={<GalleryPage />} />
             <Route path="blog" element={<BlogPage />} />
             <Route path="contact-us" element={<ContactPage />} />
             <Route path="locations" element={<LocationsPage />} />
             <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="terms-of-service" element={<TermsOfServicePage />} />
+            
+            {/* Dynamic slug resolver for services, blogs, and city pages */}
+            <Route path=":slug" element={<DynamicRouteResolver />} />
+            
             <Route path="*" element={<NotFoundPage />} />
           </Route>
 

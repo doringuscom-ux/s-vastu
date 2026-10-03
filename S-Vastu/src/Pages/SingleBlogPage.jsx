@@ -5,32 +5,39 @@ import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
 import { BLOGS_API } from '../utils/api';
 
-export default function SingleBlogPage() {
+export default function SingleBlogPage({ initialData = null }) {
   const { slug } = useParams();
-  const [blog, setBlog] = useState(null);
+  const [blog, setBlog] = useState(initialData);
   const [allBlogs, setAllBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (initialData) {
+      setBlog(initialData);
+      setLoading(false);
+    }
+
     const fetchBlog = async () => {
       try {
-        setLoading(true);
+        if (!initialData) setLoading(true);
         const [singleRes, listRes] = await Promise.all([
-          axios.get(`${BLOGS_API}/${slug}`),
+          initialData ? Promise.resolve({ data: initialData }) : axios.get(`${BLOGS_API}/${slug}`),
           axios.get(BLOGS_API)
         ]);
         setBlog(singleRes.data);
         setAllBlogs(listRes.data);
         setLoading(false);
       } catch (err) {
-        setError('Blog not found');
-        setLoading(false);
+        if (!initialData) {
+          setError('Blog not found');
+          setLoading(false);
+        }
       }
     };
     fetchBlog();
     window.scrollTo(0, 0);
-  }, [slug]);
+  }, [slug, initialData]);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };

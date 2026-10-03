@@ -15,21 +15,18 @@ import YoutubeShorts from '../components/YoutubeShorts';
 import CitySections from '../components/CitySections';
 import NotFoundPage from './NotFoundPage';
 
-function CityHero({ city, customText, country }) {
-  const cleanCitySlug = city ? city.replace(/^(experienced-)?vastu-consultant-in-/i, '') : '';
-  const formattedCity = cleanCitySlug 
-    ? cleanCitySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
-    : 'Your City';
+function CityHero({ cityName, customText, country }) {
+  const displayCity = cityName || 'Your City';
 
   return (
     <section className="relative pt-36 pb-16 md:pt-48 md:pb-24 bg-gradient-to-br from-amber-50 to-orange-100 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto">
           <h4 className="text-orange-600 font-bold tracking-widest mb-4 text-sm uppercase">
-            S-Vastu Services in {formattedCity}
+            S-Vastu Services in {displayCity}
           </h4>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Vastu Consultant in <span className="text-orange-500 whitespace-nowrap">{formattedCity}</span>
+            Vastu Consultant in <span className="text-orange-500 whitespace-nowrap">{displayCity}</span>
           </h1>
           {customText ? (
             <div 
@@ -38,7 +35,7 @@ function CityHero({ city, customText, country }) {
             />
           ) : (
             <p className="text-base sm:text-lg text-gray-600 font-normal mb-8 leading-relaxed text-center max-w-2xl mx-auto">
-              Transform your life and space with our specialized Vastu and Astrology services tailored for clients in {formattedCity}. Experience harmony, success, and peace.
+              Transform your life and space with our specialized Vastu and Astrology services tailored for clients in {displayCity}. Experience harmony, success, and peace.
             </p>
           )}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -58,28 +55,52 @@ function CityHero({ city, customText, country }) {
   );
 }
 
-export default function CityPage() {
+export default function CityPage({ initialData = null }) {
   const { cityName, slug } = useParams();
-  const actualCityName = cityName || slug;
-  const [pageData, setPageData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const rawCity = cityName || slug || '';
+  const actualCityName = decodeURIComponent(rawCity).replace(/^\/+|\/+$/g, '').trim();
+  const [pageData, setPageData] = useState(initialData);
+  const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const fetchPageData = async () => {
+    if (initialData) {
+      setPageData(initialData);
+      setLoading(false);
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    let isCancelled = false;
+
+    const fetchPageData = async (retries = 2) => {
       try {
         const { data } = await axios.get(`${PAGES_API}/${actualCityName}`);
-        setPageData(data);
+        if (!isCancelled) {
+          setPageData(data);
+          setLoading(false);
+        }
       } catch (err) {
-        console.error('Page SEO data not found for this city.');
-        setError(true);
-      } finally {
-        setLoading(false);
+        if (retries > 0 && (!err.response || err.response.status !== 404)) {
+          setTimeout(() => {
+            if (!isCancelled) fetchPageData(retries - 1);
+          }, 1000);
+          return;
+        }
+        if (!isCancelled) {
+          console.error('Page data not found for this city:', actualCityName);
+          setError(true);
+          setLoading(false);
+        }
       }
     };
     
     fetchPageData();
     window.scrollTo(0, 0);
+
+    return () => {
+      isCancelled = true;
+    };
   }, [actualCityName]);
 
   if (loading) {
@@ -115,7 +136,7 @@ export default function CityPage() {
         <meta name="robots" content={metaRobots} />
       </Helmet>
 
-      <CityHero city={actualCityName} customText={pageData?.customText} country={pageData?.country} />
+      <CityHero cityName={pageData?.title || justCityName} customText={pageData?.customText} country={pageData?.country} />
       <CitySections pageData={pageData} />
       
       <CoreValues />

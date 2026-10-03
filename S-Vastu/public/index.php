@@ -25,9 +25,12 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_TIMEOUT, 3); // 3 seconds timeout
 $response = curl_exec($ch);
 
+$isFound = false;
+
 if ($response) {
     $data = json_decode($response, true);
-    if ($data) {
+    if ($data && !empty($data)) {
+        $isFound = true;
         if (!empty($data['title'])) $metaTitle = $data['title'];
         if (!empty($data['description'])) $metaDescription = $data['description'];
         if (!empty($data['keywords'])) $metaKeywords = $data['keywords'];
@@ -36,6 +39,22 @@ if ($response) {
         if (!empty($data['ogImage'])) $metaOgImage = $data['ogImage'];
         if (!empty($data['scriptTags'])) $scriptTags = $data['scriptTags'];
     }
+}
+
+// Known static routes list
+$staticRoutes = ['', '/', '/about-us', '/services', '/gallery', '/blog', '/contact-us', '/locations', '/privacy-policy', '/terms-of-service'];
+$serviceRoutes = [
+    '/vastu-solution', '/vastu-for-house', '/vastu-for-office', 
+    '/industrial-vastu', '/numerology', '/astrology', 
+    '/vastu-for-land', '/online-consultation'
+];
+
+// If it is neither a known static route, nor a service, nor found in DB -> Send real 404 status to Google
+$trimmedPath = rtrim($pathOnly, '/');
+if (!in_array($trimmedPath, $staticRoutes) && !in_array($trimmedPath, $serviceRoutes) && !$isFound && !str_starts_with($trimmedPath, '/admin')) {
+    http_response_code(404);
+    $metaTitle = '404 - Page Not Found | S-Vastu';
+    $metaRobots = 'noindex, nofollow';
 }
 
 // Read index.html
