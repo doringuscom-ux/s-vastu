@@ -256,7 +256,19 @@ export default function AdminCityPages() {
 
       {showForm && (
         <div className="bg-white p-6 rounded-lg shadow-md mb-8 border border-gray-200">
-          <h2 className="text-xl font-bold mb-4">{editingId ? 'Edit City Page' : 'Create New City Page'}</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold">{editingId ? 'Edit City Page' : 'Create New City Page'}</h2>
+            {editingId && formData.slug && (
+              <a
+                href={`/${formData.slug.replace(/^\/+|\/+$/g, '')}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-50 text-orange-600 hover:bg-orange-100 text-sm font-semibold transition-colors border border-orange-200"
+              >
+                <span>Preview Page ↗</span>
+              </a>
+            )}
+          </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -517,7 +529,7 @@ export default function AdminCityPages() {
                     <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{page.title}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-500">{page.country || '-'}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-500">
-                      <a href={`/${page.slug}`} target="_blank" rel="noreferrer" className="text-orange-500 hover:underline">
+                      <a href={`/${(page.slug || '').replace(/^\/+|\/+$/g, '')}`} target="_blank" rel="noreferrer" className="text-orange-500 hover:underline">
                         /{page.slug}
                       </a>
                     </td>

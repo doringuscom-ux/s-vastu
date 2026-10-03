@@ -77,9 +77,12 @@ export default function LocationsPage() {
   const filteredLocations = useMemo(() => {
     let result = locations;
     if (searchQuery) {
+      const q = searchQuery.toLowerCase().trim();
       result = result.filter(loc => {
-        const cityName = loc.city || loc.slug || '';
-        return cityName.toLowerCase().includes(searchQuery.toLowerCase());
+        const title = (loc.title || '').toLowerCase();
+        const slug = (loc.slug || '').toLowerCase();
+        const city = (loc.city || '').toLowerCase();
+        return title.includes(q) || slug.includes(q) || city.includes(q);
       });
     }
     if (selectedCountry !== 'All') {
@@ -293,10 +296,11 @@ export default function LocationsPage() {
                   className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-6"
                 >
                   {groupedLocations[country].map((loc, index) => {
-                    const cityName = loc.city || loc.slug || '';
-                    if (!cityName) return null;
+                    const slug = (loc.slug || '').replace(/^\/+|\/+$/g, '');
+                    const cityName = loc.title || loc.city || slug;
+                    if (!slug && !cityName) return null;
                     
-                    const formattedName = cityName
+                    const formattedName = (cityName || slug)
                       .split('-')
                       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
                       .join(' ');
@@ -318,7 +322,7 @@ export default function LocationsPage() {
                         show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 300, damping: 24 } }
                       }}>
                         <Link 
-                          to={`/${cityName}`}
+                          to={`/${slug}`}
                           className={`group relative bg-gradient-to-br ${palette.card} rounded-3xl p-5 border ${palette.border} transition-all duration-300 flex flex-col items-center justify-center text-center h-48 overflow-hidden transform hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_${palette.shadow}] block`}
                         >
                           {/* Decorative Rings */}

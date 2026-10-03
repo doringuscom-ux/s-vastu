@@ -65,9 +65,9 @@ export default function Footer() {
   
                   return (
                     <li key={link}>
-                      <a href={`/${linkPath}`} className="text-gray-300 hover:text-[#D4AF37] transition-colors flex items-center gap-2 text-sm">
+                      <Link to={`/${linkPath}`} className="text-gray-300 hover:text-[#D4AF37] transition-colors flex items-center gap-2 text-sm">
                         <span className="text-[#D4AF37] font-bold">›</span> {link}
-                      </a>
+                      </Link>
                     </li>
                   );
                 })}
