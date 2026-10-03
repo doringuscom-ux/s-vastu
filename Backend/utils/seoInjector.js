@@ -6,8 +6,11 @@ const Seo = require('../models/Seo');
 
 const injectSEO = async (req, res, next) => {
   try {
-    const indexPath = path.join(__dirname, '../../S-Vastu/dist/index.html');
-
+    let indexPath = path.join(__dirname, '../S-Vastu/dist/index.html');
+    if (!fs.existsSync(indexPath)) {
+      indexPath = path.join(__dirname, '../../S-Vastu/dist/index.html');
+    }
+    
     // Check if index.html exists (only in production)
     if (!fs.existsSync(indexPath)) {
       return res.status(404).send('Frontend build not found. Please run npm run build in frontend.');
@@ -189,16 +192,19 @@ const injectSEO = async (req, res, next) => {
         metaTitle = blogData.metaTitle || blogData.title;
         metaDescription = blogData.metaDescription || '';
         metaKeywords = blogData.metaKeywords || '';
-        metaCanonical = blogData.metaCanonical || metaCanonical;
+        metaCanonical = blogData.metaCanonical || `https://svastusolution.com${req.path}`;
         metaRobots = blogData.metaRobots || metaRobots;
         metaOgImage = blogData.coverImage || metaOgImage;
       } else {
         metaRobots = 'noindex, nofollow';
       }
     } else if (parts.length === 1) {
-      const slug = parts[0];
-      // Check Blog first (since blogs are often directly at /:slug)
-      const blogData = await Blog.findOne({ slug });
+      const slug = decodeURIComponent(parts[0]).trim();
+      // Check Blog first (with case-insensitive fallback)
+      let blogData = await Blog.findOne({ slug });
+      if (!blogData) {
+        blogData = await Blog.findOne({ slug: new RegExp(`^${slug}$`, 'i') });
+      }
       if (blogData) {
         metaTitle = blogData.metaTitle || blogData.title;
         metaDescription = blogData.metaDescription || blogData.excerpt || '';
@@ -207,10 +213,76 @@ const injectSEO = async (req, res, next) => {
         metaRobots = blogData.metaRobots || metaRobots;
         metaOgImage = blogData.coverImage || metaOgImage;
 
+        // Schema.org Article & Breadcrumbs JSON-LD for Googlebot
+        const blogCanonical = `https://svastusolution.com/${slug}`;
+        const blogImage = blogData.coverImage || 'https://svastusolution.com/assets/S.Vastu-logo--d0_U4sh.webp';
+        
+        const schemaArticle = {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": blogCanonical
+          },
+          "headline": blogData.title,
+          "description": metaDescription,
+          "image": [blogImage],
+          "datePublished": blogData.createdAt,
+          "dateModified": blogData.updatedAt || blogData.createdAt,
+          "author": {
+            "@type": "Person",
+            "name": blogData.author || "S-Vastu Solution",
+            "url": "https://svastusolution.com"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "S-Vastu Solution",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://svastusolution.com/assets/S.Vastu-logo--d0_U4sh.webp"
+            }
+          }
+        };
+
+        const schemaBreadcrumbs = {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://svastusolution.com"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Blog",
+              "item": "https://svastusolution.com/blog"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": blogData.title,
+              "item": blogCanonical
+            }
+          ]
+        };
+
+        scriptTags = (scriptTags || '') + `
+          <script type="application/ld+json">${JSON.stringify(schemaArticle)}</script>
+          <script type="application/ld+json">${JSON.stringify(schemaBreadcrumbs)}</script>
+        `;
+
         // Pre-render blog content inside #root for search engine bots
         const preRenderedBlog = `
           <div id="seo-prerender" style="display:block;">
             <article style="max-width: 900px; margin: 0 auto; padding: 20px; font-family: sans-serif;">
+              <nav aria-label="breadcrumb" style="margin-bottom: 15px; font-size: 14px; color: #666;">
+                <a href="https://svastusolution.com" style="color: #d4af37; text-decoration: none;">Home</a> &gt; 
+                <a href="https://svastusolution.com/blog" style="color: #d4af37; text-decoration: none;">Blog</a> &gt; 
+                <span>${blogData.category || 'Article'}</span>
+              </nav>
               <h1>${blogData.title || ''}</h1>
               ${blogData.excerpt ? `<p style="font-size: 1.1em; color: #555;">${blogData.excerpt}</p>` : ''}
               ${blogData.coverImage ? `<img src="${blogData.coverImage}" alt="${blogData.title || 'Blog'}" style="max-width: 100%; height: auto;" />` : ''}
@@ -261,7 +333,7 @@ const injectSEO = async (req, res, next) => {
     htmlData = htmlData.replace(/<meta data-rh="true" name="robots" content=".*?" \/>/g, `<meta data-rh="true" name="robots" content="${metaRobots}" />`);
     htmlData = htmlData.replace(/<meta data-rh="true" property="og:title" content=".*?" \/>/g, `<meta data-rh="true" property="og:title" content="${metaTitle}" />`);
     htmlData = htmlData.replace(/<meta data-rh="true" property="og:description" content=".*?" \/>/g, `<meta data-rh="true" property="og:description" content="${metaDescription}" />`);
-
+    
     if (metaOgImage) {
       htmlData = htmlData.replace(/<meta data-rh="true" property="og:image" content=".*?" \/>/g, `<meta data-rh="true" property="og:image" content="${metaOgImage}" />`);
     } else {

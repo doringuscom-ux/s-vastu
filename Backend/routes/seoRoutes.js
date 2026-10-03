@@ -38,7 +38,7 @@ router.get('/metadata', async (req, res) => {
           title: blogData.metaTitle || blogData.title,
           description: blogData.metaDescription || '',
           keywords: blogData.metaKeywords || '',
-          canonical: blogData.metaCanonical || '',
+          canonical: blogData.metaCanonical || `https://svastusolution.com/${parts[1]}`,
           robots: blogData.metaRobots || '',
           ogImage: blogData.image || ''
         };
@@ -47,7 +47,7 @@ router.get('/metadata', async (req, res) => {
       const pageData = await Page.findOne({ slug: parts[0] });
       if (pageData) {
         const formattedCity = parts[0].split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
-        const justCityName = parts[0].startsWith('vastu-consultant-in-') 
+        const justCityName = parts[0].startsWith('vastu-consultant-in-')
           ? parts[0].replace('vastu-consultant-in-', '').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
           : formattedCity;
 
@@ -55,18 +55,22 @@ router.get('/metadata', async (req, res) => {
           title: pageData.metaTitle || `Best Vastu Consultant & Astrologer in ${justCityName} | S-Vastu`,
           description: pageData.metaDescription || `Looking for expert Vastu and Astrology services in ${justCityName}? S-Vastu offers personalized consultations for home, business, and numerology.`,
           keywords: pageData.metaKeywords || '',
-          canonical: pageData.metaCanonical || '',
+          canonical: pageData.metaCanonical || `https://svastusolution.com/${parts[0]}`,
           robots: pageData.metaRobots || ''
         };
       } else {
         // Check if it's a blog post
-        const blogData = await Blog.findOne({ slug: parts[0] });
+        const cleanSlug = decodeURIComponent(parts[0]).trim();
+        let blogData = await Blog.findOne({ slug: cleanSlug });
+        if (!blogData) {
+          blogData = await Blog.findOne({ slug: new RegExp(`^${cleanSlug}$`, 'i') });
+        }
         if (blogData) {
           seoResponse = {
             title: blogData.metaTitle || blogData.title,
             description: blogData.metaDescription || '',
             keywords: blogData.metaKeywords || '',
-            canonical: blogData.metaCanonical || '',
+            canonical: blogData.metaCanonical || `https://svastusolution.com/${parts[0]}`,
             robots: blogData.metaRobots || '',
             ogImage: blogData.coverImage || ''
           };
@@ -126,7 +130,7 @@ router.put('/:pageName', protect, upload.single('ogImageFile'), async (req, res)
   try {
     const { title, description, keywords, scriptTags, canonical, robots } = req.body;
     let ogImage = req.body.ogImage || '';
-    
+
     if (req.file) {
       const cloudinaryResult = await uploadOnCloudinary(req.file.path);
       if (cloudinaryResult) {
@@ -144,7 +148,7 @@ router.put('/:pageName', protect, upload.single('ogImageFile'), async (req, res)
       seo.canonical = canonical !== undefined ? canonical : seo.canonical;
       seo.robots = robots !== undefined ? robots : seo.robots;
       if (ogImage) seo.ogImage = ogImage;
-      
+
       const updatedSeo = await seo.save();
       res.json(updatedSeo);
     } else {

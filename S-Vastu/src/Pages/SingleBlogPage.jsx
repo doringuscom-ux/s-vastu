@@ -63,14 +63,90 @@ export default function SingleBlogPage() {
     );
   }
 
+  const canonicalUrl = blog.metaCanonical || `https://svastusolution.com/${blog.slug}`;
+  const blogImageUrl = blog.coverImage || 'https://svastusolution.com/assets/S.Vastu-logo--d0_U4sh.webp';
+
+  const schemaArticle = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonicalUrl
+    },
+    "headline": blog.title,
+    "description": blog.metaDescription || blog.excerpt || blog.title,
+    "image": [blogImageUrl],
+    "datePublished": blog.createdAt,
+    "dateModified": blog.updatedAt || blog.createdAt,
+    "author": {
+      "@type": "Person",
+      "name": blog.author || "S-Vastu Solution",
+      "url": "https://svastusolution.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "S-Vastu Solution",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://svastusolution.com/assets/S.Vastu-logo--d0_U4sh.webp"
+      }
+    }
+  };
+
+  const schemaBreadcrumbs = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://svastusolution.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://svastusolution.com/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": blog.title,
+        "item": canonicalUrl
+      }
+    ]
+  };
+
   return (
     <div className="bg-white min-h-screen pt-0">
       <Helmet>
         <title>{blog.metaTitle || `${blog.title} | S-Vastu Solution`}</title>
         <meta name="description" content={blog.metaDescription || blog.excerpt} />
         {blog.metaKeywords && <meta name="keywords" content={blog.metaKeywords} />}
-        {blog.metaCanonical && <link rel="canonical" href={blog.metaCanonical} />}
-        {blog.metaRobots && <meta name="robots" content={blog.metaRobots} />}
+        <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content={blog.metaRobots || 'index, follow'} />
+
+        {/* OpenGraph */}
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={blog.metaTitle || blog.title} />
+        <meta property="og:description" content={blog.metaDescription || blog.excerpt} />
+        <meta property="og:url" content={canonicalUrl} />
+        {blogImageUrl && <meta property="og:image" content={blogImageUrl} />}
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={blog.metaTitle || blog.title} />
+        <meta name="twitter:description" content={blog.metaDescription || blog.excerpt} />
+        {blogImageUrl && <meta name="twitter:image" content={blogImageUrl} />}
+
+        {/* Schema.org JSON-LD for fast Google Indexing */}
+        <script type="application/ld+json">
+          {JSON.stringify(schemaArticle)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(schemaBreadcrumbs)}
+        </script>
       </Helmet>
 
       {/* 1. Page Header / Banner */}
@@ -82,14 +158,29 @@ export default function SingleBlogPage() {
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="w-full">
-              {/* Breadcrumb */}
-              <div className="flex items-center text-xs md:text-sm text-gray-400 font-medium mb-4 overflow-x-auto whitespace-nowrap">
-                <Link to="/" className="hover:text-white transition-colors">Home</Link>
-                <ChevronRight className="w-3 h-3 mx-2 opacity-50" />
-                <Link to="/blog" className="hover:text-white transition-colors">Blog</Link>
-                <ChevronRight className="w-3 h-3 mx-2 opacity-50" />
-                <span className="text-[#D4AF37] truncate max-w-[150px] sm:max-w-xs">{blog.category || 'Article'}</span>
-              </div>
+              {/* Breadcrumb with Microdata */}
+              <nav aria-label="Breadcrumb" className="mb-4">
+                <ol className="flex items-center text-xs md:text-sm text-gray-300 font-medium overflow-x-auto whitespace-nowrap" itemScope itemType="https://schema.org/BreadcrumbList">
+                  <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem" className="flex items-center">
+                    <Link to="/" itemProp="item" className="hover:text-[#D4AF37] transition-colors">
+                      <span itemProp="name">Home</span>
+                    </Link>
+                    <meta itemProp="position" content="1" />
+                    <ChevronRight className="w-3.5 h-3.5 mx-2 text-gray-500" />
+                  </li>
+                  <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem" className="flex items-center">
+                    <Link to="/blog" itemProp="item" className="hover:text-[#D4AF37] transition-colors">
+                      <span itemProp="name">Blog</span>
+                    </Link>
+                    <meta itemProp="position" content="2" />
+                    <ChevronRight className="w-3.5 h-3.5 mx-2 text-gray-500" />
+                  </li>
+                  <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem" className="flex items-center text-[#D4AF37] font-semibold truncate max-w-[200px] sm:max-w-md">
+                    <span itemProp="name">{blog.title}</span>
+                    <meta itemProp="position" content="3" />
+                  </li>
+                </ol>
+              </nav>
 
               <h1 className="text-3xl md:text-5xl font-black leading-tight tracking-tight mb-6">
                 {blog.title}

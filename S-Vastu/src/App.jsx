@@ -49,14 +49,14 @@ axios.interceptors.response.use(
   (error) => {
     if (
       error.response?.status === 401 ||
-      (error.response?.data?.message &&
-        error.response.data.message.toLowerCase().includes('token'))
+      (error.response?.data?.message && 
+       error.response.data.message.toLowerCase().includes('token'))
     ) {
       // Clear stored authentication tokens
       localStorage.removeItem('token');
       localStorage.removeItem('adminToken');
       localStorage.removeItem('userRole');
-
+      
       // Redirect to login if on an admin page (prevent loop if already on login)
       if (window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
         window.location.href = '/admin/login';
@@ -85,36 +85,57 @@ function DynamicRouteResolver() {
       setType('service');
       return;
     }
-
+    
     // Check if it's a blog with retry mechanism for Render cold-starts
-    const checkSlug = async () => {
+    let isCancelled = false;
+
+    const checkSlug = async (retries = 3) => {
       try {
-        await axios.get(`${BLOGS_API}/${slug}`);
-        setType('blog');
+        const blogRes = await axios.get(`${BLOGS_API}/${slug}`);
+        if (!isCancelled && blogRes.data) {
+          setType('blog');
+          return;
+        }
       } catch (err) {
-        // If 404, it might be a city page
         if (err.response && err.response.status === 404) {
-          setType('city');
-        } else {
-          // If network error/timeout (e.g. Render waking up), retry once before giving up
-          setTimeout(async () => {
-            try {
-              await axios.get(`${BLOGS_API}/${slug}`);
-              setType('blog');
-            } catch {
+          // If strictly 404 from blogs API, check if it's a valid city page
+          try {
+            const pageRes = await axios.get(`${PAGES_API}/${slug}`);
+            if (!isCancelled && pageRes.data) {
               setType('city');
+              return;
             }
-          }, 1500);
+          } catch (pageErr) {
+            if (!isCancelled) setType('404');
+            return;
+          }
+        }
+
+        // Network or cold-start error, retry
+        if (retries > 0) {
+          setTimeout(() => {
+            if (!isCancelled) checkSlug(retries - 1);
+          }, 1200);
+          return;
+        }
+
+        if (!isCancelled) {
+          setType('blog'); // Fallback to blog component to let it handle or render gracefully
         }
       }
     };
 
     checkSlug();
+
+    return () => {
+      isCancelled = true;
+    };
   }, [slug]);
 
   if (!type) return <div className="min-h-screen pt-32 text-center text-xl font-bold">Loading...</div>;
   if (type === 'service') return <SingleServicePage />;
   if (type === 'blog') return <SingleBlogPage />;
+  if (type === '404') return <NotFoundPage />;
   return <CityPage />;
 }
 
@@ -162,10 +183,10 @@ function App() {
             <Route index element={<Home />} />
             <Route path="about-us" element={<AboutPage />} />
             <Route path="services" element={<ServicesPage />} />
-
+            
             {/* Dynamic slug resolver for both services and city pages */}
             <Route path=":slug" element={<DynamicRouteResolver />} />
-
+            
             <Route path="gallery" element={<GalleryPage />} />
             <Route path="blog" element={<BlogPage />} />
             <Route path="contact-us" element={<ContactPage />} />
